@@ -1,0 +1,76 @@
+﻿@model IEnumerable<KC_Bugtracker.Models.ManageRolesViewModel>
+@{
+    ViewBag.Title = "ManageRoles";
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+
+            <div class="card-body pb-3">
+                <h5 class="card-title">Users</h5>
+                <hr />
+                @using (Html.BeginForm())
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="row">
+                        <div class="col">
+                            @Html.ListBox("UserIds", null, new { @class = "userlist" })
+                        </div>
+                    </div>
+                    <div class="row py-3">
+                        <h5 class="card-title">Roles</h5>
+                        <hr />
+                        <div class="col">
+                            @Html.DropDownList("Role", null, "--Select Role--", new { @class = "rolelist" })
+                        </div>
+                    </div>
+                    <div class="row pl-3">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-body">
+                
+                <div class="table-responsive">
+                    <table id="zero_config" class="table table-striped table-bordered">
+                        <thead>
+                            <tr>
+                                <th><h4>@Html.DisplayName("User Name")</h4></th>
+                                <th><h4>@Html.DisplayName("Role")</h4></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var user in Model)
+                            {
+                                <tr>
+                                    <td>@Html.DisplayFor(model => user.UserName)</td>
+                                    <td>@Html.DisplayFor(model => user.RoleName)</td>
+                                </tr>
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+@section scripts{
+
+    <script src="~/assets/extra-libs/DataTables/datatables.min.js"></script>
+
+    <script>
+        $('#zero_config').DataTable();
+    </script>
+
+}
