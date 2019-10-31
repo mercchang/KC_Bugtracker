@@ -106,7 +106,7 @@ namespace KC_Bugtracker.Controllers
                     }
 
                     // add users back to projects if possible
-                    if (string.IsNullOrEmpty(projectManagerId))
+                    if (!string.IsNullOrEmpty(projectManagerId))
                     {
                         projectsHelper.AddUserToProject(projectManagerId, projectId);
                     }

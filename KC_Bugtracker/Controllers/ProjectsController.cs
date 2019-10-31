@@ -24,13 +24,6 @@ namespace KC_Bugtracker.Controllers
 
             ViewBag.Developers = new MultiSelectList(roleHelper.UsersInRole("Developer"), "Id", "Email", projectHelper.ListUsersOnProjectInRole(id, "Developer"));
 
-            //var projectSubs = new List<string>();
-            //foreach (var user in projectHelper.UsersOnProject(id))
-            //{
-            //    if (roleHelper.IsUserInRole(user.Id, "Submitter"))
-            //        projectSubs.Add(user.Id);
-            //}
-            //ViewBag.Developers = new MultiSelectList(roleHelper.UsersInRole("Developer"), "Id", "Email", projectSubs);
             ViewBag.Submitters = new MultiSelectList(roleHelper.UsersInRole("Submitter"), "Id", "Email", projectHelper.ListUsersOnProjectInRole(id, "Submitter"));
 
             return View();
@@ -40,9 +33,6 @@ namespace KC_Bugtracker.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ManageUsers(int projectId, string projectManagerId, List<string> developers, List<string> submitters)
         {
-            // Remove all users, then add back selected users,
-            // to keep the list up to date.
-
             foreach(var user in projectHelper.UsersOnProject(projectId).ToList())
             {
                 projectHelper.RemoveUserFromProject(user.Id, projectId);
