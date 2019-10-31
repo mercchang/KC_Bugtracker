@@ -350,3 +350,4 @@ MigrationBackup/
 
 *.config
 /Migrations/*.cs
+KC_Bugtracker/Migrations/Configuration.cs
