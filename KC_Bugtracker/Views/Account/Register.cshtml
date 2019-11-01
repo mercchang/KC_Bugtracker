@@ -38,8 +38,8 @@
         <!-- ============================================================== -->
         <!-- Login box.scss -->
         <!-- ============================================================== -->
-        <div class="auth-wrapper d-flex no-block justify-content-center align-items-center bg-dark">
-            <div class="auth-box bg-dark border-top border-secondary">
+        <div class="auth-wrapper d-flex no-block justify-content-center align-items-center">
+            <div class="auth-box border-top border-secondary" style="max-width: 800px;">
                 <div>
                     <div class="text-center p-t-20 p-b-20">
                         <span class="db"><img src="~/Images/logo.png" alt="logo" /></span>
@@ -49,7 +49,7 @@
                     {
                         @Html.AntiForgeryToken()
                         <div class="row p-b-30">
-                            <div class="col-12">
+                            <div class="col-6">
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text bg-success text-white" id="basic-addon1"><i class="ti-user"></i></span>
@@ -68,6 +68,9 @@
                                     </div>
                                     @Html.TextBoxFor(m => m.Email, new { @class = "form-control form-control-lg", placeholder = "Email" })
                                 </div>
+
+                            </div>
+                            <div class="col-6">
                                 <div class="input-group mb-3">
                                     <div class="input-group-prepend">
                                         <span class="input-group-text bg-success text-white" id="basic-addon1"><i class="ti-user"></i></span>
@@ -95,7 +98,10 @@
                                         <button class="btn btn-block btn-lg btn-info" type="submit">Sign Up</button>
                                     </div>
                                 </div>
-                                <a class="btn btn-success float-right pt-2" href="~/Home/Index">Login</a>
+                                
+                            </div>
+                            <div class="col-12" style="text-align:center">
+                                <a class="btn btn-success px-5" href="~/Home/Index">Login</a>
                             </div>
                         </div>
                     }
@@ -109,7 +115,6 @@
     <script src="~/Scripts/jquery/jquery.min.js"></script>
     <!-- Bootstrap tether Core JavaScript -->
     <script src="~/Scripts/bootstrap/bootstrap.min.js"></script>
-    <script src="~/Scripts/popper/popper.min.js"></script>
     <!-- ============================================================== -->
     <!-- This page plugin js -->
     <!-- ============================================================== -->

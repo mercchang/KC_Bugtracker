@@ -1,5 +1,6 @@
 ﻿using KC_Bugtracker.Helpers;
 using KC_Bugtracker.Models;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -130,6 +131,7 @@ namespace KC_Bugtracker.Controllers
 
             return RedirectToAction("ManageProjectUsers");
         }
+
 
     }
 }

@@ -15469,12 +15469,14 @@ label {
 }
 
 .auth-wrapper {
+    background-image: url('../Images/background/loginbackground.jpg');
+    background-size: inherit;
     min-height: 100vh;
     position: relative
 }
 
     .auth-wrapper .auth-box {
-        background: #fff;
+        background: #00000047;
         padding: 20px;
         max-width: 400px;
         width: 90%;

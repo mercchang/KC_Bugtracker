@@ -17,6 +17,7 @@ namespace KC_Bugtracker.Controllers
         private UserRolesHelper roleHelper = new Helpers.UserRolesHelper();
         private ProjectsHelper projectHelper = new ProjectsHelper();
 
+        [Authorize(Roles = "Admin, ProjectManager")]
         public ActionResult ManageUsers(int id)
         {
             ViewBag.ProjectId = id;
@@ -31,6 +32,7 @@ namespace KC_Bugtracker.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        
         public ActionResult ManageUsers(int projectId, string projectManagerId, List<string> developers, List<string> submitters)
         {
             foreach(var user in projectHelper.UsersOnProject(projectId).ToList())

@@ -439,6 +439,11 @@ namespace KC_Bugtracker.Controllers
             base.Dispose(disposing);
         }
 
+        public ActionResult Profile()
+        {
+            return View();
+        }
+
         #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";

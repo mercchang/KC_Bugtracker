@@ -3,6 +3,16 @@ using System.ComponentModel.DataAnnotations;
 
 namespace KC_Bugtracker.Models
 {
+    public class UserProfileViewModel
+    {
+        public string Id { get; set; }
+        public string FName { get; set; }
+        public string LName { get; set; }
+        public string NickName { get; set; }
+        public string Email { get; set; }
+        public string UName { get; set; }
+    }
+
     public class ManageRolesViewModel
     {
         public string UserName { get; set; }

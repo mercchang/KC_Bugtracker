@@ -3,25 +3,31 @@
     ViewBag.Title = "Manage Users";
 }
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    <div class="row">
-            @Html.Hidden("ProjectId", (int)ViewBag.ProjectId)
-        <div class="col-md-4">
-            @Html.DropDownList("ProjectManagerId", null, "--Select--", new { @class = "form-control" })
-        </div>
-        <div class="col-md-4">
-            @Html.ListBox("Developers", null, new { @class = "form-control" })
-        </div>
-        <div class="col-md-4">
-            @Html.ListBox("Submitters", null, new { @class = "form-control" })
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-md-4">
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </div>
-    </div>
 
-}
+<div class="card">
+    <div class="card-body">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+            <div class="row">
+                @Html.Hidden("ProjectId", (int)ViewBag.ProjectId)
+                <div class="col-md-4">
+                    @Html.DropDownList("ProjectManagerId", null, "--Select--", new { @class = "form-control" })
+                </div>
+                <div class="col-md-4">
+                    @Html.ListBox("Developers", null, new { @class = "form-control" })
+                </div>
+                <div class="col-md-4">
+                    @Html.ListBox("Submitters", null, new { @class = "form-control" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+
+        }
+    </div>
+</div>
+

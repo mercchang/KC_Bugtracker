@@ -15,7 +15,7 @@ namespace KC_Bugtracker.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-
+        private ApplicationDbContext db = new ApplicationDbContext();
         public ManageController()
         {
         }
@@ -333,7 +333,54 @@ namespace KC_Bugtracker.Controllers
             base.Dispose(disposing);
         }
 
-#region Helpers
+        //--------------------- Edite User Profile ---------------------
+        [Authorize]
+        public ActionResult EditProfile()
+        {
+            var sourceUser = db.Users.Find(User.Identity.GetUserId());
+            
+            var userVm = new UserProfileViewModel();
+            userVm.Id = sourceUser.Id;
+            userVm.FName = sourceUser.FirstName;
+            userVm.LName = sourceUser.LastName;
+            userVm.NickName = sourceUser.DisplayName;
+            userVm.Email = sourceUser.Email;
+            userVm.UName = sourceUser.UserName;
+
+            //different approach
+            //var userVm2 = new UserProfileViewModel
+            //{
+            //    FName = sourceUser.FirstName,
+            //    LName = sourceUser.LastName,
+            //    NickName = sourceUser.DisplayName,
+            //    Email = sourceUser.Email
+            //};
+
+            return View(userVm);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditProfile(UserProfileViewModel model)
+        {
+            var user = db.Users.Find(User.Identity.GetUserId());
+            user.Id = model.Id;
+            user.FirstName = model.FName;
+            user.LastName = model.LName;
+            user.DisplayName = model.NickName;
+            user.Email = model.Email;
+            user.UserName = model.Email;
+            db.SaveChanges();
+            //if (user == null)
+            //{
+            //    return View("EditProfile");
+            //}
+
+
+            return RedirectToAction("EditProfile");
+        }
+
+        #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 

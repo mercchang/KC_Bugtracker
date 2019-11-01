@@ -1240,6 +1240,8 @@
     <Content Include="Views\Admin\ManageRoles.cshtml" />
     <Content Include="Views\Admin\ManageProjectUsers.cshtml" />
     <Content Include="Views\Projects\ManageUsers.cshtml" />
+    <Content Include="Views\Manage\EditProfile.cshtml" />
+    <Content Include="Views\Account\Profile.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
