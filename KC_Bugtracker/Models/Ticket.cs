@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace KC_Bugtracker.Models
 {
@@ -17,6 +18,7 @@ namespace KC_Bugtracker.Models
         public string DeveloperId { get; set; }
 
         public string Title { get; set; }
+        [AllowHtml]
         public string Description { get; set; }
         public DateTime Created { get; set; }
         public DateTime? Updated { get; set; }

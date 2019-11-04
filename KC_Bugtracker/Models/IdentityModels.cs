@@ -23,6 +23,9 @@ namespace KC_Bugtracker.Models
         [StringLength(50, MinimumLength = 1, ErrorMessage = "First name must have a minimum length of 1 and maximum length of 50.")]
         public string DisplayName { get; set; }
 
+        public string AvatarPath { get; set; }
+
+
         public virtual ICollection<Project>Projects { get; set; }
         public virtual ICollection<TicketAttachment> TicketAttachments { get; set; }
         public virtual ICollection<TicketComment> TicketComments { get; set; }

@@ -19,20 +19,17 @@
     <!-- Custom CSS -->
     <link href="~/Content/style.min.css" rel="stylesheet" />
     <link href="~/Content/custom.css" rel="stylesheet" />
-
+    <link href="~/assets/libs/quill/dist/quill.snow.css" rel="stylesheet" />
     <link href="~/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.css" rel="stylesheet">
     <link href="~/Content/style.min.css" rel="stylesheet" />
+    <link href="~/icons/material-design-iconic-font/css/materialdesignicons.min.css" rel="stylesheet" />
 </head>
 
 <body>
-
-    @{ 
+    @{
         var db = new ApplicationDbContext();
         var user = db.Users.Find(User.Identity.GetUserId());
-
     }
-
-
     <!-- Preloader -->
     <div class="preloader">
         <div class="lds-ripple">
@@ -49,7 +46,7 @@
                     <!-- This is for the sidebar toggle which is visible on mobile only -->
                     <a class="nav-toggler waves-effect waves-light d-block d-md-none" href="javascript:void(0)"><i class="ti-menu ti-close"></i></a>
                     <!-- ============================================================== -->
-                    <!-- Logo -->
+                    <!-- Top Left Logo -->
                     <!-- ============================================================== -->
                     <a class="navbar-brand" href="~/Home/Dashboard">
                         <!-- Logo icon -->
@@ -78,24 +75,24 @@
                         <!-- create new -->
                         <!-- ============================================================== -->
                         @*<li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="d-none d-md-block">Create New <i class="fa fa-angle-down"></i></span>
-                                <span class="d-block d-md-none"><i class="fa fa-plus"></i></span>
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="#">Action</a>
-                                <a class="dropdown-item" href="#">Another action</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Something else here</a>
-                            </div>
-                        </li>*@
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="d-none d-md-block">Create New <i class="fa fa-angle-down"></i></span>
+                                    <span class="d-block d-md-none"><i class="fa fa-plus"></i></span>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="#">Action</a>
+                                    <a class="dropdown-item" href="#">Another action</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="#">Something else here</a>
+                                </div>
+                            </li>*@
                         <!-- ============================================================== -->
                         <!-- Search -->
                         <!-- ============================================================== -->
                         <li class="nav-item search-box">
                             <a class="nav-link waves-effect waves-dark" href="javascript:void(0)"><i class="ti-search"></i></a>
                             <form class="app-search position-absolute">
-                                <input type="text" class="form-control" placeholder="Search &amp; enter"> <a class="srh-btn"><i class="ti-close"></i></a>
+                                <input type="text" class="form-control" placeholder="Search..."> <a class="srh-btn"><i class="ti-close"></i></a>
                             </form>
                         </li>
                     </ul>
@@ -202,20 +199,26 @@
             <div class="scroll-sidebar">
                 <!-- Sidebar navigation-->
                 <nav class="sidebar-nav">
+                    
+
                     <ul id="sidebarnav" class="p-t-30">
                         <li class="sidebar-item">
-                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="~/Manage/EditProfile" aria-expanded="false">
-                                <i class="fas fa-user"></i>
-                                <span class="hide-menu">
-                                    @if (user != null)
-                                    {
-                                        <span>@user.FirstName</span> <span>@user.LastName</span>
-                                    }
-                                    else
-                                    {
-                                        @User.Identity.Name
-                                    }
-                                </span>
+                            <a class="sidebar-link waves-effect waves-dark sidebar-link" href="~/Account/Profile" aria-expanded="false">
+                                @*<i class="fas fa-user"></i>*@
+                                <h4>
+                                    <span class="hide-menu">
+                                        @if (user != null)
+                                        {
+                                            <img src="@user.AvatarPath" alt="..." class="rounded-circle pr-1" width="50" />
+                                            <span>@user.FirstName</span> <span>@user.LastName</span>
+
+                                        }
+                                        else
+                                        {
+                                            @User.Identity.Name
+                                        }
+                                    </span>
+                                </h4>
                             </a>
                         </li>
                         <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="~/Home/Dashboard" aria-expanded="false"><i class="mdi mdi-view-dashboard"></i><span class="hide-menu">Dashboard</span></a></li>
@@ -231,6 +234,7 @@
                             </li>
                         }
                         <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="~/Projects/Index" aria-expanded="false"><i class="fas fa-folder-open"></i><span class="hide-menu">Projects</span></a></li>
+                        <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="~/Tickets/Index" aria-expanded="false"><i class="fas fa-ticket-alt"></i><span class="hide-menu">Tickets</span></a></li>
 
                     </ul>
                 </nav>
@@ -291,6 +295,7 @@
     <script src="~/assets/libs/flot.tooltip/js/jquery.flot.tooltip.min.js"></script>
     <script src="~/Scripts/js/pages/chart/chart-page-init.js"></script>
     <script src="~/assets/extra-libs/sparkline/sparkline.js"></script>
+
 
     @RenderSection("scripts", required: false)
 

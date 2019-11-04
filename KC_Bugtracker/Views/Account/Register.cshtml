@@ -45,7 +45,7 @@
                         <span class="db"><img src="~/Images/logo.png" alt="logo" /></span>
                     </div>
                     <!-- Form -->
-                    @using (Html.BeginForm("Register", "Account", FormMethod.Post))
+                    @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { enctype = "Multipart/form-data" }))
                     {
                         @Html.AntiForgeryToken()
                         <div class="row p-b-30">
@@ -88,6 +88,12 @@
                                         <span class="input-group-text bg-info text-white" id="basic-addon2"><i class="ti-pencil"></i></span>
                                     </div>
                                     @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control form-control-lg", placeholder = "Confirm Password" })
+                                </div>
+                                <div class="input-group mb-3">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text bg-info text-white" id="basic-addon2"><i class="ti-pencil"></i></span>
+                                    </div>
+                                    @Html.TextBox("Avatar", null, new { type="file"})
                                 </div>
                             </div>
                         </div>

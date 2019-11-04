@@ -11,6 +11,7 @@ namespace KC_Bugtracker.Models
         public int TicketId { get; set; }
         public string UserId { get; set; }
         public string Comment { get; set; }
+        public string FilePath { get; set; }
         public DateTime Created { get; set; }
 
 

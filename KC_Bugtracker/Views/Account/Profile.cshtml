@@ -1,9 +1,21 @@
-﻿
+﻿@using KC_Bugtracker.Models
+@using Microsoft.AspNet.Identity
+
 @{
     ViewBag.Title = "Profile";
 }
 
+
+@{
+    var db = new ApplicationDbContext();
+    var user = db.Users.Find(User.Identity.GetUserId());
+}
+
 <h2>Profile Page</h2>
+
+<img src="~/Avatars/default_user.png" alt="..." class="rounded-circle" width="50" />
 
 
 <a href="~/Manage/EditProfile">Edit Profile</a>
+<img src="@user.AvatarPath" alt="..." class="rounded-circle" width="50" />
+

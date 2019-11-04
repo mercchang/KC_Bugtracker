@@ -9,6 +9,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using KC_Bugtracker.Models;
+using KC_Bugtracker.Helpers;
+using System.IO;
 
 namespace KC_Bugtracker.Controllers
 {
@@ -147,7 +149,7 @@ namespace KC_Bugtracker.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Register(RegisterViewModel model)
+        public async Task<ActionResult> Register(RegisterViewModel model, HttpPostedFileBase avatar)
         {
             if (ModelState.IsValid)
             {
@@ -157,8 +159,25 @@ namespace KC_Bugtracker.Controllers
                     Email = model.Email,
                     FirstName = model.FirstName,
                     LastName = model.LastName,
-                    DisplayName = model.DisplayName
+                    DisplayName = model.DisplayName,
+                    AvatarPath = "/Avatars/default_user.png"
                 };
+
+                if(avatar != null)
+                {
+                    if (ImageUploadValidator.IsWebFriendlyImage(avatar))
+                    {
+                        var fileName = Path.GetFileName(avatar.FileName);
+                        var justFileName = Path.GetFileNameWithoutExtension(fileName);
+                        justFileName = StringUtilities.URLFriendly(justFileName);
+                        fileName = $"{justFileName}_{DateTime.Now.Ticks}{Path.GetExtension(fileName)}";
+
+                        avatar.SaveAs(Path.Combine(Server.MapPath("~/Avatars/"), fileName));
+                        user.AvatarPath = "/Avatars/" + fileName;
+                    }
+                }
+
+
 
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)

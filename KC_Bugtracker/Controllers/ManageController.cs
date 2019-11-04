@@ -333,7 +333,7 @@ namespace KC_Bugtracker.Controllers
             base.Dispose(disposing);
         }
 
-        //--------------------- Edite User Profile ---------------------
+        //--------------------- Edit User Profile ---------------------
         [Authorize]
         public ActionResult EditProfile()
         {
@@ -348,7 +348,7 @@ namespace KC_Bugtracker.Controllers
             userVm.UName = sourceUser.UserName;
 
             //different approach
-            //var userVm2 = new UserProfileViewModel
+            //var userVm = new UserProfileViewModel
             //{
             //    FName = sourceUser.FirstName,
             //    LName = sourceUser.LastName,
@@ -371,11 +371,6 @@ namespace KC_Bugtracker.Controllers
             user.Email = model.Email;
             user.UserName = model.Email;
             db.SaveChanges();
-            //if (user == null)
-            //{
-            //    return View("EditProfile");
-            //}
-
 
             return RedirectToAction("EditProfile");
         }

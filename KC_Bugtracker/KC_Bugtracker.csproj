@@ -183,7 +183,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\ImageUploadValidator.cs" />
     <Compile Include="Helpers\ProjectsHelper.cs" />
+    <Compile Include="Helpers\StringUtilities.cs" />
+    <Compile Include="Helpers\TicketHelper.cs" />
     <Compile Include="Helpers\UserRolesHelper.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -242,6 +245,7 @@
     <Content Include="assets\extra-libs\multicheck\jquery.multicheck.js" />
     <Content Include="assets\extra-libs\multicheck\multicheck.css" />
     <Content Include="assets\extra-libs\sparkline\sparkline.js" />
+    <Content Include="Avatars\default_user.png" />
     <Content Include="Content\custom.css" />
     <Content Include="Images\background\img4.jpg" />
     <Content Include="Images\background\img5.jpg" />

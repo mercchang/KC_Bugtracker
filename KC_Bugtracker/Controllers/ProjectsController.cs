@@ -85,6 +85,7 @@ namespace KC_Bugtracker.Controllers
             return View(project);
         }
 
+        [Authorize(Roles = "Admin, ProjectManager")]
         // GET: Projects/Create
         public ActionResult Create()
         {
@@ -98,9 +99,10 @@ namespace KC_Bugtracker.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "Id,Name,Description")] Project project)
         {
-            project.Created = DateTime.Now;
+            
             if (ModelState.IsValid)
             {
+                project.Created = DateTime.Now;
                 db.Projects.Add(project);
                 db.SaveChanges();
                 return RedirectToAction("Index");

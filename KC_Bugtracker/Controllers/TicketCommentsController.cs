@@ -49,10 +49,11 @@ namespace KC_Bugtracker.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,TicketId,UserId,Comment,Created")] TicketComment ticketComment)
+        public ActionResult Create([Bind(Include = "Id,TicketId,Comment")] TicketComment ticketComment)
         {
             if (ModelState.IsValid)
             {
+                ticketComment.Created = DateTime.Now;
                 db.TicketComments.Add(ticketComment);
                 db.SaveChanges();
                 return RedirectToAction("Index");
@@ -85,7 +86,7 @@ namespace KC_Bugtracker.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,TicketId,UserId,Comment,Created")] TicketComment ticketComment)
+        public ActionResult Edit([Bind(Include = "Id,TicketId,UserId,Comment")] TicketComment ticketComment)
         {
             if (ModelState.IsValid)
             {
