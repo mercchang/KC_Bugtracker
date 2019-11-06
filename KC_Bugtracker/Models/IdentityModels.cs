@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -25,6 +26,15 @@ namespace KC_Bugtracker.Models
 
         public string AvatarPath { get; set; }
 
+
+        [NotMapped]
+        public string FullName
+        {
+            get
+            {
+                return $"{LastName}, {FirstName}";
+            }
+        }
 
         public virtual ICollection<Project>Projects { get; set; }
         public virtual ICollection<TicketAttachment> TicketAttachments { get; set; }

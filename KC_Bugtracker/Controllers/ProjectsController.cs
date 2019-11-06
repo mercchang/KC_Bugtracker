@@ -131,14 +131,15 @@ namespace KC_Bugtracker.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Description")] Project project)
+        public ActionResult Edit([Bind(Include = "Id,Name,Created,Updated,Description")] Project project)
         {
-            project.Updated = DateTime.Now;
+            
             if (ModelState.IsValid)
             {
+                project.Updated = DateTime.Now;
                 db.Entry(project).State = EntityState.Modified;
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Projects");
             }
             return View(project);
         }

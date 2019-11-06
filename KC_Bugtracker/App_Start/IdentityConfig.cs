@@ -11,16 +11,63 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using KC_Bugtracker.Models;
+using System.Web.Configuration;
+using System.Net.Mail;
+using System.Net;
 
 namespace KC_Bugtracker
 {
     public class EmailService : IIdentityMessageService
     {
-        public Task SendAsync(IdentityMessage message)
+        public async Task SendAsync(IdentityMessage message)
         {
             // Plug in your email service here to send an email.
-            return Task.FromResult(0);
+            await SendMailAsync(message);
         }
+
+        public async Task<bool> SendMailAsync(IdentityMessage message)
+        {
+            //Private.config setup
+            var GmailUsername = WebConfigurationManager.AppSettings["username"];
+            var GmailPassword = WebConfigurationManager.AppSettings["password"];
+            var host = WebConfigurationManager.AppSettings["host"];
+            int port = Convert.ToInt32(WebConfigurationManager.AppSettings["port"]);
+
+            var from = new MailAddress(WebConfigurationManager.AppSettings["emailfrom"], "BugTracker");
+
+            //Email object set up
+            var email = new MailMessage(from, new MailAddress(message.Destination))
+            {
+                Subject = message.Subject,
+                Body = message.Body,
+                IsBodyHtml = true,
+            };
+
+            //SMTP object set up
+            using (var smtp = new SmtpClient()
+            {
+                Host = host,
+                Port = port,
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+                UseDefaultCredentials = false,
+                Credentials = new NetworkCredential(GmailUsername, GmailPassword)
+            })
+            {
+                try
+                {
+                    await smtp.SendMailAsync(email);
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
+            };
+        }
+
+
+
     }
 
     public class SmsService : IIdentityMessageService

@@ -4,95 +4,77 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<div class="card">
+    <div class="card-body">
+        <h4>Ticket</h4>
+        <hr />
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>Assigned Developer</th>
+                        <th>Project</th>
+                        <th>Submitter</th>
+                        <th>Priority</th>
+                        <th>Status</th>
+                        <th>Type</th>
+                        <th>@Html.DisplayNameFor(model => model.Title)</th>
+                        <th>@Html.DisplayNameFor(model => model.Description)</th>
+                        <th>@Html.DisplayNameFor(model => model.Created)</th>
+                        <th>@Html.DisplayNameFor(model => model.Updated)</th>
+                        <th>@Html.DisplayNameFor(model => model.TicketHistories)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            @if (Model.DeveloperId != null)
+                            {
+                                <span>@Html.DisplayFor(model => model.Developer.LastName), @Html.DisplayFor(model => model.Developer.FirstName)</span>
+                            }
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.Project.Name)
+                        </td>
+                        <td>
+                            @if (Model.SubmitterId != null)
+                            {
+                                <span>@Html.DisplayFor(model => model.Submitter.LastName), @Html.DisplayFor(model => model.Submitter.FirstName)</span>
+                            }
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.TicketPriority.PriorityName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.TicketStatus.StatusName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.TicketType.TypeName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.Title)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.Description)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.Created)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.Updated)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(model => model.TicketHistories)
+                        </td>
 
-<div>
-    <h4>Ticket</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Developer.FirstName)
-        </dt>
+                    </tr>
+                </tbody>
+            </table>
+            <ul>
+                <li>@Html.ActionLink("Edit", "Edit", new { id = Model.Id })</li>
+                <li>@Html.ActionLink("Back to List", "Index")</li>
+            </ul>
 
-        <dd>
-            @Html.DisplayFor(model => model.Developer.FirstName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Project.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Project.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Submitter.FirstName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Submitter.FirstName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.TicketPriority.PriorityName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.TicketPriority.PriorityName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.TicketStatus.StatusName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.TicketStatus.StatusName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.TicketType.TypeName)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.TicketType.TypeName)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Created)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Created)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Updated)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Updated)
-        </dd>
-
-    </dl>
+        </div>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

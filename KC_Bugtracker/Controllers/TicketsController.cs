@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using KC_Bugtracker.Helpers;
@@ -16,14 +17,23 @@ namespace KC_Bugtracker.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         private TicketHelper ticketHelper = new TicketHelper();
+        private TicketHistoryHelper auditHelper = new TicketHistoryHelper();
 
         // GET: Tickets
         [Authorize]
         public ActionResult Index()
         {
+
+            var allTickets = db.Tickets;
+            var highPriorityTickets = db.TicketPriorities.FirstOrDefault(tp => tp.PriorityName == "High").Tickets;
+            var medPriorityTickets = db.Tickets.Where(t => t.TicketPriority.PriorityName == "Medium");
+
+
             //var tickets = db.Tickets.Include(t => t.Developer).Include(t => t.Project).Include(t => t.Submitter).Include(t => t.TicketPriority).Include(t => t.TicketStatus).Include(t => t.TicketType);
-            var tickets = ticketHelper.ListMyTickets();
-            return View(tickets.ToList());
+            //var tickets = ticketHelper.ListMyTickets();
+            //return View(tickets.ToList());
+
+            return View(ticketHelper.ListMyTickets());
         }
 
         // GET: Tickets/Details/5
@@ -42,6 +52,8 @@ namespace KC_Bugtracker.Controllers
         }
 
         // GET: Tickets/Create
+        // Only the submitter can create tickets
+        [Authorize(Roles = "Submitter")]
         public ActionResult Create()
         {
             ViewBag.DeveloperId = new SelectList(db.Users, "Id", "FirstName");
@@ -58,6 +70,7 @@ namespace KC_Bugtracker.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
+        
         public ActionResult Create([Bind(Include = "Id,ProjectId,TicketTypeId,TicketPriorityId,TicketStatusId,SubmitterId,DeveloperId,Title,Description,Created")] Ticket ticket)
         {
             
@@ -92,9 +105,9 @@ namespace KC_Bugtracker.Controllers
             {
                 return HttpNotFound();
             }
-            ViewBag.DeveloperId = new SelectList(db.Users, "Id", "FirstName", ticket.DeveloperId);
+            ViewBag.DeveloperId = new SelectList(db.Users, "Id", "FullName", ticket.DeveloperId);
             ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", ticket.ProjectId);
-            ViewBag.SubmitterId = new SelectList(db.Users, "Id", "FirstName", ticket.SubmitterId);
+            ViewBag.SubmitterId = new SelectList(db.Users, "Id", "FullName", ticket.SubmitterId);
             ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "PriorityName", ticket.TicketPriorityId);
             ViewBag.TicketStatusId = new SelectList(db.TicketStatuses, "Id", "StatusName", ticket.TicketStatusId);
             ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "TypeName", ticket.TicketTypeId);
@@ -104,15 +117,24 @@ namespace KC_Bugtracker.Controllers
         // POST: Tickets/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,ProjectId,TicketTypeId,TicketPriorityId,TicketStatusId,SubmitterId,DeveloperId,Title,Description,Created,Updated")] Ticket ticket)
+        public ActionResult Edit([Bind(Include = "Id,ProjectId,TicketTypeId,TicketPriorityId,TicketStatusId,SubmitterId,DeveloperId,Title,Description,Created")] Ticket ticket)
         {
             if (ModelState.IsValid)
             {
+                // record old ticket before update
+                var oldTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticket.Id);
+
+                ticket.Updated = DateTime.Now;
                 db.Entry(ticket).State = EntityState.Modified;
                 db.SaveChanges();
+
+                var newTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticket.Id);
+
+                auditHelper.RecordChanges(oldTicket, newTicket);
                 return RedirectToAction("Index");
             }
-            ViewBag.DeveloperId = new SelectList(db.Users, "Id", "FirstName", ticket.DeveloperId);
+
+            ViewBag.DeveloperId = new SelectList(db.Users, "Id", "FullName", ticket.DeveloperId);
             ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", ticket.ProjectId);
             ViewBag.SubmitterId = new SelectList(db.Users, "Id", "FirstName", ticket.SubmitterId);
             ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "PriorityName", ticket.TicketPriorityId);
@@ -155,5 +177,50 @@ namespace KC_Bugtracker.Controllers
             }
             base.Dispose(disposing);
         }
+
+        public ActionResult AssignTicket(int? id)
+        {
+            UserRolesHelper rolesHelper = new UserRolesHelper();
+            var ticket = db.Tickets.Find(id);
+
+            var users = rolesHelper.UsersInRole("Developer").ToList();
+            ViewBag.DeveloperId = new SelectList(users, "Id", "DisplayName", ticket.DeveloperId);
+
+            return View(ticket);
+
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> AssignTicket(Ticket model)
+        {
+            var ticket = db.Tickets.Find(model.Id);
+            ticket.DeveloperId = model.DeveloperId;
+
+            db.SaveChanges();
+
+            var callbackUrl = Url.Action("Details", "Tickets", new { id = ticket.Id }, protocol: Request.Url.Scheme);
+
+            try
+            {
+                EmailService ems = new EmailService();
+                IdentityMessage msg = new IdentityMessage();
+                ApplicationUser user = db.Users.Find(model.TicketAttachments);
+
+                msg.Body = $"You have been assigned a new Ticket.{Environment.NewLine}Please click the following link to view the details <a href = \"{callbackUrl}\">New Ticket <a/>";
+
+                msg.Destination = user.Email;
+                msg.Subject = "Invite to Household";
+
+                await ems.SendMailAsync(msg);
+            }
+            catch (Exception ex)
+            {
+                await Task.FromResult(0);
+            }
+
+            return RedirectToAction("Index");
+        }
+
     }
 }

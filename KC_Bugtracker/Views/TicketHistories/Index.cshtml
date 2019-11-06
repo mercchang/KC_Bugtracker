@@ -6,16 +6,13 @@
 
 <h2>Index</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table class="table">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Ticket.SubmitterId)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.User.FirstName)
+            @Html.DisplayNameFor(model => model.User.FullName)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Property)
@@ -38,7 +35,7 @@
             @Html.DisplayFor(modelItem => item.Ticket.SubmitterId)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.User.FirstName)
+            @Html.DisplayFor(modelItem => item.User.FullName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Property)

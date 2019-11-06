@@ -187,6 +187,7 @@
     <Compile Include="Helpers\ProjectsHelper.cs" />
     <Compile Include="Helpers\StringUtilities.cs" />
     <Compile Include="Helpers\TicketHelper.cs" />
+    <Compile Include="Helpers\TicketHistoryHelper.cs" />
     <Compile Include="Helpers\UserRolesHelper.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -1246,6 +1247,8 @@
     <Content Include="Views\Projects\ManageUsers.cshtml" />
     <Content Include="Views\Manage\EditProfile.cshtml" />
     <Content Include="Views\Account\Profile.cshtml" />
+    <Content Include="private.config" />
+    <Content Include="Views\Tickets\AssignTicket.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
