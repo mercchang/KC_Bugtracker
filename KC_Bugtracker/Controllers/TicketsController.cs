@@ -18,6 +18,7 @@ namespace KC_Bugtracker.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
         private TicketHelper ticketHelper = new TicketHelper();
         private TicketHistoryHelper auditHelper = new TicketHistoryHelper();
+        private NotificationHelper notificationHelper = new NotificationHelper();
 
         // GET: Tickets
         [Authorize]
@@ -131,6 +132,7 @@ namespace KC_Bugtracker.Controllers
                 var newTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticket.Id);
 
                 auditHelper.RecordChanges(oldTicket, newTicket);
+                notificationHelper.ManageNotifications(oldTicket, newTicket);
                 return RedirectToAction("Index");
             }
 
@@ -221,6 +223,5 @@ namespace KC_Bugtracker.Controllers
 
             return RedirectToAction("Index");
         }
-
     }
 }

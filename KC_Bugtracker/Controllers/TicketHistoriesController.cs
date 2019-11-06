@@ -49,7 +49,7 @@ namespace KC_Bugtracker.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,TicketId,UserId,Property,OldValue,NewValue,Changed")] TicketHistory ticketHistory)
+        public ActionResult Create([Bind(Include = "Id,TicketId,UserId,ProjectId,Property,OldValue,NewValue,Changed")] TicketHistory ticketHistory)
         {
             if (ModelState.IsValid)
             {

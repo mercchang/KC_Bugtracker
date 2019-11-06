@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<KC_Bugtracker.Models.TicketHistory>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Ticket History";
 }
 
 <h2>Index</h2>
@@ -9,7 +9,10 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Ticket.SubmitterId)
+            Project
+        </th>
+        <th>
+            Submitter
         </th>
         <th>
             @Html.DisplayNameFor(model => model.User.FullName)
@@ -32,7 +35,10 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Ticket.SubmitterId)
+            @Html.DisplayFor(modelItem => item.ProjectId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Ticket.Submitter.FullName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.User.FullName)

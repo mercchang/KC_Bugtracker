@@ -1,8 +1,16 @@
 ﻿@model KC_Bugtracker.Models.Ticket
+@using KC_Bugtracker.Models
+@using Microsoft.AspNet.Identity
 
 @{
     ViewBag.Title = "Details";
 }
+
+@{
+    var db = new ApplicationDbContext();
+    var user = db.Users.Find(User.Identity.GetUserId());
+}
+
 
 <div class="card">
     <div class="card-body">
@@ -22,7 +30,7 @@
                         <th>@Html.DisplayNameFor(model => model.Description)</th>
                         <th>@Html.DisplayNameFor(model => model.Created)</th>
                         <th>@Html.DisplayNameFor(model => model.Updated)</th>
-                        <th>@Html.DisplayNameFor(model => model.TicketHistories)</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -64,17 +72,81 @@
                             @Html.DisplayFor(model => model.Updated)
                         </td>
                         <td>
-                            @Html.DisplayFor(model => model.TicketHistories)
+                            <div class="row">@Html.ActionLink("Edit", "Edit", new { id = Model.Id })</div>
+                            <div class="row">@Html.ActionLink("Back to List", "Index")</div>
                         </td>
-
                     </tr>
                 </tbody>
             </table>
-            <ul>
-                <li>@Html.ActionLink("Edit", "Edit", new { id = Model.Id })</li>
-                <li>@Html.ActionLink("Back to List", "Index")</li>
-            </ul>
 
         </div>
     </div>
 </div>
+
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <div class="card-body">
+                Ticket Attachments...
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card">
+            <div class="card-body">
+                <h4>Comments</h4>
+                <hr />
+                <div class="chat-box scrollable">
+                    <ul class="chat-list">
+                        @foreach (var comment in Model.TicketComments.OrderBy(c => c.Created))
+                        {
+                            if (comment.User.Id == user.Id)
+                            {
+                                <li class="odd chat-item">
+                                    <div class="col">
+                                        <div class="chat-content">
+                                            <div class="box bg-light-inverse">@comment.Comment</div>
+                                            <div class="chat-img"><img src="@user.AvatarPath" alt="user"></div>
+                                        </div>
+                                        <div class="chat-content">
+                                            <div class="chat-time pr-5">@comment.Created</div>
+                                        </div>
+                                    </div>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="chat-item">
+                                    <div class="chat-img"><img src="~/Avatars/default_user.png" alt="user"></div>
+                                    <div class="chat-content">
+                                        <h6 class="font-medium"><span>@comment.User.FirstName @comment.User.LastName</span></h6>
+                                        <div class="box bg-light-info">@comment.Comment</div>
+                                    </div>
+                                    <div class="chat-time">@comment.Created</div>
+                                </li>
+                            }
+                        }
+
+                    </ul>
+                </div>
+
+                <div class="form-group pt-3">
+                    <hr />
+                    @using (Html.BeginForm("Create", "TicketComments", FormMethod.Post))
+                    {
+                        <div class="col-md-12">
+                            @Html.AntiForgeryToken()
+                            @Html.Hidden("TicketId", Model.Id)
+                            @Html.TextArea("Comment", new { @class = "form-control", rows = 5, placeholder = "Add Comment..." })
+                        </div>
+                        <div class="col pt-3">
+                            <button type="submit" class="btn btn-info margin-5">Add Comment</button>
+                        </div>
+
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

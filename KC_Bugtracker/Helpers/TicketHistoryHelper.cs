@@ -39,6 +39,19 @@ namespace KC_Bugtracker.Helpers
                 };
                 db.TicketHistories.Add(newHistoryRecord);
             }
+            if (oldTicket.DeveloperId != newTicket.DeveloperId)
+            {
+                var newHistoryRecord = new TicketHistory
+                {
+                    Property = "DeveloperId",
+                    OldValue = oldTicket.Developer == null ? "UnAssigned" : oldTicket.Developer.FullName,
+                    NewValue = newTicket.Developer == null ? "UnAssigned" : newTicket.Developer.FullName,
+                    Changed = (DateTime)newTicket.Updated,
+                    TicketId = newTicket.Id,
+                    UserId = HttpContext.Current.User.Identity.GetUserId()
+                };
+                db.TicketHistories.Add(newHistoryRecord);
+            }
             db.SaveChanges();
         }
     }

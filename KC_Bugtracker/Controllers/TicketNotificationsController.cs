@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using KC_Bugtracker.Helpers;
 using KC_Bugtracker.Models;
 
 namespace KC_Bugtracker.Controllers
@@ -13,6 +14,7 @@ namespace KC_Bugtracker.Controllers
     public class TicketNotificationsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private NotificationHelper notificationHelper = new NotificationHelper();
 
         // GET: TicketNotifications
         public ActionResult Index()

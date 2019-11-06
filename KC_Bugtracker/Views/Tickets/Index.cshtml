@@ -5,6 +5,7 @@
 }
 
 
+
 <div class="card">
     <div class="card-body">
         <div class="table-responsive">
@@ -81,6 +82,12 @@
         {
             <div class="row pt-3" style="text-align:center">
                 @Html.ActionLink("Create New Ticket", "Create")
+            </div>
+        }
+        @if (User.IsInRole("Admin"))
+        {
+            <div class="row pt-3" style="text-align:center">
+                @Html.ActionLink("Ticket History", "Index", "TicketHistories")
             </div>
         }
     </div>

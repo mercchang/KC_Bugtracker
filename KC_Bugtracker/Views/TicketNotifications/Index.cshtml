@@ -1,18 +1,15 @@
 ﻿@model IEnumerable<KC_Bugtracker.Models.TicketNotification>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Notifications";
 }
 
-<h2>Index</h2>
+<h2>Notifications</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Recipient.FirstName)
+            @Html.DisplayNameFor(model => model.Recipient.FullName)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.TicketId)
@@ -29,7 +26,7 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.Recipient.FirstName)
+            @Html.DisplayFor(modelItem => item.Recipient.FullName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.TicketId)

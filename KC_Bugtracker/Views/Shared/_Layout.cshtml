@@ -22,7 +22,6 @@
     <link href="~/assets/libs/quill/dist/quill.snow.css" rel="stylesheet" />
     <link href="~/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.css" rel="stylesheet">
     <link href="~/Content/style.min.css" rel="stylesheet" />
-    <link href="~/icons/material-design-iconic-font/css/materialdesignicons.min.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -88,9 +87,9 @@
                         <!-- ============================================================== -->
                         <!-- Comment -->
                         <!-- ============================================================== -->
-                        <li class="nav-item dropdown">
+                        @*<li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="mdi mdi-bell font-24"></i>
+                                <i class="font-24 mdi mdi-comment-processing"></i>
                             </a>
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="#">Action</a>
@@ -98,19 +97,19 @@
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#">Something else here</a>
                             </div>
-                        </li>
+                        </li>*@
                         <!-- ============================================================== -->
-                        <!-- Messages -->
+                        <!-- Notifications -->
                         <!-- ============================================================== -->
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle waves-effect waves-dark" href="" id="2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="font-24 mdi mdi-comment-processing"></i>
+                                <i class="mdi mdi-bell font-24"></i>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right mailbox animated bounceInDown" aria-labelledby="2">
                                 <ul class="list-style-none">
                                     <li>
                                         <div class="">
-                                            <!-- Message -->
+                                            <!-- Notifications -->
                                             <a href="javascript:void(0)" class="link border-top">
                                                 <div class="d-flex no-block align-items-center p-10">
                                                     <span class="btn btn-success btn-circle"><i class="ti-calendar"></i></span>
@@ -120,7 +119,7 @@
                                                     </div>
                                                 </div>
                                             </a>
-                                            <!-- Message -->
+                                            <!-- Notifications -->
                                             <a href="javascript:void(0)" class="link border-top">
                                                 <div class="d-flex no-block align-items-center p-10">
                                                     <span class="btn btn-info btn-circle"><i class="ti-settings"></i></span>
@@ -130,7 +129,7 @@
                                                     </div>
                                                 </div>
                                             </a>
-                                            <!-- Message -->
+                                            <!-- Notifications -->
                                             <a href="javascript:void(0)" class="link border-top">
                                                 <div class="d-flex no-block align-items-center p-10">
                                                     <span class="btn btn-primary btn-circle"><i class="ti-user"></i></span>
@@ -140,7 +139,7 @@
                                                     </div>
                                                 </div>
                                             </a>
-                                            <!-- Message -->
+                                            <!-- Notifications -->
                                             <a href="javascript:void(0)" class="link border-top">
                                                 <div class="d-flex no-block align-items-center p-10">
                                                     <span class="btn btn-danger btn-circle"><i class="fa fa-link"></i></span>
@@ -215,14 +214,23 @@
                         {
                             <li class="sidebar-item">
                                 <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="fas fa-chess"></i><span class="hide-menu">Administrator </span></a>
-                                <ul aria-expanded="false" class="collapse  first-level">
+                                <ul aria-expanded="false" class="collapse first-level">
                                     <li class="sidebar-item"><a href="~/Admin/ManageRoles" class="sidebar-link"><i class="fas fa-address-book"></i><span class="hide-menu"> Manage User Roles </span></a></li>
                                     <li class="sidebar-item"><a href="~/Admin/ManageProjectUsers" class="sidebar-link"><i class="fas fa-folder"></i><span class="hide-menu"> Project Assignments </span></a></li>
                                 </ul>
                             </li>
                         }
                         <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="~/Projects/Index" aria-expanded="false"><i class="fas fa-folder-open"></i><span class="hide-menu">Projects</span></a></li>
-                        <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="~/Tickets/Index" aria-expanded="false"><i class="fas fa-ticket-alt"></i><span class="hide-menu">Tickets</span></a></li>
+
+                        <li class="sidebar-item">
+                            <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="fas fa-ticket-alt"></i><span class="hide-menu">Tickets</span></a>
+                            <ul aria-expanded="false" class="collapse first-level">
+                                <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="~/Tickets/Index" aria-expanded="false"><i class="far fa-list-alt"></i><span class="hide-menu">Ticket List</span></a></li>
+                                <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="~/TicketNotifications/Index" aria-expanded="false"><i class="fas fa-bell"></i><span class="hide-menu">Ticket Notifications</span></a></li>
+                                <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="~/TicketHistories/Index" aria-expanded="false"><i class="fas fa-book"></i><span class="hide-menu">Ticket History</span></a></li>
+                            </ul>
+                        </li>
+
 
                     </ul>
                 </nav>
