@@ -4,8 +4,6 @@
     ViewBag.Title = "Tickets";
 }
 
-
-
 <div class="card">
     <div class="card-body">
         <div class="table-responsive">
@@ -67,7 +65,10 @@
                             </td>
                             <td>
                                 <ul style="list-style-type:none;">
-                                    <li>@Html.ActionLink("Assign", "AssignTicket", new { id = item.Id })</li>
+                                    @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+                                    {
+                                        <li>@Html.ActionLink("Assign", "AssignTicket", new { id = item.Id })</li>
+                                    }
                                     <li>@Html.ActionLink("Edit", "Edit", new { id = item.Id })</li>
                                     <li>@Html.ActionLink("Details", "Details", new { id = item.Id })</li>
                                     <li>@Html.ActionLink("Delete", "Delete", new { id = item.Id })</li>

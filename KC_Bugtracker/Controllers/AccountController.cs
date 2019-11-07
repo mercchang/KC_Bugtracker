@@ -165,7 +165,7 @@ namespace KC_Bugtracker.Controllers
 
                 if(avatar != null)
                 {
-                    if (ImageUploadValidator.IsWebFriendlyImage(avatar))
+                    if (UploadValidator.IsWebFriendlyImage(avatar))
                     {
                         var fileName = Path.GetFileName(avatar.FileName);
                         var justFileName = Path.GetFileNameWithoutExtension(fileName);

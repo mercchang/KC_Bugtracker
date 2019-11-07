@@ -87,48 +87,139 @@
     <div class="col">
         <div class="card">
             <div class="card-body">
-                Ticket Attachments...
+                <h4>Attachments (@Model.TicketAttachments.Count)</h4>
+                @if (Model.TicketAttachments.Count != 0)
+                {
+                    <table class="table">
+                        <tr>
+                            <th>
+                                Submitter
+                            </th>
+                            <th>
+                                Attachment
+                            </th>
+                            <th>
+                                Description
+                            </th>
+                            <th>
+                                Uploaded
+                            </th>
+                        </tr>
+
+                        @foreach (var attachment in Model.TicketAttachments.OrderBy(c => c.Created))
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => attachment.User.FirstName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => attachment.FilePath)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => attachment.Description)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => attachment.Created)
+                                </td>
+                            </tr>
+                        }
+                    </table>
+                }
+                else
+                {
+                    <p>No Attachments.</p>
+                }
+
+                <hr />
+                @using (Html.BeginForm("Create", "TicketAttachments", FormMethod.Post, new { enctype = "Multipart/form-data" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.Hidden("TicketId", Model.Id)
+
+                    <div class="form-group">
+                        @Html.TextBox("file", null, new { type = "file" })
+                    </div>
+
+                    <div class="form-group">
+                        <div>
+                            @Html.TextArea("Description", "", new { @class = "form-control", rows = 5, placeholder = "Enter Description..." })
+                            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <input type="submit" value="Create" class="btn btn-default" />
+                        </div>
+                    </div>
+                }
+
             </div>
         </div>
     </div>
     <div class="col">
         <div class="card">
             <div class="card-body">
-                <h4>Comments</h4>
+                <h4>Comments (@Model.TicketComments.Count)</h4>
                 <hr />
-                <div class="chat-box scrollable">
-                    <ul class="chat-list">
-                        @foreach (var comment in Model.TicketComments.OrderBy(c => c.Created))
-                        {
-                            if (comment.User.Id == user.Id)
+                @if (Model.TicketAttachments.Count != 0)
+                {
+                    <div class="chat-box scrollable" style="height:475px;">
+                        <ul class="chat-list">
+                            @foreach (var comment in Model.TicketComments.OrderBy(c => c.Created))
                             {
-                                <li class="odd chat-item">
-                                    <div class="col">
-                                        <div class="chat-content">
-                                            <div class="box bg-light-inverse">@comment.Comment</div>
-                                            <div class="chat-img"><img src="@user.AvatarPath" alt="user"></div>
+                                if (comment.User.Id == user.Id)
+                                {
+                                    <li class="odd chat-item">
+                                        <div class="col">
+                                            <div class="chat-content">
+                                                <div class="box bg-light-inverse">@comment.Comment</div>
+                                                <div class="chat-img">
+                                                    @if (user.AvatarPath != null)
+                                                    {
+                                                        <img src="@user.AvatarPath" alt="user">
+                                                    }
+                                                    else
+                                                    {
+                                                        <img src="~/Avatars/default_user.png" alt="user">
+                                                    }
+                                                </div>
+                                            </div>
+                                            <div class="chat-content">
+                                                <div class="chat-time pr-5">@comment.Created</div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li class="chat-item">
+                                        <div class="chat-img">
+                                            @if (comment.User.AvatarPath != null)
+                                            {
+                                                <img src="@comment.User.AvatarPath" alt="user">
+                                            }
+                                            else
+                                            {
+                                                <img src="~/Avatars/default_user.png" alt="user">
+                                            }
                                         </div>
                                         <div class="chat-content">
-                                            <div class="chat-time pr-5">@comment.Created</div>
+                                            <h6 class="font-medium"><span>@comment.User.FirstName @comment.User.LastName</span></h6>
+                                            <div class="box bg-light-info">@comment.Comment</div>
                                         </div>
-                                    </div>
-                                </li>
+                                        <div class="chat-time">@comment.Created</div>
+                                    </li>
+                                }
                             }
-                            else
-                            {
-                                <li class="chat-item">
-                                    <div class="chat-img"><img src="~/Avatars/default_user.png" alt="user"></div>
-                                    <div class="chat-content">
-                                        <h6 class="font-medium"><span>@comment.User.FirstName @comment.User.LastName</span></h6>
-                                        <div class="box bg-light-info">@comment.Comment</div>
-                                    </div>
-                                    <div class="chat-time">@comment.Created</div>
-                                </li>
-                            }
-                        }
 
-                    </ul>
-                </div>
+                        </ul>
+                    </div>
+                }
+                else
+                {
+                    <p>No Comments.</p>
+                }
 
                 <div class="form-group pt-3">
                     <hr />
@@ -137,16 +228,16 @@
                         <div class="col-md-12">
                             @Html.AntiForgeryToken()
                             @Html.Hidden("TicketId", Model.Id)
+
                             @Html.TextArea("Comment", new { @class = "form-control", rows = 5, placeholder = "Add Comment..." })
                         </div>
                         <div class="col pt-3">
                             <button type="submit" class="btn btn-info margin-5">Add Comment</button>
                         </div>
-
                     }
+
                 </div>
             </div>
         </div>
     </div>
 </div>
-
