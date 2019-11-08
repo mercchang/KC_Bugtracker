@@ -1,5 +1,6 @@
 ﻿@model KC_Bugtracker.Models.Ticket
 @using KC_Bugtracker.Models
+@using KC_Bugtracker.Helpers
 @using Microsoft.AspNet.Identity
 
 @{
@@ -96,6 +97,9 @@
                                 Submitter
                             </th>
                             <th>
+                                
+                            </th>
+                            <th>
                                 Attachment
                             </th>
                             <th>
@@ -111,6 +115,11 @@
                             <tr>
                                 <td>
                                     @Html.DisplayFor(modelItem => attachment.User.FirstName)
+                                </td>
+                                <td>
+                                    <a href="@attachment.FilePath">
+                                        <img src="@AttachmentHelper.GetIcon(attachment.FilePath)" style="width: 30px;" />
+                                    </a>
                                 </td>
                                 <td>
                                     @Html.DisplayFor(modelItem => attachment.FilePath)

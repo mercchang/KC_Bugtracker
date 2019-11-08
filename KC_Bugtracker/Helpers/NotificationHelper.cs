@@ -8,7 +8,7 @@ namespace KC_Bugtracker.Helpers
 {
     public class NotificationHelper
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+        private static ApplicationDbContext db = new ApplicationDbContext();
         public void ManageNotifications(Ticket oldTicket, Ticket newTicket)
         {
             var ticketAssigned = oldTicket.DeveloperId == null && newTicket.DeveloperId != null;

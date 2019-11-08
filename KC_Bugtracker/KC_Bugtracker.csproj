@@ -183,6 +183,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Helpers\AttachmentHelper.cs" />
     <Compile Include="Helpers\UploadValidator.cs" />
     <Compile Include="Helpers\NotificationHelper.cs" />
     <Compile Include="Helpers\ProjectsHelper.cs" />
@@ -260,11 +261,16 @@
     <Content Include="Images\big\img4.jpg" />
     <Content Include="Images\big\img5.jpg" />
     <Content Include="Images\big\img6.jpg" />
+    <Content Include="Images\blank.png" />
     <Content Include="Images\custom-select.png" />
+    <Content Include="Images\doc.png" />
+    <Content Include="Images\docx.png" />
     <Content Include="Images\favicon.png" />
     <Content Include="Images\logo-icon.png" />
     <Content Include="Images\logo-text.png" />
     <Content Include="Images\logo.png" />
+    <Content Include="Images\pdf.png" />
+    <Content Include="Images\txt.png" />
     <Content Include="Images\users\1-old.jpg" />
     <Content Include="Images\users\1.jpg" />
     <Content Include="Images\users\1.png" />
@@ -1072,6 +1078,10 @@
     <Content Include="icons\weather-icons\less\css\variables-night.css" />
     <Content Include="icons\weather-icons\less\css\variables-time.css" />
     <Content Include="icons\weather-icons\less\css\variables-wind-names.css" />
+    <Content Include="Images\XLS.png" />
+    <Content Include="Images\XLSX.png" />
+    <Content Include="Images\xml.png" />
+    <Content Include="Images\zip.png" />
     <Content Include="Scripts\bootstrap\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap\bootstrap.min.js" />
     <Content Include="Scripts\jquery\core.js" />

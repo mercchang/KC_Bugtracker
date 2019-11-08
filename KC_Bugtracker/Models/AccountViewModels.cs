@@ -11,6 +11,7 @@ namespace KC_Bugtracker.Models
         public string NickName { get; set; }
         public string Email { get; set; }
         public string UName { get; set; }
+        public string AvatarPath { get; set; }
     }
 
     public class ManageRolesViewModel
