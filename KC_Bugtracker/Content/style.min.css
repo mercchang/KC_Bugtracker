@@ -95,9 +95,8 @@ body {
     font-size: 0.875rem;
     font-weight: 400;
     line-height: 1.5;
-    color: #3e5569;
+    color: #000;
     text-align: left;
-    background-color: #eeeeee
 }
 
 [tabindex="-1"]:focus {
@@ -185,14 +184,14 @@ sup {
 }
 
 a {
-    color: #7460ee;
+    color: #000;
     text-decoration: none;
     background-color: transparent;
     -webkit-text-decoration-skip: objects
 }
 
     a:hover {
-        color: #381be7;
+        color: #a1a1a1;
         text-decoration: underline
     }
 
@@ -5130,7 +5129,7 @@ input[type=button].btn-block, input[type=reset].btn-block, input[type=submit].bt
     .breadcrumb-item + .breadcrumb-item:before {
         display: inline-block;
         padding-right: 0.5rem;
-        color: #6c757d;
+        color: #000;
         content: "/"
     }
 
@@ -5143,7 +5142,7 @@ input[type=button].btn-block, input[type=reset].btn-block, input[type=submit].bt
     }
 
 .breadcrumb-item.active {
-    color: #6c757d
+    color: #000
 }
 
 .pagination {
@@ -5198,17 +5197,17 @@ input[type=button].btn-block, input[type=reset].btn-block, input[type=submit].bt
 
 .page-item.active .page-link {
     z-index: 1;
-    color: #fff;
-    background-color: #2962FF;
-    border-color: #2962FF
+    color: #000;
+    background-color: #6c757d;
+    border-color: #000
 }
 
 .page-item.disabled .page-link {
-    color: #6c757d;
+    color: #000;
     pointer-events: none;
     cursor: auto;
-    background-color: #fff;
-    border-color: #dee2e6
+    background-color: #c9c9c9;
+    border-color: #000
 }
 
 .pagination-lg .page-link {
@@ -10319,7 +10318,6 @@ html[dir=ltr] body .p-l-0 {
 }
 
 .page-wrapper {
-    background: #eeeeee;
     position: relative;
     margin-left: 250px
 }
@@ -10431,7 +10429,7 @@ html[dir=ltr] body .p-l-0 {
 body {
     margin: 0;
     overflow-x: hidden;
-    color: #3e5569;
+    color: #000;
     background: #fff
 }
 
@@ -10441,7 +10439,7 @@ html {
 }
 
 a {
-    color: #2962FF
+    color: #000
 }
 
     a:focus, a:hover {
@@ -10453,7 +10451,7 @@ a {
     }
 
         a.link:focus, a.link:hover {
-            color: #2962FF
+            color: #a1a1a1
         }
 
 .box {
@@ -11232,7 +11230,7 @@ ul.list-style-none {
         .page-breadcrumb .breadcrumb .breadcrumb-item + .breadcrumb-item:before {
             content: "\e649";
             font-family: themify;
-            color: #ced4da;
+            color: #000;
             font-size: 11px
         }
 
@@ -12482,6 +12480,7 @@ html body .waves-notransition {
 }
 
 .bounceInDown {
+    animation: bounceInDown 1s;
     -webkit-animation-name: bounceInDown;
     animation-name: bounceInDown
 }

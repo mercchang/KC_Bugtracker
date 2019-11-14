@@ -17,6 +17,7 @@ namespace KC_Bugtracker.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         private TicketHelper ticketHelper = new TicketHelper();
+        private UserRolesHelper rolesHelper = new UserRolesHelper();
         private TicketHistoryHelper auditHelper = new TicketHistoryHelper();
         private NotificationHelper notificationHelper = new NotificationHelper();
 
@@ -24,11 +25,9 @@ namespace KC_Bugtracker.Controllers
         [Authorize]
         public ActionResult Index()
         {
-
             var allTickets = db.Tickets;
             var highPriorityTickets = db.TicketPriorities.FirstOrDefault(tp => tp.PriorityName == "High").Tickets;
             var medPriorityTickets = db.Tickets.Where(t => t.TicketPriority.PriorityName == "Medium");
-
 
             //var tickets = db.Tickets.Include(t => t.Developer).Include(t => t.Project).Include(t => t.Submitter).Include(t => t.TicketPriority).Include(t => t.TicketStatus).Include(t => t.TicketType);
             //var tickets = ticketHelper.ListMyTickets();
@@ -134,6 +133,7 @@ namespace KC_Bugtracker.Controllers
                 auditHelper.RecordChanges(oldTicket, newTicket);
                 notificationHelper.ManageNotifications(oldTicket, newTicket);
                 return RedirectToAction("Index");
+                //return View();
             }
 
             ViewBag.DeveloperId = new SelectList(db.Users, "Id", "FullName", ticket.DeveloperId);

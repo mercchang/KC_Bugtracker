@@ -1,5 +1,6 @@
 ﻿@using KC_Bugtracker.Models
 @using Microsoft.AspNet.Identity
+@using KC_Bugtracker.Helpers
 
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
@@ -13,7 +14,7 @@
     <meta name="author" content="">
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="~/Images/favicon.png">
-    <title>Bug Tracker - Dashboard</title>
+    <title>Bug Tracker</title>
     <!-- Custom CSS -->
     <link href="~/assets/libs/flot/css/float-chart.css" rel="stylesheet">
     <!-- Custom CSS -->
@@ -21,13 +22,18 @@
     <link href="~/Content/custom.css" rel="stylesheet" />
     <link href="~/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.css" rel="stylesheet">
     <link href="~/Content/style.min.css" rel="stylesheet" />
+    <link href="~/assets/libs/toastr/build/toastr.min.css" rel="stylesheet" />
+
 </head>
 
-<body>
+<body style="background-color: #a3a3a3">
     @{
         var db = new ApplicationDbContext();
         var user = db.Users.Find(User.Identity.GetUserId());
+        var roleHelper = new UserRolesHelper();
+        var userRole = roleHelper.ListUserRoles(user.Id).FirstOrDefault();
     }
+
     <!-- Preloader -->
     <div class="preloader">
         <div class="lds-ripple">
@@ -87,69 +93,62 @@
                         <!-- Comment -->
                         <!-- ============================================================== -->
                         @*<li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="font-24 mdi mdi-comment-processing"></i>
-                            </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="#">Action</a>
-                                <a class="dropdown-item" href="#">Another action</a>
-                                <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="#">Something else here</a>
-                            </div>
-                        </li>*@
+                                <a class="nav-link dropdown-toggle waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="font-24 mdi mdi-comment-processing"></i>
+                                </a>
+                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="#">Action</a>
+                                    <a class="dropdown-item" href="#">Another action</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="#">Something else here</a>
+                                </div>
+                            </li>*@
                         <!-- ============================================================== -->
                         <!-- Notifications -->
                         <!-- ============================================================== -->
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle waves-effect waves-dark" href="" id="2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="mdi mdi-bell font-24"></i>
+                                @if (NotificationHelper.GetUnreadNotifications().Count() != 0)
+                                {
+                                    <span class="badge badge-success">@NotificationHelper.GetUnreadNotifications().Count()</span>
+                                }
                             </a>
                             <div class="dropdown-menu dropdown-menu-right mailbox animated bounceInDown" aria-labelledby="2">
                                 <ul class="list-style-none">
-                                    <li>
-                                        <div class="">
-                                            <!-- Notifications -->
-                                            <a href="javascript:void(0)" class="link border-top">
-                                                <div class="d-flex no-block align-items-center p-10">
-                                                    <span class="btn btn-success btn-circle"><i class="ti-calendar"></i></span>
-                                                    <div class="m-l-10">
-                                                        <h5 class="m-b-0">Event today</h5>
-                                                        <span class="mail-desc">Just a reminder that event</span>
+                                    <!-- Notifications -->
+                                    @if (NotificationHelper.GetUnreadNotifications().Count() == 0)
+                                    {
+                                        <li>
+                                            <div class="row py-3 pl-2">
+                                                <span class="message pl-2">No notifications</span>
+                                            </div>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        foreach (var unreadNotification in NotificationHelper.GetUnreadNotifications())
+                                        {
+                                            <li>
+                                                @using (Html.BeginForm("Dismiss", "TicketNotifications", FormMethod.Post))
+                                                {
+                                                    @Html.AntiForgeryToken()
+                                                    @Html.Hidden("Id", unreadNotification.Id)
+
+                                                    <div class="d-flex no-block align-items-center p-10">
+                                                        <span class="image"><img src="@unreadNotification.Sender.AvatarPath" alt="Sender" class="rounded-circle" width="30" /></span>
+                                                        <div class="m-l-10">
+                                                            <h5 class="m-b-0"><span>@unreadNotification.Sender.FullName</span></h5>
+                                                            <span class="">@Html.Raw(unreadNotification.NotificationBody)</span>
+                                                            <span class="chat-time float-right">@unreadNotification.Created.ToString("MMM dd, yyyy")</span>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </a>
-                                            <!-- Notifications -->
-                                            <a href="javascript:void(0)" class="link border-top">
-                                                <div class="d-flex no-block align-items-center p-10">
-                                                    <span class="btn btn-info btn-circle"><i class="ti-settings"></i></span>
-                                                    <div class="m-l-10">
-                                                        <h5 class="m-b-0">Settings</h5>
-                                                        <span class="mail-desc">You can customize this template</span>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <!-- Notifications -->
-                                            <a href="javascript:void(0)" class="link border-top">
-                                                <div class="d-flex no-block align-items-center p-10">
-                                                    <span class="btn btn-primary btn-circle"><i class="ti-user"></i></span>
-                                                    <div class="m-l-10">
-                                                        <h5 class="m-b-0">Pavan kumar</h5>
-                                                        <span class="mail-desc">Just see the my admin!</span>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <!-- Notifications -->
-                                            <a href="javascript:void(0)" class="link border-top">
-                                                <div class="d-flex no-block align-items-center p-10">
-                                                    <span class="btn btn-danger btn-circle"><i class="fa fa-link"></i></span>
-                                                    <div class="m-l-10">
-                                                        <h5 class="m-b-0">Launch Admin</h5>
-                                                        <span class="mail-desc">Just see the my new admin!</span>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                        </div>
-                                    </li>
+
+                                                    <button type="submit">Dismiss</button>
+                                                }
+                                            </li>
+                                        }
+                                    }
                                 </ul>
                             </div>
                         </li>
@@ -168,7 +167,7 @@
                             <div class="dropdown-menu dropdown-menu-right user-dd animated bounceIn">
                                 <a class="dropdown-item" href="~/Account/Profile"><i class="ti-user m-r-5 m-l-5"></i> My Profile</a>
                                 @*<a class="dropdown-item" href="javascript:void(0)"><i class="ti-wallet m-r-5 m-l-5"></i> My Balance</a>
-                                <a class="dropdown-item" href="javascript:void(0)"><i class="ti-email m-r-5 m-l-5"></i> Inbox</a>*@
+                                    <a class="dropdown-item" href="javascript:void(0)"><i class="ti-email m-r-5 m-l-5"></i> Inbox</a>*@
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="javascript:void(0)"><i class="ti-settings m-r-5 m-l-5"></i> Account Setting</a>
                                 <div class="dropdown-divider"></div>
@@ -190,29 +189,32 @@
                     <ul id="sidebarnav" class="p-t-30">
                         <li class="sidebar-item">
                             <a class="sidebar-link waves-effect waves-dark sidebar-link" href="~/Account/Profile" aria-expanded="false">
-                                @*<i class="fas fa-user"></i>*@
-                                <h4>
-                                    <span class="hide-menu">
-                                        @if (user != null && user.AvatarPath == null)
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        @if (user.AvatarPath == null)
                                         {
-                                            <img src="~/Avatars/default_user.png" alt="..." class="rounded-circle pr-1" width="50" />
-                                            <span>@user.FirstName</span> <span>@user.LastName</span>
+                                            <img src="~/Avatars/default_user.png" alt="..." class="rounded-circle" width="40" />
                                         }
                                         else if (user != null)
                                         {
-                                            <img src="@user.AvatarPath" alt="..." class="rounded-circle pr-1" width="50" />
-                                            <span>@user.FirstName</span> <span>@user.LastName</span>
+                                            <img src="@user.AvatarPath" alt="..." class="rounded-circle" width="40" />
                                         }
-                                    </span>
-                                </h4>
+                                    </div>
+                                    <div class="col-sm-6 text-center">
+                                        <div class="row"><span class="hide-menu">@user.FirstName @user.LastName</span></div>
+                                        <div class="row"><span class="hide-menu">@userRole</span></div>
+                                    </div>
+                                </div>
                             </a>
+                            <hr />
                         </li>
+
                         <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="~/Home/Dashboard" aria-expanded="false"><i class="mdi mdi-view-dashboard"></i><span class="hide-menu">Dashboard</span></a></li>
                         @* ---------------Admin--------------- *@
                         @if (User.IsInRole("Admin"))
                         {
                             <li class="sidebar-item">
-                                <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="fas fa-chess"></i><span class="hide-menu">Administrator </span></a>
+                                <a class="sidebar-link has-arrow waves-effect waves-dark sidebar-link" href="javascript:void(0)" aria-expanded="false"><i class="fas fa-chess"></i><span class="hide-menu">Administrator </span></a>
                                 <ul aria-expanded="false" class="collapse first-level">
                                     <li class="sidebar-item"><a href="~/Admin/ManageRoles" class="sidebar-link"><i class="fas fa-address-book"></i><span class="hide-menu"> Manage User Roles </span></a></li>
                                     <li class="sidebar-item"><a href="~/Admin/ManageProjectUsers" class="sidebar-link"><i class="fas fa-folder"></i><span class="hide-menu"> Project Assignments </span></a></li>
@@ -241,7 +243,7 @@
             <div class="page-breadcrumb">
                 <div class="row">
                     <div class="col-12 d-flex no-block align-items-center">
-                        <h4 class="page-title">@Html.ViewBag.Title</h4>
+                        <h4>@Html.ViewBag.Title</h4>
                         <div class="ml-auto text-right">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb">
@@ -253,15 +255,10 @@
                     </div>
                 </div>
             </div>
-            <div class="container-fluid">
+            <div id="test" class="container-fluid">
                 @RenderBody()
             </div>
-            <!-- ============================================================== -->
-            <!-- footer -->
-            <!-- ============================================================== -->
-            <footer class="footer text-center">
-                All Rights Reserved by Matrix-admin. Designed and Developed by <a href="https://wrappixel.com">WrapPixel</a>.
-            </footer>
+
         </div>
     </div>
     <!-- ============================================================== -->
@@ -289,6 +286,7 @@
     <script src="~/assets/libs/flot.tooltip/js/jquery.flot.tooltip.min.js"></script>
     <script src="~/Scripts/js/pages/chart/chart-page-init.js"></script>
     <script src="~/assets/extra-libs/sparkline/sparkline.js"></script>
+    <script src="~/assets/libs/toastr/build/toastr.min.js"></script>
 
     @RenderSection("scripts", required: false)
 

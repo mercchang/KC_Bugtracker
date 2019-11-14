@@ -11,6 +11,7 @@ using Microsoft.Owin.Security;
 using KC_Bugtracker.Models;
 using KC_Bugtracker.Helpers;
 using System.IO;
+using System.Web.Configuration;
 
 namespace KC_Bugtracker.Controllers
 {
@@ -90,6 +91,33 @@ namespace KC_Bugtracker.Controllers
                 default:
                     ModelState.AddModelError("", "Invalid login attempt.");
                     return View(model);
+            }
+        }
+
+
+        [AllowAnonymous]
+        public ActionResult DemoLoginAsync()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> DemoLoginAsync(string emailKey)
+        {
+            var email = WebConfigurationManager.AppSettings[emailKey];
+            var password = WebConfigurationManager.AppSettings["DemoUserPassword"];
+
+            var result = await SignInManager.PasswordSignInAsync(email, password, false, shouldLockout: false);
+
+            switch(result)
+            {
+                case SignInStatus.Success:
+                    return RedirectToAction("Dashboard", "Home");
+                case SignInStatus.Failure:
+                default:
+                    return RedirectToAction("Login", "Home");
             }
         }
 

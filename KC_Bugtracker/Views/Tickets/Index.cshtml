@@ -43,7 +43,22 @@
                                 }
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.TicketPriority.PriorityName)
+                                @if (item.TicketPriority.PriorityName.Contains("High"))
+                                {
+                                    <span class="badge badge-danger">@Html.DisplayFor(model => item.TicketPriority.PriorityName)</span>
+                                }
+                                @if (item.TicketPriority.PriorityName.Contains("Medium"))
+                                {
+                                    <span class="badge badge-warning">@Html.DisplayFor(model => item.TicketPriority.PriorityName)</span>
+                                }
+                                @if (item.TicketPriority.PriorityName.Contains("Low"))
+                                {
+                                    <span class="badge badge-info">@Html.DisplayFor(model => item.TicketPriority.PriorityName)</span>
+                                }
+                                @if (item.TicketPriority.PriorityName.Contains("None"))
+                                {
+                                    <span class="badge badge-light">@Html.DisplayFor(model => item.TicketPriority.PriorityName)</span>
+                                }
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.TicketStatus.StatusName)
@@ -82,13 +97,7 @@
         @if (User.IsInRole("Submitter"))
         {
             <div class="row pt-3" style="text-align:center">
-                @Html.ActionLink("Create New Ticket", "Create")
-            </div>
-        }
-        @if (User.IsInRole("Admin"))
-        {
-            <div class="row pt-3" style="text-align:center">
-                @Html.ActionLink("Ticket History", "Index", "TicketHistories")
+                @Html.ActionLink("Create New Ticket", "Create", null, new { @class= "btn btn-default"})
             </div>
         }
     </div>

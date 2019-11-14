@@ -52,7 +52,22 @@
                             }
                         </td>
                         <td>
-                            @Html.DisplayFor(model => model.TicketPriority.PriorityName)
+                            @if (Model.TicketPriority.PriorityName.Contains("High"))
+                            {
+                                <span class="badge badge-danger">@Html.DisplayFor(model => model.TicketPriority.PriorityName)</span>
+                            }
+                            @if (Model.TicketPriority.PriorityName.Contains("Medium"))
+                            {
+                                <span class="badge badge-warning">@Html.DisplayFor(model => model.TicketPriority.PriorityName)</span>
+                            }
+                            @if (Model.TicketPriority.PriorityName.Contains("Low"))
+                            {
+                                <span class="badge badge-info">@Html.DisplayFor(model => model.TicketPriority.PriorityName)</span>
+                            }
+                            @if (Model.TicketPriority.PriorityName.Contains("None"))
+                            {
+                                <span class="badge badge-light">@Html.DisplayFor(model => model.TicketPriority.PriorityName)</span>
+                            }
                         </td>
                         <td>
                             @Html.DisplayFor(model => model.TicketStatus.StatusName)
@@ -85,7 +100,7 @@
 </div>
 
 <div class="row">
-    <div class="col">
+    <div class="col-md-8">
         <div class="card">
             <div class="card-body">
                 <h4>Attachments (@Model.TicketAttachments.Count)</h4>
@@ -166,7 +181,7 @@
             </div>
         </div>
     </div>
-    <div class="col">
+    <div class="col-md-4">
         <div class="card">
             <div class="card-body">
                 <h4>Comments (@Model.TicketComments.Count)</h4>
@@ -237,8 +252,8 @@
                         <div class="col-md-12">
                             @Html.AntiForgeryToken()
                             @Html.Hidden("TicketId", Model.Id)
-
-                            @Html.TextArea("Comment", new { @class = "form-control", rows = 5, placeholder = "Add Comment..." })
+                            
+                            @Html.TextArea("Comment", new { @class = "form-control", rows = 5, placeholder = "Add Comment...", })
                         </div>
                         <div class="col pt-3">
                             <button type="submit" class="btn btn-info margin-5">Add Comment</button>

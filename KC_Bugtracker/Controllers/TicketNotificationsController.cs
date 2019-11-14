@@ -14,7 +14,14 @@ namespace KC_Bugtracker.Controllers
     public class TicketNotificationsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-        private NotificationHelper notificationHelper = new NotificationHelper();
+
+        public ActionResult Dismiss(int id)
+        {
+            var notification = db.TicketNotifications.Find(id);
+            notification.IsRead = true;
+            db.SaveChanges();
+            return RedirectToAction("Dashboard", "Home");
+        }
 
         // GET: TicketNotifications
         public ActionResult Index()
@@ -50,10 +57,11 @@ namespace KC_Bugtracker.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,TicketId,RecipientId,NotificationBody,IsRead")] TicketNotification ticketNotification)
+        public ActionResult Create([Bind(Include = "TicketId,RecipientId,NotificationBody,IsRead")] TicketNotification ticketNotification)
         {
             if (ModelState.IsValid)
             {
+                ticketNotification.Created = DateTime.Now;
                 db.TicketNotifications.Add(ticketNotification);
                 db.SaveChanges();
                 return RedirectToAction("Index");

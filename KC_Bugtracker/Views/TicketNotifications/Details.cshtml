@@ -1,50 +1,54 @@
 ﻿@model KC_Bugtracker.Models.TicketNotification
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "Notification Details";
 }
 
-<h2>Details</h2>
+<div class="card">
+    <div class="card-body">
+        <h2>Details</h2>
 
-<div>
-    <h4>TicketNotification</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Recipient.FirstName)
-        </dt>
+        <div>
+            <h4>Notification Details</h4>
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Recipient.FirstName)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Recipient.FirstName)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.Recipient.FirstName)
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.TicketId)
-        </dt>
+                <dt>
+                    Ticket #
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.TicketId)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.TicketId)
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.NotificationBody)
-        </dt>
+                <dt>
+                    Message
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.NotificationBody)
-        </dd>
+                <dd>
+                    @Html.Raw(Model.NotificationBody)
+                </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.IsRead)
-        </dt>
+                <dt>
+                    @Html.DisplayNameFor(model => model.IsRead)
+                </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.IsRead)
-        </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.IsRead)
+                </dd>
 
-    </dl>
+            </dl>
+        </div>
+        <p>
+            @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+            @Html.ActionLink("Back to List", "Index")
+        </p>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

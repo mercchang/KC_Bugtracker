@@ -43,6 +43,9 @@ namespace KC_Bugtracker.Helpers
                 case ".jpg":
                 case ".gif":
                 case ".png":
+                    imgPath = fileName;
+                    break;
+                default:
                     imgPath = "/Images/blank.png";
                     break;
             }

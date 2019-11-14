@@ -1,16 +1,7 @@
-﻿using KC_Bugtracker.Models;
-using Microsoft.AspNet.Identity;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace KC_Bugtracker.Helpers
-{
-    public class TicketHelper
+ public class TicketHelper
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-        private UserRolesHelper roleHelper = new UserRolesHelper();
+        private RoleHelper roleHelper = new RoleHelper();
 
         public int SetDefaultTicketStatus()
         {
@@ -20,19 +11,22 @@ namespace KC_Bugtracker.Helpers
         public List<Ticket> ListMyTickets()
         {
             var myTickets = new List<Ticket>();
+
             var userId = HttpContext.Current.User.Identity.GetUserId();
             var user = db.Users.Find(userId);
 
-            // Find role
+            //Step 1: Determine my role
             var myRole = roleHelper.ListUserRoles(userId).FirstOrDefault();
 
-            // Build list of tickets
+            //Step 2: Use that role to build the appropriate set of Tickets
+
             switch(myRole)
             {
                 case "Admin":
+                case "DemoAdmin":
                     myTickets.AddRange(db.Tickets);
                     break;
-                case "ProjectManager":
+                case "Project_Manager":
                     myTickets.AddRange(user.Projects.SelectMany(p => p.Tickets));
                     break;
                 case "Developer":
@@ -40,9 +34,8 @@ namespace KC_Bugtracker.Helpers
                     break;
                 case "Submitter":
                     myTickets.AddRange(db.Tickets.Where(t => t.SubmitterId == userId));
-                    break;
+                    break;              
             }
             return myTickets;
         }
     }
-}

@@ -53,11 +53,13 @@ namespace KC_Bugtracker.Controllers
         {
             if (ModelState.IsValid)
             {
+
                 db.TicketHistories.Add(ticketHistory);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
+            ViewBag.ProjectId = new SelectList(db.Projects, "Id", "ProjectId", ticketHistory.ProjectId);
             ViewBag.TicketId = new SelectList(db.Tickets, "Id", "SubmitterId", ticketHistory.TicketId);
             ViewBag.UserId = new SelectList(db.Users, "Id", "FirstName", ticketHistory.UserId);
             return View(ticketHistory);

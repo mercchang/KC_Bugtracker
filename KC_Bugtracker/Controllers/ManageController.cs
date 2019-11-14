@@ -377,8 +377,6 @@ namespace KC_Bugtracker.Controllers
             user.Email = model.Email;
             user.UserName = model.Email;
 
-
-
             if (user.AvatarPath != model.AvatarPath)
             {
                 if (UploadValidator.IsWebFriendlyImage(avatar))

@@ -19,7 +19,7 @@
                             {
                                 <th></th>
                             }
-                            
+
                         </tr>
                     </thead>
                     <tbody>
@@ -52,17 +52,13 @@
                     </tbody>
                 </table>
             </div>
-
+            @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+            {
+                @Html.ActionLink("Create New", "Create", null, new { @class= "btn btn-default"})
+            }
         </div>
     </div>
 </div>
-@if (User.IsInRole("Admin") || User.IsInRole("Admin"))
-{
-    <p>
-        @Html.ActionLink("Create New", "Create")
-    </p>
-}
-
 
 @section scripts{
     <script src="~/assets/extra-libs/DataTables/datatables.min.js"></script>

@@ -40,8 +40,8 @@ namespace KC_Bugtracker.Models
         public virtual ICollection<TicketAttachment> TicketAttachments { get; set; }
         public virtual ICollection<TicketComment> TicketComments { get; set; }
         public virtual ICollection<TicketHistory> TicketHistories { get; set; }
-        public virtual ICollection<TicketNotification>TicketNotifications { get; set; }
-        
+        //public virtual ICollection<TicketNotification>TicketNotifications { get; set; }
+        //public virtual ICollection<Ticket> Tickets { get; set; }
 
         public ApplicationUser()
         {
@@ -49,7 +49,7 @@ namespace KC_Bugtracker.Models
             Projects = new HashSet<Project>();
             TicketAttachments = new HashSet<TicketAttachment>();
             TicketHistories = new HashSet<TicketHistory>();
-            TicketNotifications = new HashSet<TicketNotification>();
+            //TicketNotifications = new HashSet<TicketNotification>();
         }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)

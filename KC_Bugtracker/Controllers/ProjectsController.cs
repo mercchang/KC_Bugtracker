@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using KC_Bugtracker.Helpers;
 using KC_Bugtracker.Models;
+using Microsoft.AspNet.Identity;
 
 namespace KC_Bugtracker.Controllers
 {
@@ -67,7 +68,14 @@ namespace KC_Bugtracker.Controllers
         // GET: Projects
         public ActionResult Index()
         {
-            return View(db.Projects.ToList());
+            // displays user's projects. Admin sees all projects
+            if (!User.IsInRole("Admin"))
+            {
+                var userProjects = projectHelper.ListUserProjects(User.Identity.GetUserId());
+                return View(userProjects.ToList());
+            }
+            else
+                return View(db.Projects.ToList());
         }
 
         // GET: Projects/Details/5

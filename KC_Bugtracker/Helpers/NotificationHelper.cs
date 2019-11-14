@@ -1,4 +1,5 @@
 ﻿using KC_Bugtracker.Models;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,8 +33,10 @@ namespace KC_Bugtracker.Helpers
             {
                 TicketId = newTicket.Id,
                 IsRead = false,
+                SenderId = HttpContext.Current.User.Identity.GetUserId(),
                 RecipientId = newTicket.DeveloperId,
-                NotificationBody = $"You have been assigned to a Ticket: {newTicket.Id}, for project: {newTicket.Project.Name}."
+                Created = DateTime.Now,
+                NotificationBody = $"You have been assigned to <b>Ticket</b> #{newTicket.Id}, for the <b>{newTicket.Project.Name}</b>."
             };
             db.TicketNotifications.Add(notification);
             db.SaveChanges();
@@ -45,11 +48,19 @@ namespace KC_Bugtracker.Helpers
             {
                 TicketId = newTicket.Id,
                 IsRead = false,
-                RecipientId = newTicket.DeveloperId,
-                NotificationBody = $"You have been unassigned from a Ticket: {newTicket.Id}, for project: {newTicket.Project.Name}."
+                SenderId = HttpContext.Current.User.Identity.GetUserId(),
+                RecipientId = oldTicket.DeveloperId,
+                Created = DateTime.Now,
+                NotificationBody = $"You have been unassigned from <b>Ticket</b> #{newTicket.Id}, for the <b>{newTicket.Project.Name}</b>."
             };
             db.TicketNotifications.Add(notification);
             db.SaveChanges();
+        }
+
+        public static List<TicketNotification> GetUnreadNotifications()
+        {
+            var currentUserId = HttpContext.Current.User.Identity.GetUserId();
+            return db.TicketNotifications.Include("Sender").Include("Recipient").Where(t => t.RecipientId == currentUserId && !t.IsRead).ToList();
         }
     }
 }

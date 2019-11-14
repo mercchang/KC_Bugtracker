@@ -1,0 +1,29 @@
+﻿body {
+    background-color: #a3a3a3;
+}
+
+@-webkit-keyframes demo {
+    50% {
+        -webkit-filter: grayscale(0%);
+        filter: grayscale(0%);
+    }
+}
+
+@keyframes demo {
+    50% {
+        -webkit-filter: grayscale(0%);
+        filter: grayscale(0%);
+    }
+}
+
+button.demologin {
+    filter: grayscale(100%);
+    opacity: 0.5;
+}
+
+button.demologin:hover {
+    cursor: pointer;
+    -webkit-animation: demo 1s;
+    opacity: 1;
+}
+

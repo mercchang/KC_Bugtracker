@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace KC_Bugtracker.Models
 {
     public class TicketPriority
     {
         public int Id { get; set; }
+        [AllowHtml]
         public string PriorityName { get; set; }
         public string Description { get; set; }
 

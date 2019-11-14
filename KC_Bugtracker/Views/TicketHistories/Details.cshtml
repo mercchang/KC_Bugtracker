@@ -6,61 +6,67 @@
 
 <h2>Details</h2>
 
-<div>
-    <h4>TicketHistory</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Ticket.SubmitterId)
-        </dt>
+<div class="card">
+    <div class="card-body">
 
-        <dd>
-            @Html.DisplayFor(model => model.Ticket.SubmitterId)
-        </dd>
+        <div>
+            <h4>TicketHistory</h4>
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                    Submitter
+                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.User.FirstName)
-        </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Ticket.Submitter.FullName)
+                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.User.FirstName)
-        </dd>
+                <dt>
+                    Assigned Developer
+                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Property)
-        </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.User.FullName)
+                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Property)
-        </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Property)
+                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.OldValue)
-        </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Property)
+                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.OldValue)
-        </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.OldValue)
+                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.NewValue)
-        </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.OldValue)
+                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.NewValue)
-        </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.NewValue)
+                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Changed)
-        </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.NewValue)
+                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Changed)
-        </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Changed)
+                </dt>
 
-    </dl>
+                <dd>
+                    @Html.DisplayFor(model => model.Changed)
+                </dd>
+
+            </dl>
+        </div>
+        <p>
+            @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+            @Html.ActionLink("Back to List", "Index")
+        </p>
+
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>

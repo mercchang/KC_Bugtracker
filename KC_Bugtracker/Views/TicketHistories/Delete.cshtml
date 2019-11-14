@@ -12,19 +12,19 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Ticket.SubmitterId)
+            Submitter
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Ticket.SubmitterId)
+            @Html.DisplayFor(model => model.Ticket.Submitter.FullName)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.User.FirstName)
+            Assigned Developer
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.User.FirstName)
+            @Html.DisplayFor(model => model.User.FullName)
         </dd>
 
         <dt>

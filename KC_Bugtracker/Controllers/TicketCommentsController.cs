@@ -52,13 +52,20 @@ namespace KC_Bugtracker.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "TicketId,Comment")] TicketComment ticketComment)
         {
-            if (ModelState.IsValid)
+            if(ticketComment.Comment != null)
             {
-                ticketComment.Created = DateTime.Now;
-                ticketComment.UserId = User.Identity.GetUserId();
-                db.TicketComments.Add(ticketComment);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    ticketComment.Created = DateTime.Now;
+                    ticketComment.UserId = User.Identity.GetUserId();
+                    db.TicketComments.Add(ticketComment);
+                    db.SaveChanges();
+                    return RedirectToAction("Index", "Tickets");
+                }
+            }
+            else
+            {
+                return RedirectToAction("Index", "Tickets");
             }
 
             ViewBag.TicketId = new SelectList(db.Tickets, "Id", "SubmitterId", ticketComment.TicketId);

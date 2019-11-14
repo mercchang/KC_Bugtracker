@@ -165,6 +165,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
+    <Compile Include="App_Start\PersonalEmail.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
@@ -193,6 +194,7 @@
     <Compile Include="Helpers\UserRolesHelper.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\EmailModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Project.cs" />
@@ -250,6 +252,7 @@
     <Content Include="assets\extra-libs\sparkline\sparkline.js" />
     <Content Include="Avatars\default_user.png" />
     <Content Include="Content\custom.css" />
+    <Content Include="Content\demo.css" />
     <Content Include="Images\background\img4.jpg" />
     <Content Include="Images\background\img5.jpg" />
     <Content Include="Images\background\img6.jpg" />
@@ -1261,6 +1264,7 @@
     <Content Include="Views\Account\Profile.cshtml" />
     <Content Include="private.config" />
     <Content Include="Views\Tickets\AssignTicket.cshtml" />
+    <Content Include="Views\Account\DemoLoginAsync.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
