@@ -3,9 +3,27 @@
     ViewBag.Title = "Dashboard";
 }
 
-<!-- ============================================================== -->
-<!-- Sales chart -->
-<!-- ============================================================== -->
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Tickets</h5>
+                <div id="ticketchart1" class="ticketchart1" style="height: 400px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Tickets</h5>
+                <div id="ticketchart2" class="ticketchart2" style="height: 400px;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="row">
     <div class="col-md-12">
         <div class="card">
@@ -75,92 +93,16 @@
         </div>
     </div>
 </div>
-<!-- ============================================================== -->
-<!-- Sales chart -->
-<!-- ============================================================== -->
-<!-- ============================================================== -->
-<!-- Recent comment and chats -->
-<!-- ============================================================== -->
-<div class="row">
-    <!-- column -->
-    <div class="col-lg-6">
-        <div class="card">
-            <div class="card-body">
-                <h4 class="card-title">To Do List</h4>
-                <div class="todo-widget scrollable" style="height:450px;">
-                    <ul class="list-task todo-list list-group m-b-0" data-role="tasklist">
-                        <li class="list-group-item todo-item" data-role="task">
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="customCheck">
-                                <label class="custom-control-label todo-label" for="customCheck">
-                                    <span class="todo-desc">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</span> <span class="badge badge-pill badge-danger float-right">Today</span>
-                                </label>
-                            </div>
-                            <div class="item-date">@DateTime.Now</div>
-                        </li>
-                        <li class="list-group-item todo-item" data-role="task">
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="customCheck1">
-                                <label class="custom-control-label todo-label" for="customCheck1">
-                                    <span class="todo-desc">Lorem Ipsum is simply dummy text of the printing</span><span class="badge badge-pill badge-primary float-right">1 week </span>
-                                </label>
-                            </div>
-                            <div class="item-date">@DateTime.Now</div>
-                        </li>
-                        <li class="list-group-item todo-item" data-role="task">
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="customCheck2">
-                                <label class="custom-control-label todo-label" for="customCheck2">
-                                    <span class="todo-desc">Give Purchase report to</span> <span class="badge badge-pill badge-info float-right">Yesterday</span>
-                                </label>
-                            </div>
-                            <div class="item-date">@DateTime.Now</div>
-                        </li>
-                        <li class="list-group-item todo-item" data-role="task">
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="customCheck3">
-                                <label class="custom-control-label todo-label" for="customCheck3">
-                                    <span class="todo-desc">Lorem Ipsum is simply dummy text of the printing </span> <span class="badge badge-pill badge-warning float-right">2 weeks</span>
-                                </label>
-                            </div>
-                            <div class="item-date">@DateTime.Now</div>
-                        </li>
-                        <li class="list-group-item todo-item" data-role="task">
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="customCheck4">
-                                <label class="custom-control-label todo-label" for="customCheck4">
-                                    <span class="todo-desc">Give Purchase report to</span> <span class="badge badge-pill badge-info float-right">Yesterday</span>
-                                </label>
-                            </div>
-                            <div class="item-date">@DateTime.Now</div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- column -->
-
-    <div class="col-lg-6">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Bar Chart</h5>
-                <div class="" id="ticketchart" style="height: 250px;"></div>
-            </div>
-        </div>
-
-    </div>
-</div>
 
 @section scripts{
-
+    <script src="~/Scripts/js/raphael-min.js"></script>
     <script src="~/Scripts/js/morris.min.js"></script>
     <script>
         $(function () {
-            var url = '@Url.Action("ProduceChart1Data", "GraphingController")';
+            var url = '@Url.Action("ProduceChart1Data", "Graphing")';
             $.post(url).then(function (response) {
                 new Morris.Bar({
-                    element: 'ticketchart',
+                    element: 'ticketchart1',
                     data: response,
                     xkey: 'label',
                     ykeys: ['value'],
@@ -170,19 +112,34 @@
             });
             var url = '@Url.Action("ProduceChart1Data", "Graphing")';
         });
-    </script>
 
-    @*<script src="~/assets/libs/chart/matrix.interface.js"></script>
-        <script src="~/assets/libs/chart/excanvas.min.js"></script>
-        <script src="~/assets/libs/flot/jquery.flot.js"></script>
-        <script src="~/assets/libs/flot/jquery.flot.pie.js"></script>
-        <script src="~/assets/libs/flot/jquery.flot.time.js"></script>
-        <script src="~/assets/libs/flot/jquery.flot.stack.js"></script>
-        <script src="~/assets/libs/flot/jquery.flot.crosshair.js"></script>
-        <script src="~/assets/libs/chart/jquery.peity.min.js"></script>
-        <script src="~/assets/libs/chart/matrix.charts.js"></script>
-        <script src="~/assets/libs/chart/jquery.flot.pie.min.js"></script>
-        <script src="~/assets/libs/flot.tooltip/js/jquery.flot.tooltip.min.js"></script>
-        <script src="~/assets/libs/chart/turning-series.js"></script>
-        <script src="~/Scripts/js/pages/chart/chart-page-init.js"></script>*@
+        $(function () {
+        var url = '@Url.Action("ProduceChart2Data", "Graphing")';
+        $.post(url).then(function (response) {
+            new Morris.Donut({
+                element: 'ticketchart2',
+                data: response,
+                xkey: 'label',
+                ykeys: ['value'],
+                labels: ['Ticket Count'],
+                resize: true
+            });
+        });
+        var url = '@Url.Action("ProduceChart2Data", "Graphing")';
+        });
+     </script>
+
+    <script src="~/assets/libs/chart/matrix.interface.js"></script>
+    <script src="~/assets/libs/chart/excanvas.min.js"></script>
+    <script src="~/assets/libs/flot/jquery.flot.js"></script>
+    <script src="~/assets/libs/flot/jquery.flot.pie.js"></script>
+    <script src="~/assets/libs/flot/jquery.flot.time.js"></script>
+    <script src="~/assets/libs/flot/jquery.flot.stack.js"></script>
+    <script src="~/assets/libs/flot/jquery.flot.crosshair.js"></script>
+    <script src="~/assets/libs/chart/jquery.peity.min.js"></script>
+    <script src="~/assets/libs/chart/matrix.charts.js"></script>
+    <script src="~/assets/libs/chart/jquery.flot.pie.min.js"></script>
+    <script src="~/assets/libs/flot.tooltip/js/jquery.flot.tooltip.min.js"></script>
+    <script src="~/assets/libs/chart/turning-series.js"></script>
+
 }

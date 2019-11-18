@@ -25,6 +25,20 @@ namespace KC_Bugtracker.Controllers
             return Json(myData);
         }
 
+        public JsonResult ProduceChart2Data()
+        {
+            var myData = new List<MorrisBarData>();
+            MorrisBarData data = null;
+            foreach (var priority in db.TicketStatuses.ToList())
+            {
+                data = new MorrisBarData();
+                data.label = priority.StatusName;
+                data.value = db.Tickets.Where(t => t.TicketStatus.StatusName == priority.StatusName).Count();
+                myData.Add(data);
+            }
+            return Json(myData);
+        }
+
         // GET: Graphing
         public ActionResult Index()
         {

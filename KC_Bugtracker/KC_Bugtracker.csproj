@@ -1106,6 +1106,7 @@
     <Content Include="Scripts\js\pages\maps\map-google.init.js" />
     <Content Include="Scripts\js\pages\mask\mask.init.js" />
     <Content Include="Scripts\js\pages\sparkline\jquery.charts-sparkline.js" />
+    <Content Include="Scripts\js\raphael-min.js" />
     <Content Include="Scripts\js\sidebarmenu.js" />
     <Content Include="Scripts\js\waves.js" />
     <Content Include="Scripts\popper\esm\popper-utils.min.js" />
