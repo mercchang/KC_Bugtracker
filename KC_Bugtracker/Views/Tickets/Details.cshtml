@@ -106,47 +106,52 @@
                 <h4>Attachments (@Model.TicketAttachments.Count)</h4>
                 @if (Model.TicketAttachments.Count != 0)
                 {
-                    <table class="table">
-                        <tr>
-                            <th>
-                                Submitter
-                            </th>
-                            <th>
-                                
-                            </th>
-                            <th>
-                                Attachment
-                            </th>
-                            <th>
-                                Description
-                            </th>
-                            <th>
-                                Uploaded
-                            </th>
-                        </tr>
-
-                        @foreach (var attachment in Model.TicketAttachments.OrderBy(c => c.Created))
-                        {
+                    <table id="attach" class="table">
+                        <thead>
                             <tr>
-                                <td>
-                                    @Html.DisplayFor(modelItem => attachment.User.FirstName)
-                                </td>
-                                <td>
-                                    <a href="@attachment.FilePath">
-                                        <img src="@AttachmentHelper.GetIcon(attachment.FilePath)" style="width: 30px;" />
-                                    </a>
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => attachment.FilePath)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => attachment.Description)
-                                </td>
-                                <td>
-                                    @Html.DisplayFor(modelItem => attachment.Created)
-                                </td>
+                                <th>
+                                    Submitter
+                                </th>
+                                <th>
+
+                                </th>
+                                <th>
+                                    Attachment
+                                </th>
+                                <th>
+                                    Description
+                                </th>
+                                <th>
+                                    Uploaded
+                                </th>
                             </tr>
-                        }
+                        </thead>
+
+                        <tbody>
+                            @foreach (var attachment in Model.TicketAttachments.OrderBy(c => c.Created))
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => attachment.User.FirstName)
+                                    </td>
+                                    <td>
+                                        <a href="@attachment.FilePath">
+                                            <img src="@AttachmentHelper.GetIcon(attachment.FilePath)" style="width: 30px;" />
+                                        </a>
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => attachment.FilePath)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => attachment.Description)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => attachment.Created)
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+
                     </table>
                 }
                 else
@@ -159,6 +164,7 @@
                 {
                     @Html.AntiForgeryToken()
                     @Html.Hidden("TicketId", Model.Id)
+                    @Html.Hidden("Ticket", Model)
 
                     <div class="form-group">
                         @Html.TextBox("file", null, new { type = "file" })
@@ -252,7 +258,7 @@
                         <div class="col-md-12">
                             @Html.AntiForgeryToken()
                             @Html.Hidden("TicketId", Model.Id)
-                            
+
                             @Html.TextArea("Comment", new { @class = "form-control", rows = 5, placeholder = "Add Comment...", })
                         </div>
                         <div class="col pt-3">
@@ -265,3 +271,13 @@
         </div>
     </div>
 </div>
+
+@section scripts{
+
+    <script src="~/assets/extra-libs/DataTables/datatables.min.js"></script>
+
+    <script>
+        $('#attach').DataTable();
+    </script>
+
+}

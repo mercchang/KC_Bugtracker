@@ -1,0 +1,41 @@
+ public class TicketHelper
+    {
+        private ApplicationDbContext db = new ApplicationDbContext();
+        private RoleHelper roleHelper = new RoleHelper();
+
+        public int SetDefaultTicketStatus()
+        {
+            return db.TicketStatuses.FirstOrDefault(ts => ts.StatusName == "Open").Id;
+        }
+
+        public List<Ticket> ListMyTickets()
+        {
+            var myTickets = new List<Ticket>();
+
+            var userId = HttpContext.Current.User.Identity.GetUserId();
+            var user = db.Users.Find(userId);
+
+            //Step 1: Determine my role
+            var myRole = roleHelper.ListUserRoles(userId).FirstOrDefault();
+
+            //Step 2: Use that role to build the appropriate set of Tickets
+
+            switch(myRole)
+            {
+                case "Admin":
+                case "DemoAdmin":
+                    myTickets.AddRange(db.Tickets);
+                    break;
+                case "Project_Manager":
+                    myTickets.AddRange(user.Projects.SelectMany(p => p.Tickets));
+                    break;
+                case "Developer":
+                    myTickets.AddRange(db.Tickets.Where(t => t.DeveloperId == userId));
+                    break;
+                case "Submitter":
+                    myTickets.AddRange(db.Tickets.Where(t => t.SubmitterId == userId));
+                    break;              
+            }
+            return myTickets;
+        }
+    }

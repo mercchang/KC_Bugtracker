@@ -14,6 +14,7 @@ namespace KC_Bugtracker.Controllers
     public class TicketNotificationsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private NotificationHelper notificationHelper = new NotificationHelper();
 
         public ActionResult Dismiss(int id)
         {

@@ -19,6 +19,8 @@
     <title>Bug Tracker - Login</title>
     <!-- Custom CSS -->
     <link href="~/Content/style.min.css" rel="stylesheet" />
+    <link href="~/Content/custom.css" rel="stylesheet" />
+    <link href="~/Content/demo.css" rel="stylesheet" />
 
 </head>
 
@@ -71,7 +73,7 @@
                 </div>
                 <div id="recoverform">
                     <div class="text-center">
-                        <span class="text-white">Enter your e-mail address below and we will send you instructions how to recover a password.</span>
+                        <span class="text-white">Enter your E-mail address below and you will be sent instructions on how to recover your password.</span>
                     </div>
                     <div class="row m-t-20">
                         <!-- Form -->
@@ -95,20 +97,101 @@
                 </div>
             </div>
         </div>
+
+        <div class="row container-fluid text-center">
+            <div class="col-md-3 text-center">
+                @using (Html.BeginForm("DemoLoginAsync", "Account", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.Hidden("emailKey", "DemoAdminEmail")
+                    <button type="submit" class="card text-center demologin">
+                        <div class="card-body">
+                            <div class="text-center">
+                                <h3>Admin</h3>
+                            </div>
+                            <div class="text-center">
+                                <img src="~/Avatars/default_user.png" class="rounded-circle img-fluid" width="300" />
+                            </div>
+                            <div class="text-center">
+                                asdfasdf
+                            </div>
+                        </div>
+                    </button>
+                }
+            </div>
+            <div class="col-md-3 text-center">
+                @using (Html.BeginForm("DemoLoginAsync", "Account", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.Hidden("emailKey", "DemoPMEmail")
+                    <button type="submit" class="card text-center demologin">
+                        <div class="card-body">
+                            <div class="text-center">
+                                <h3>Project Manager</h3>
+                            </div>
+                            <div class="text-center">
+                                <img src="~/Avatars/default_user.png" class="rounded-circle img-fluid" width="300" />
+                            </div>
+                            <div class="text-center">
+                                asdfasdf
+                            </div>
+                        </div>
+                    </button>
+                }
+            </div>
+            <div class="col-md-3 text-center">
+                @using (Html.BeginForm("DemoLoginAsync", "Account", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.Hidden("emailKey", "DemoDeveloperEmail")
+                    <button type="submit" class="card text-center demologin">
+                        <div class="card-body">
+                            <div class="text-center">
+                                <h3>Developer</h3>
+                            </div>
+                            <div class="text-center">
+                                <img src="~/Avatars/default_user.png" class="rounded-circle img-fluid" width="300" />
+                            </div>
+                            <div class="text-center">
+                                asdfasdf
+                            </div>
+                        </div>
+                    </button>
+                }
+            </div>
+            <div class="col-md-3 text-center">
+                @using (Html.BeginForm("DemoLoginAsync", "Account", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.Hidden("emailKey", "DemoSubmitterEmail")
+                    <button type="submit" class="card text-center demologin">
+                        <div class="card-body">
+                            <div class="text-center">
+                                <h3>Submitter</h3>
+                            </div>
+                            <div class="text-center">
+                                <img src="~/Avatars/default_user.png" class="rounded-circle img-fluid" width="300" />
+                            </div>
+                            <div class="text-center">
+                                asdfasdf
+                            </div>
+                        </div>
+                    </button>
+                }
+            </div>
+        </div>
+
     </div>
-    <!-- ============================================================== -->
-    <!-- All Required js -->
-    <!-- ============================================================== -->
 
-    <script src="~/Scripts/jquery/jquery.min.js"></script>
+    <script src="~/assets/libs/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap tether Core JavaScript -->
-    <script src="~/Scripts/popper/umd/popper.min.js"></script>
-    <script src="~/Scripts/bootstrap/bootstrap.min.js"></script>
-    <!-- ============================================================== -->
-    <!-- This page plugin js -->
-    <!-- ============================================================== -->
+    <script src="~/assets/libs/popper.js/dist/umd/popper.min.js"></script>
+    <script src="~/assets/libs/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="~/assets/libs/perfect-scrollbar/dist/perfect-scrollbar.jquery.min.js"></script>
+    <script src="~/assets/extra-libs/sparkline/sparkline.js"></script>
 
-
+    <!--Custom JavaScript -->
+    <script src="~/Scripts/js/custom.min.js"></script>
 
     <script>
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace KC_Bugtracker.Models
 {
@@ -16,6 +17,7 @@ namespace KC_Bugtracker.Models
         [Required]
         public string Subject { get; set; }
         [Required]
+        [AllowHtml]
         public string Body { get; set; }
     }
 }

@@ -84,8 +84,6 @@
 <div class="row">
     <!-- column -->
     <div class="col-lg-6">
-        
-        <!-- Card -->
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">To Do List</h4>
@@ -144,75 +142,47 @@
     <!-- column -->
 
     <div class="col-lg-6">
-        <!-- Card -->
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Chat Option</h4>
-                <div class="chat-box scrollable" style="height:475px;">
-                    <!--chat Row -->
-                    <ul class="chat-list">
-                        <!--chat Row -->
-                        <li class="chat-item">
-                            <div class="chat-img"><img src="~/images/users/1.jpg" alt="user"></div>
-                            <div class="chat-content">
-                                <h6 class="font-medium">James Anderson</h6>
-                                <div class="box bg-light-info">Lorem Ipsum is simply dummy text of the printing &amp; type setting industry.</div>
-                            </div>
-                            <div class="chat-time">10:56 am</div>
-                        </li>
-                        <!--chat Row -->
-                        <li class="chat-item">
-                            <div class="chat-img"><img src="~/images/users/2.jpg" alt="user"></div>
-                            <div class="chat-content">
-                                <h6 class="font-medium">Bianca Doe</h6>
-                                <div class="box bg-light-info">It’s Great opportunity to work.</div>
-                            </div>
-                            <div class="chat-time">10:57 am</div>
-                        </li>
-                        <!--chat Row -->
-                        <li class="odd chat-item">
-                            <div class="chat-content">
-                                <div class="box bg-light-inverse">I would love to join the team.</div>
-                                <br>
-                            </div>
-                        </li>
-                        <!--chat Row -->
-                        <li class="odd chat-item">
-                            <div class="chat-content">
-                                <div class="box bg-light-inverse">Whats budget of the new project.</div>
-                                <br>
-                            </div>
-                            <div class="chat-time">10:59 am</div>
-                        </li>
-                        <!--chat Row -->
-                        <li class="chat-item">
-                            <div class="chat-img"><img src="~/images/users/3.jpg" alt="user"></div>
-                            <div class="chat-content">
-                                <h6 class="font-medium">Angelina Rhodes</h6>
-                                <div class="box bg-light-info">Well we have good budget for the project</div>
-                            </div>
-                            <div class="chat-time">11:00 am</div>
-                        </li>
-                        <!--chat Row -->
-                    </ul>
-                </div>
-            </div>
-            <div class="card-body border-top">
-                <div class="row">
-                    <div class="col-9">
-                        <div class="input-field m-t-0 m-b-0">
-                            <textarea id="textarea1" placeholder="Type and enter" class="form-control border-0"></textarea>
-                        </div>
-                    </div>
-                    <div class="col-3">
-                        <a class="btn-circle btn-lg btn-cyan float-right text-white" href="javascript:void(0)"><i class="fas fa-paper-plane"></i></a>
-                    </div>
-                </div>
+                <h5 class="card-title">Bar Chart</h5>
+                <div class="" id="ticketchart" style="height: 250px;"></div>
             </div>
         </div>
 
     </div>
 </div>
-<!-- ============================================================== -->
-<!-- Recent comment and chats -->
-<!-- ============================================================== -->
+
+@section scripts{
+
+    <script src="~/Scripts/js/morris.min.js"></script>
+    <script>
+        $(function () {
+            var url = '@Url.Action("ProduceChart1Data", "GraphingController")';
+            $.post(url).then(function (response) {
+                new Morris.Bar({
+                    element: 'ticketchart',
+                    data: response,
+                    xkey: 'label',
+                    ykeys: ['value'],
+                    labels: ['Ticket Count'],
+                    resize: true
+                });
+            });
+            var url = '@Url.Action("ProduceChart1Data", "Graphing")';
+        });
+    </script>
+
+    @*<script src="~/assets/libs/chart/matrix.interface.js"></script>
+        <script src="~/assets/libs/chart/excanvas.min.js"></script>
+        <script src="~/assets/libs/flot/jquery.flot.js"></script>
+        <script src="~/assets/libs/flot/jquery.flot.pie.js"></script>
+        <script src="~/assets/libs/flot/jquery.flot.time.js"></script>
+        <script src="~/assets/libs/flot/jquery.flot.stack.js"></script>
+        <script src="~/assets/libs/flot/jquery.flot.crosshair.js"></script>
+        <script src="~/assets/libs/chart/jquery.peity.min.js"></script>
+        <script src="~/assets/libs/chart/matrix.charts.js"></script>
+        <script src="~/assets/libs/chart/jquery.flot.pie.min.js"></script>
+        <script src="~/assets/libs/flot.tooltip/js/jquery.flot.tooltip.min.js"></script>
+        <script src="~/assets/libs/chart/turning-series.js"></script>
+        <script src="~/Scripts/js/pages/chart/chart-page-init.js"></script>*@
+}

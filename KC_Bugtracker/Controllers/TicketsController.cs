@@ -133,7 +133,6 @@ namespace KC_Bugtracker.Controllers
                 auditHelper.RecordChanges(oldTicket, newTicket);
                 notificationHelper.ManageNotifications(oldTicket, newTicket);
                 return RedirectToAction("Index");
-                //return View();
             }
 
             ViewBag.DeveloperId = new SelectList(db.Users, "Id", "FullName", ticket.DeveloperId);

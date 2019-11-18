@@ -17,13 +17,13 @@
     <title>Bug Tracker</title>
     <!-- Custom CSS -->
     <link href="~/assets/libs/flot/css/float-chart.css" rel="stylesheet">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
     <!-- Custom CSS -->
     <link href="~/Content/style.min.css" rel="stylesheet" />
     <link href="~/Content/custom.css" rel="stylesheet" />
     <link href="~/assets/libs/datatables.net-bs4/css/dataTables.bootstrap4.css" rel="stylesheet">
-    <link href="~/Content/style.min.css" rel="stylesheet" />
     <link href="~/assets/libs/toastr/build/toastr.min.css" rel="stylesheet" />
-
+    <link href="~/Content/morris.css" rel="stylesheet" />
 </head>
 
 <body style="background-color: #a3a3a3">
@@ -277,16 +277,21 @@
     <script src="~/Scripts/js/custom.min.js"></script>
     <!--This page JavaScript -->
     <!-- Charts js Files -->
-    <script src="~/assets/libs/flot/excanvas.js"></script>
-    <script src="~/assets/libs/flot/jquery.flot.js"></script>
-    <script src="~/assets/libs/flot/jquery.flot.pie.js"></script>
-    <script src="~/assets/libs/flot/jquery.flot.time.js"></script>
-    <script src="~/assets/libs/flot/jquery.flot.stack.js"></script>
-    <script src="~/assets/libs/flot/jquery.flot.crosshair.js"></script>
-    <script src="~/assets/libs/flot.tooltip/js/jquery.flot.tooltip.min.js"></script>
-    <script src="~/Scripts/js/pages/chart/chart-page-init.js"></script>
-    <script src="~/assets/extra-libs/sparkline/sparkline.js"></script>
-    <script src="~/assets/libs/toastr/build/toastr.min.js"></script>
+    <script src="~/Scripts/js/morris.min.js"></script>
+
+    @*<script src="~/assets/libs/chart/matrix.interface.js"></script>
+        <script src="~/assets/libs/chart/excanvas.min.js"></script>
+        <script src="~/assets/libs/flot/jquery.flot.js"></script>
+        <script src="~/assets/libs/flot/jquery.flot.pie.js"></script>
+        <script src="~/assets/libs/flot/jquery.flot.time.js"></script>
+        <script src="~/assets/libs/flot/jquery.flot.stack.js"></script>
+        <script src="~/assets/libs/flot/jquery.flot.crosshair.js"></script>
+        <script src="~/assets/libs/chart/jquery.peity.min.js"></script>
+        <script src="~/assets/libs/chart/matrix.charts.js"></script>
+        <script src="~/assets/libs/chart/jquery.flot.pie.min.js"></script>
+        <script src="~/assets/libs/flot.tooltip/js/jquery.flot.tooltip.min.js"></script>
+        <script src="~/assets/libs/chart/turning-series.js"></script>
+        <script src="~/Scripts/js/pages/chart/chart-page-init.js"></script>*@
 
     @RenderSection("scripts", required: false)
 

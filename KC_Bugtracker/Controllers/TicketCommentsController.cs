@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using KC_Bugtracker.Helpers;
 using KC_Bugtracker.Models;
 using Microsoft.AspNet.Identity;
 
@@ -14,6 +15,8 @@ namespace KC_Bugtracker.Controllers
     public class TicketCommentsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private NotificationHelper notificationHelper = new NotificationHelper();
+        private TicketHistoryHelper auditHelper = new TicketHistoryHelper();
 
         // GET: TicketComments
         public ActionResult Index()
@@ -59,8 +62,9 @@ namespace KC_Bugtracker.Controllers
                     ticketComment.Created = DateTime.Now;
                     ticketComment.UserId = User.Identity.GetUserId();
                     db.TicketComments.Add(ticketComment);
+
                     db.SaveChanges();
-                    return RedirectToAction("Index", "Tickets");
+                    return RedirectToAction("Details", "Tickets", new { id = ticketComment.TicketId });
                 }
             }
             else

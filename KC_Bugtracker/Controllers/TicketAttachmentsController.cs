@@ -16,6 +16,9 @@ namespace KC_Bugtracker.Controllers
     public class TicketAttachmentsController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private UploadValidator uploadValidator = new UploadValidator();
+        private NotificationHelper notificationHelper = new NotificationHelper();
+        private TicketHistoryHelper auditHelper = new TicketHistoryHelper();
 
         // GET: TicketAttachments
         public ActionResult Index()
@@ -59,13 +62,13 @@ namespace KC_Bugtracker.Controllers
         {
             if (ModelState.IsValid)
             {
-
                 if (file != null)
                 {
                     if(UploadValidator.IsWebFriendlyImage(file) || UploadValidator.IsWebFriendlyFile(file))
                     {
                         var fileName = Path.GetFileName(file.FileName);
                         var justFileName = Path.GetFileNameWithoutExtension(fileName);
+                        var ticketId = ticketAttachment.TicketId;
 
                         justFileName = StringUtilities.URLFriendly(justFileName);
                         fileName = $"{justFileName}_{DateTime.Now.Ticks}{Path.GetExtension(fileName)}";
@@ -74,15 +77,29 @@ namespace KC_Bugtracker.Controllers
 
                         ticketAttachment.Created = DateTime.Now;
                         ticketAttachment.UserId = User.Identity.GetUserId();
+                        
+
+                        //=========================== Ticket History =======================================
+                        var oldTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticketId);
+
+                        oldTicket.Updated = DateTime.Now;
+                        //ticketAttachment.Ticket.Updated = DateTime.Now;
+                        db.Entry(oldTicket).State = EntityState.Modified;
+
+                        var newTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticketId);
+
+                        auditHelper.RecordChanges(oldTicket, newTicket);
+                        notificationHelper.AttachmentNotification(newTicket);   // create notification
+                        //===================================================================================
 
                         db.TicketAttachments.Add(ticketAttachment);
+                        
                         db.SaveChanges();
                     }
                 }
-
-                return RedirectToAction("Details", "Tickets", new { id = ticketAttachment.TicketId });
+                //Response.Redirect(Request.RawUrl);
+                return RedirectToAction("Index", "Tickets", new { id = ticketAttachment.TicketId });
             }
-
             return View(ticketAttachment);
         }
 

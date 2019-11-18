@@ -20,6 +20,7 @@ namespace KC_Bugtracker.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private EmailHelper emailHelper = new EmailHelper();
 
         public AccountController()
         {
@@ -94,21 +95,13 @@ namespace KC_Bugtracker.Controllers
             }
         }
 
-
         [AllowAnonymous]
-        public ActionResult DemoLoginAsync()
-        {
-            return View();
-        }
-
         [HttpPost]
-        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DemoLoginAsync(string emailKey)
         {
             var email = WebConfigurationManager.AppSettings[emailKey];
             var password = WebConfigurationManager.AppSettings["DemoUserPassword"];
-
             var result = await SignInManager.PasswordSignInAsync(email, password, false, shouldLockout: false);
 
             switch(result)
@@ -117,7 +110,7 @@ namespace KC_Bugtracker.Controllers
                     return RedirectToAction("Dashboard", "Home");
                 case SignInStatus.Failure:
                 default:
-                    return RedirectToAction("Login", "Home");
+                    return RedirectToAction("Login", "Account");
             }
         }
 
@@ -251,7 +244,8 @@ namespace KC_Bugtracker.Controllers
             if (ModelState.IsValid)
             {
                 var user = await UserManager.FindByNameAsync(model.Email);
-                if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
+                //if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
+                if (user == null)
                 {
                     // Don't reveal that the user does not exist or is not confirmed
                     return View("ForgotPasswordConfirmation");
@@ -259,10 +253,11 @@ namespace KC_Bugtracker.Controllers
 
                 // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
                 // Send an email with this link
-                // string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                // var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);		
-                // await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                // return RedirectToAction("ForgotPasswordConfirmation", "Account");
+                string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
+                var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                //await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                await EmailHelper.ComposeEmailAsync(model, callbackUrl);
+                return RedirectToAction("ForgotPasswordConfirmation", "Account");
             }
 
             // If we got this far, something failed, redisplay form

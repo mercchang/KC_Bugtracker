@@ -10,6 +10,7 @@ namespace KC_Bugtracker.Helpers
     public class NotificationHelper
     {
         private static ApplicationDbContext db = new ApplicationDbContext();
+
         public void ManageNotifications(Ticket oldTicket, Ticket newTicket)
         {
             var ticketAssigned = oldTicket.DeveloperId == null && newTicket.DeveloperId != null;
@@ -25,6 +26,7 @@ namespace KC_Bugtracker.Helpers
                 UnAssignmentNotification(oldTicket, newTicket);
                 AssignmentNotification(oldTicket, newTicket);
             }
+
         }
 
         private void AssignmentNotification(Ticket oldTicket, Ticket newTicket)
@@ -52,6 +54,36 @@ namespace KC_Bugtracker.Helpers
                 RecipientId = oldTicket.DeveloperId,
                 Created = DateTime.Now,
                 NotificationBody = $"You have been unassigned from <b>Ticket</b> #{newTicket.Id}, for the <b>{newTicket.Project.Name}</b>."
+            };
+            db.TicketNotifications.Add(notification);
+            db.SaveChanges();
+        }
+
+        public void AttachmentNotification(Ticket newTicket)
+        {
+            var notification = new TicketNotification
+            {
+                TicketId = newTicket.Id,
+                IsRead = false,
+                SenderId = HttpContext.Current.User.Identity.GetUserId(),
+                RecipientId = newTicket.DeveloperId,
+                Created = DateTime.Now,
+                NotificationBody = $"There is a new attachment for <b>Ticket</b> #{newTicket.Id}, for the <b>{newTicket.Project.Name}</b>."
+            };
+            db.TicketNotifications.Add(notification);
+            db.SaveChanges();
+        }
+
+        public void CommentNotification(Ticket newTicket)
+        {
+            var notification = new TicketNotification
+            {
+                TicketId = newTicket.Id,
+                IsRead = false,
+                SenderId = HttpContext.Current.User.Identity.GetUserId(),
+                RecipientId = newTicket.DeveloperId,
+                Created = DateTime.Now,
+                NotificationBody = $"There is a new comment for <b>Ticket</b> #{newTicket.Id}, for the <b>{newTicket.Project.Name}</b>."
             };
             db.TicketNotifications.Add(notification);
             db.SaveChanges();
