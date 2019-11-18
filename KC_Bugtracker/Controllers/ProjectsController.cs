@@ -93,7 +93,7 @@ namespace KC_Bugtracker.Controllers
             return View(project);
         }
 
-        [Authorize(Roles = "Admin, ProjectManager")]
+        [Authorize(Roles = "Admin")]
         // GET: Projects/Create
         public ActionResult Create()
         {

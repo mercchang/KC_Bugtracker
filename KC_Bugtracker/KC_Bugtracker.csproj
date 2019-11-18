@@ -252,7 +252,12 @@
     <Content Include="assets\extra-libs\multicheck\jquery.multicheck.js" />
     <Content Include="assets\extra-libs\multicheck\multicheck.css" />
     <Content Include="assets\extra-libs\sparkline\sparkline.js" />
+    <Content Include="Avatars\c_637093663012295138.png" />
     <Content Include="Avatars\default_user.png" />
+    <Content Include="Avatars\f_637087661587871255.png" />
+    <Content Include="Avatars\f_637088210245780097.png" />
+    <Content Include="Avatars\w_637083332973566183.png" />
+    <Content Include="Avatars\w_637088210904710615.png" />
     <Content Include="Content\custom.css" />
     <Content Include="Content\demo.css" />
     <Content Include="Content\morris.css" />
@@ -1271,6 +1276,7 @@
     <Content Include="private.config" />
     <Content Include="Views\Tickets\AssignTicket.cshtml" />
     <Content Include="Views\Account\DemoLoginAsync.cshtml" />
+    <None Include="Properties\PublishProfiles\KCBugtracker - Web Deploy.pubxml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -52,7 +52,7 @@
                     </tbody>
                 </table>
             </div>
-            @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+            @if (User.IsInRole("Admin"))
             {
                 @Html.ActionLink("Create New", "Create", null, new { @class= "btn btn-default"})
             }
