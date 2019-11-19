@@ -23,6 +23,10 @@ namespace KC_Bugtracker.Helpers
         {
             return userManager.GetRoles(userId);
         }
+        public ICollection<string> ListDemoRoles(string userId)
+        {
+            return userManager.GetRoles(userId);
+        }
         public bool AddUserToRole(string userId, string roleName)
         {
             var result = userManager.AddToRole(userId, roleName);

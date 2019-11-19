@@ -16,19 +16,38 @@ namespace KC_Bugtracker.Controllers
         private ProjectsHelper projectsHelper = new ProjectsHelper();
 
         // GET: Admin
+        [Authorize(Roles = "Admin, DemoAdmin")]
         public ActionResult ManageRoles()
         {
-            ViewBag.UserIds = new MultiSelectList(db.Users, "Id", "Email");
+            ViewBag.UserIds = new MultiSelectList(db.Users, "Id", "FullName");
             ViewBag.Role = new SelectList(db.Roles, "Name", "Name");
 
             var users = new List<ManageRolesViewModel>();
-            foreach (var user in db.Users.ToList())
+
+            if (User.IsInRole("DemoAdmin"))
             {
-                users.Add(new ManageRolesViewModel
+                foreach (var user in db.Users.ToList())
                 {
-                    UserName = $"{user.LastName}, {user.FirstName}",
-                    RoleName = userRolesHelper.ListUserRoles(user.Id).FirstOrDefault()
-                });
+                    if (user.UserName.Contains("Demo") == true)
+                    {
+                        users.Add(new ManageRolesViewModel
+                        {
+                            UserName = $"{user.LastName}, {user.FirstName}",
+                            RoleName = userRolesHelper.ListUserRoles(user.Id).FirstOrDefault()
+                        });
+                    }
+                }
+            }
+            else if (!User.IsInRole("DemoAdmin"))
+            {
+                foreach (var user in db.Users.ToList())
+                {
+                    users.Add(new ManageRolesViewModel
+                    {
+                        UserName = $"{user.LastName}, {user.FirstName}",
+                        RoleName = userRolesHelper.ListUserRoles(user.Id).FirstOrDefault()
+                    });
+                }
             }
             return View(users);
         }
@@ -58,16 +77,23 @@ namespace KC_Bugtracker.Controllers
             return RedirectToAction("ManageRoles", "Admin");
         }
 
-        [Authorize(Roles ="Admin, ProjectManager")]
+        [Authorize(Roles ="Admin, ProjectManager, DemoAdmin, DemoProjectManager")]
         public ActionResult ManageProjectUsers()
         {
             ViewBag.Projects = new MultiSelectList(db.Projects, "Id", "Name");
             ViewBag.Developers = new MultiSelectList(userRolesHelper.UsersInRole("Developer"), "Id", "Email");
             ViewBag.Submitters = new MultiSelectList(userRolesHelper.UsersInRole("Submitter"), "Id", "Email");
 
-            if(User.IsInRole("Admin"))
+            ViewBag.DemoDevelopers = new MultiSelectList(userRolesHelper.UsersInRole("DemoDeveloper"), "Id", "Email");
+            ViewBag.DemoSubmitters = new MultiSelectList(userRolesHelper.UsersInRole("DemoSubmitter"), "Id", "Email");
+
+            if (User.IsInRole("Admin"))
             {
                 ViewBag.ProjectManagerId = new SelectList(userRolesHelper.UsersInRole("ProjectManager"), "Id", "Email");
+            }
+            if (User.IsInRole("DemoAdmin"))
+            {
+                ViewBag.DemoProjectManagerId = new SelectList(userRolesHelper.UsersInRole("DemoProjectManager"), "Id", "Email");
             }
 
             // Create View Model for viewing users & their projects

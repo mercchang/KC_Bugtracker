@@ -4,47 +4,161 @@
     ViewBag.Title = "Details";
 }
 
-<h2>Details</h2>
+<div class="card">
+    <div class="card-body">
+        <h3>@Html.DisplayFor(model => model.Name) - Project Details</h3>
+        <hr />
+        <dl class="dl-horizontal pl-3">
+            <dt>
+                Project ID
+            </dt>
+            <dd class="pl-3">
+                @Html.DisplayFor(model => model.Id)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Description)
+            </dt>
 
-<div>
-    <h4>Project</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
+            <dd class="pl-3">
+                @Html.DisplayFor(model => model.Description)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Created)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
+            <dd class="pl-3">
+                @Html.DisplayFor(model => model.Created)
+            </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Updated)
+            </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Created)
-        </dt>
+            <dd class="pl-3">
+                @if (Model.Updated != null)
+                {
+                    @Html.DisplayFor(model => model.Updated)
+                }
+                else
+                {
+                    <p>--/--/----</p>
+                }
 
-        <dd>
-            @Html.DisplayFor(model => model.Created)
-        </dd>
+            </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Updated)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Updated)
-        </dd>
-
-    </dl>
+        </dl>
+        <div class="row">
+            <div class="col text-center">
+                @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-success px-4" })
+                @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-primary px-4" })
+            </div>
+        </div>
+    </div>
 </div>
-<p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
-    @Html.ActionLink("Back to List", "Index")
-</p>
+
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <div class="card-body">
+                <h4>Tickets</h4>
+                <hr />
+                <table id="ticketlist" class="table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Assigned Developer</th>
+                            <th>Submitter</th>
+                            <th>Priority</th>
+                            <th>Status</th>
+                            <th>Type</th>
+                            <th>Title</th>
+                            <th>Description</th>
+                            <th>Created</th>
+                            <th>Updated</th>
+                            <th> </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.Tickets)
+                        {
+                        <tr>
+                            <td>@Html.DisplayFor(model => item.Id)</td>
+                            <td>
+                                @if (item.DeveloperId != null)
+                                {
+                                    <span>@Html.DisplayFor(modelItem => item.Developer.LastName), @Html.DisplayFor(modelItem => item.Developer.FirstName)</span>
+                                }
+                            </td>
+                            <td>
+                                @if (item.SubmitterId != null)
+                                {
+                                    <span>@Html.DisplayFor(modelItem => item.Submitter.LastName), @Html.DisplayFor(modelItem => item.Submitter.FirstName)</span>
+                                }
+                            </td>
+                            <td>
+                                @if (item.TicketPriority.PriorityName.Contains("High"))
+                                {
+                                    <span class="badge badge-danger">@Html.DisplayFor(model => item.TicketPriority.PriorityName)</span>
+                                }
+                                @if (item.TicketPriority.PriorityName.Contains("Medium"))
+                                {
+                                    <span class="badge badge-warning">@Html.DisplayFor(model => item.TicketPriority.PriorityName)</span>
+                                }
+                                @if (item.TicketPriority.PriorityName.Contains("Low"))
+                                {
+                                    <span class="badge badge-info">@Html.DisplayFor(model => item.TicketPriority.PriorityName)</span>
+                                }
+                                @if (item.TicketPriority.PriorityName.Contains("None"))
+                                {
+                                    <span class="badge badge-light">@Html.DisplayFor(model => item.TicketPriority.PriorityName)</span>
+                                }
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TicketStatus.StatusName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.TicketType.TypeName)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Title)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Description)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Created)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Updated)
+                            </td>
+                            <td>
+                                <ul style="list-style-type:none;">
+                                    @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+                                    {
+                                        <li><a href="@Url.Action("AssignTicket", "Tickets", new { id = item.Id })" class="btn btn-success">Assign</a></li>
+                                    }
+                                    <li><a href="@Url.Action("Edit", "Tickets", new { id = item.Id })" class="btn btn-primary">Edit</a></li>
+                                    <li><a href="@Url.Action("Details", "Tickets", new { id = item.Id })" class="btn btn-warning">Details</a></li>
+                                    <li><a href="@Url.Action("Delete", "Tickets", new { id = item.Id })" class="btn btn-danger">Delete</a></li>
+                                    
+                                </ul>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+@section scripts{
+    <script src="~/assets/extra-libs/DataTables/datatables.min.js"></script>
+
+    <script>
+        $('#ticketlist').DataTable();
+    </script>
+
+}

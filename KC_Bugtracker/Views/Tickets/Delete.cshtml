@@ -4,101 +4,105 @@
     ViewBag.Title = "Delete";
 }
 
-<h2>Delete</h2>
+<div class="card">
+    <div class="card-body">
+        <div>
+            <h4>Delete Ticket - Are you sure you want to delete this?</h4>
+            <hr />
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Developer.FirstName)
+                </dt>
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>Ticket</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.Developer.FirstName)
-        </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Developer.FirstName)
+                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Developer.FirstName)
-        </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Project.Name)
+                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Project.Name)
-        </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Project.Name)
+                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Project.Name)
-        </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Submitter.FirstName)
+                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Submitter.FirstName)
-        </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Submitter.FirstName)
+                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Submitter.FirstName)
-        </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.TicketPriority.PriorityName)
+                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.TicketPriority.PriorityName)
-        </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.TicketPriority.PriorityName)
+                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.TicketPriority.PriorityName)
-        </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.TicketStatus.StatusName)
+                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.TicketStatus.StatusName)
-        </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.TicketStatus.StatusName)
+                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.TicketStatus.StatusName)
-        </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.TicketType.TypeName)
+                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.TicketType.TypeName)
-        </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.TicketType.TypeName)
+                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.TicketType.TypeName)
-        </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Title)
+                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Title)
-        </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Title)
+                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Title)
-        </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Description)
+                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Description)
+                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Created)
+                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Created)
-        </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Created)
+                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Created)
-        </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Updated)
+                </dt>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Updated)
-        </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Updated)
+                </dd>
 
-        <dd>
-            @Html.DisplayFor(model => model.Updated)
-        </dd>
+            </dl>
 
-    </dl>
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
 
-    @using (Html.BeginForm()) {
-        @Html.AntiForgeryToken()
-
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+                <div class="form-actions no-color">
+                    <input type="submit" value="Delete" class="btn btn-default" /> |
+                    @Html.ActionLink("Back to List", "Index")
+                </div>
+            }
         </div>
-    }
+
+    </div>
 </div>
+

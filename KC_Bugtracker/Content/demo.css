@@ -1,29 +1,36 @@
 ﻿body {
-    background-color: #a3a3a3;
+    background-color: #dedede;
 }
 
-@-webkit-keyframes demo {
-    50% {
+/*@-webkit-keyframes demo {
+    from {
+        -webkit-filter: grayscale(100%);
+        filter: grayscale(100%);
+    }
+
+    to {
         -webkit-filter: grayscale(0%);
         filter: grayscale(0%);
     }
 }
 
 @keyframes demo {
-    50% {
+    from {
+        -webkit-filter: grayscale(100%);
+        filter: grayscale(100%);
+    }
+    to {
         -webkit-filter: grayscale(0%);
         filter: grayscale(0%);
     }
-}
+}*/
 
 button.demologin {
-    filter: grayscale(100%);
     opacity: 0.5;
+    /*filter: grayscale(100%);*/
 }
 
-button.demologin:hover {
-    cursor: pointer;
-    -webkit-animation: demo 1s;
-    opacity: 1;
-}
-
+    button.demologin:hover {
+        cursor: pointer;
+        opacity: 1;
+    }

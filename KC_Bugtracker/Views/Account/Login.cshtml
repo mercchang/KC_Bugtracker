@@ -32,6 +32,7 @@
                 <div class="lds-pos"></div>
             </div>
         </div>
+
         <div class="auth-wrapper d-flex no-block justify-content-center align-items-center">
             <div class="auth-box border-top border-secondary">
                 <div id="loginform">
@@ -42,6 +43,7 @@
                     @using (Html.BeginForm("Login", "Account", FormMethod.Post))
                     {
                         @Html.AntiForgeryToken()
+                        @Html.ValidationSummary("", new { @class = "text-danger" })
                         <div class="row p-b-30">
                             <div class="col-12">
                                 <div class="input-group mb-3">
@@ -66,121 +68,100 @@
                                         <a class="btn btn-info" href="~/Account/ForgotPassword/"><i class="fa fa-lock m-r-5"></i> Lost password?</a>
                                         <a class="btn btn-secondary" href="~/Account/Register">Register</a>
                                         <button class="btn btn-success float-right" type="submit">Login</button>
+                                        <button type="button" class="btn btn-info" data-toggle="collapse" data-target="#demo"><i class="fa fa-lock m-r-5"></i>Demo Users</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     }
                 </div>
-                <div id="recoverform">
-                    <div class="text-center">
-                        <span class="text-white">Enter your E-mail address below and you will be sent instructions on how to recover your password.</span>
+            </div>
+            <div id="demo" class="collapse">
+                <div class="row">
+                    <div class="col-md-3 ">
+                        @using (Html.BeginForm("DemoLoginAsync", "Account", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.Hidden("emailKey", "DemoAdminEmail")
+                            <button type="submit" class="card text-center demologin">
+                                <div class="card-body">
+                                    <div class="text-center">
+                                        <h4>Admin</h4>
+                                    </div>
+                                    <div class="text-center">
+                                        <img src="~/Avatars/default_user.png" class="rounded-circle img-fluid" width="100" />
+                                    </div>
+                                    <div class="text-center">
+                                        asdfasdf
+                                    </div>
+                                </div>
+                            </button>
+                        }
                     </div>
-                    <div class="row m-t-20">
-                        <!-- Form -->
-                        <form class="col-12" action="index.html">
-                            <!-- email -->
-                            <div class="input-group mb-3">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text bg-danger text-white" id="basic-addon1"><i class="ti-email"></i></span>
+                    <div class="col-md-3">
+                        @using (Html.BeginForm("DemoLoginAsync", "Account", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.Hidden("emailKey", "DemoPMEmail")
+                            <button type="submit" class="card text-center demologin">
+                                <div class="card-body">
+                                    <div class="text-center">
+                                        <h4>Project Manager</h4>
+                                    </div>
+                                    <div class="text-center">
+                                        <img src="~/Avatars/default_user.png" class="rounded-circle img-fluid" width="100" />
+                                    </div>
+                                    <div class="text-center">
+                                        asdfasdf
+                                    </div>
                                 </div>
-                                <input type="text" class="form-control form-control-lg" placeholder="Email Address" aria-label="Username" aria-describedby="basic-addon1">
-                            </div>
-                            <!-- pwd -->
-                            <div class="row m-t-20 p-t-20 border-top border-secondary">
-                                <div class="col-12">
-                                    <a class="btn btn-success" href="#" id="to-login" name="action">Back To Login</a>
-                                    <button class="btn btn-info float-right" type="button" name="action">Recover</button>
+                            </button>
+                        }
+                    </div>
+                    <div class="col-md-3">
+                        @using (Html.BeginForm("DemoLoginAsync", "Account", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.Hidden("emailKey", "DemoDeveloperEmail")
+                            <button type="submit" class="card text-center demologin">
+                                <div class="card-body">
+                                    <div class="text-center">
+                                        <h4>Developer</h4>
+                                    </div>
+                                    <div class="text-center">
+                                        <img src="~/Avatars/default_user.png" class="rounded-circle img-fluid" width="100" />
+                                    </div>
+                                    <div class="text-center">
+                                        asdfasdf
+                                    </div>
                                 </div>
-                            </div>
-                        </form>
+                            </button>
+                        }
+                    </div>
+                    <div class="col-md-3">
+                        @using (Html.BeginForm("DemoLoginAsync", "Account", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.Hidden("emailKey", "DemoSubmitterEmail")
+                            <button type="submit" class="card text-center demologin">
+                                <div class="card-body">
+                                    <div class="text-center">
+                                        <h4>Submitter</h4>
+                                    </div>
+                                    <div class="text-center">
+                                        <img src="~/Avatars/default_user.png" class="rounded-circle img-fluid" width="100" />
+                                    </div>
+                                    <div class="text-center">
+                                        asdfasdf
+                                    </div>
+                                </div>
+                            </button>
+                        }
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="row container-fluid text-center">
-            <div class="col-md-3 text-center">
-                @using (Html.BeginForm("DemoLoginAsync", "Account", FormMethod.Post))
-                {
-                    @Html.AntiForgeryToken()
-                    @Html.Hidden("emailKey", "DemoAdminEmail")
-                    <button type="submit" class="card text-center demologin">
-                        <div class="card-body">
-                            <div class="text-center">
-                                <h3>Admin</h3>
-                            </div>
-                            <div class="text-center">
-                                <img src="~/Avatars/default_user.png" class="rounded-circle img-fluid" width="300" />
-                            </div>
-                            <div class="text-center">
-                                asdfasdf
-                            </div>
-                        </div>
-                    </button>
-                }
-            </div>
-            <div class="col-md-3 text-center">
-                @using (Html.BeginForm("DemoLoginAsync", "Account", FormMethod.Post))
-                {
-                    @Html.AntiForgeryToken()
-                    @Html.Hidden("emailKey", "DemoPMEmail")
-                    <button type="submit" class="card text-center demologin">
-                        <div class="card-body">
-                            <div class="text-center">
-                                <h3>Project Manager</h3>
-                            </div>
-                            <div class="text-center">
-                                <img src="~/Avatars/default_user.png" class="rounded-circle img-fluid" width="300" />
-                            </div>
-                            <div class="text-center">
-                                asdfasdf
-                            </div>
-                        </div>
-                    </button>
-                }
-            </div>
-            <div class="col-md-3 text-center">
-                @using (Html.BeginForm("DemoLoginAsync", "Account", FormMethod.Post))
-                {
-                    @Html.AntiForgeryToken()
-                    @Html.Hidden("emailKey", "DemoDeveloperEmail")
-                    <button type="submit" class="card text-center demologin">
-                        <div class="card-body">
-                            <div class="text-center">
-                                <h3>Developer</h3>
-                            </div>
-                            <div class="text-center">
-                                <img src="~/Avatars/default_user.png" class="rounded-circle img-fluid" width="300" />
-                            </div>
-                            <div class="text-center">
-                                asdfasdf
-                            </div>
-                        </div>
-                    </button>
-                }
-            </div>
-            <div class="col-md-3 text-center">
-                @using (Html.BeginForm("DemoLoginAsync", "Account", FormMethod.Post))
-                {
-                    @Html.AntiForgeryToken()
-                    @Html.Hidden("emailKey", "DemoSubmitterEmail")
-                    <button type="submit" class="card text-center demologin">
-                        <div class="card-body">
-                            <div class="text-center">
-                                <h3>Submitter</h3>
-                            </div>
-                            <div class="text-center">
-                                <img src="~/Avatars/default_user.png" class="rounded-circle img-fluid" width="300" />
-                            </div>
-                            <div class="text-center">
-                                asdfasdf
-                            </div>
-                        </div>
-                    </button>
-                }
-            </div>
-        </div>
         
     </div>
 
@@ -201,15 +182,15 @@
         // ==============================================================
         // Login and Recover Password
         // ==============================================================
-        $('#to-recover').on("click", function () {
-            $("#loginform").slideUp();
-            $("#recoverform").fadeIn();
-        });
-        $('#to-login').click(function () {
+        //$('#todemo').on("click", function () {
+        //    $("#loginform").slideUp();
+        //    $("#demo").fadeIn();
+        //});
+        //$('#to-login').click(function () {
 
-            $("#recoverform").hide();
-            $("#loginform").fadeIn();
-        });
+        //    $("#demo").slideUp();
+        //    $("#loginform").fadeIn();
+        //});
     </script>
 
 </body>

@@ -26,7 +26,7 @@
     <link href="~/Content/morris.css" rel="stylesheet" />
 </head>
 
-<body style="background-color: #a3a3a3">
+<body style="background-color: #dedede">
     @{
         var db = new ApplicationDbContext();
         var user = db.Users.Find(User.Identity.GetUserId());
@@ -75,15 +75,6 @@
                     <!-- ============================================================== -->
                     <ul class="navbar-nav float-left mr-auto">
                         <li class="nav-item d-none d-md-block"><a class="nav-link sidebartoggler waves-effect waves-light" href="javascript:void(0)" data-sidebartype="mini-sidebar"><i class="mdi mdi-menu font-24"></i></a></li>
-                        <!-- ============================================================== -->
-                        <!-- Search -->
-                        <!-- ============================================================== -->
-                        <li class="nav-item search-box">
-                            <a class="nav-link waves-effect waves-dark" href="javascript:void(0)"><i class="ti-search"></i></a>
-                            <form class="app-search position-absolute">
-                                <input type="text" class="form-control" placeholder="Search..."> <a class="srh-btn"><i class="ti-close"></i></a>
-                            </form>
-                        </li>
                     </ul>
                     <!-- ============================================================== -->
                     <!-- Right side toggle and nav items -->
@@ -211,7 +202,7 @@
 
                         <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="~/Home/Dashboard" aria-expanded="false"><i class="mdi mdi-view-dashboard"></i><span class="hide-menu">Dashboard</span></a></li>
                         @* ---------------Admin--------------- *@
-                        @if (User.IsInRole("Admin"))
+                        @if (User.IsInRole("Admin") || User.IsInRole("DemoAdmin"))
                         {
                             <li class="sidebar-item">
                                 <a class="sidebar-link has-arrow waves-effect waves-dark sidebar-link" href="javascript:void(0)" aria-expanded="false"><i class="fas fa-chess"></i><span class="hide-menu">Administrator </span></a>
@@ -240,7 +231,7 @@
         <!-- Page wrapper  -->
         <div class="page-wrapper">
             <!-- Bread crumb and right sidebar toggle -->
-            <div class="page-breadcrumb">
+            @*<div class="page-breadcrumb">
                 <div class="row">
                     <div class="col-12 d-flex no-block align-items-center">
                         <h4>@Html.ViewBag.Title</h4>
@@ -254,7 +245,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>*@
             <div id="test" class="container-fluid">
                 @RenderBody()
             </div>

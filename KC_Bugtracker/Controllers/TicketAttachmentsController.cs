@@ -69,6 +69,7 @@ namespace KC_Bugtracker.Controllers
                         var fileName = Path.GetFileName(file.FileName);
                         var justFileName = Path.GetFileNameWithoutExtension(fileName);
                         var ticketId = ticketAttachment.TicketId;
+                        var oldTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticketId);
 
                         justFileName = StringUtilities.URLFriendly(justFileName);
                         fileName = $"{justFileName}_{DateTime.Now.Ticks}{Path.GetExtension(fileName)}";
@@ -77,23 +78,19 @@ namespace KC_Bugtracker.Controllers
 
                         ticketAttachment.Created = DateTime.Now;
                         ticketAttachment.UserId = User.Identity.GetUserId();
-                        
-
                         //=========================== Ticket History =======================================
-                        var oldTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticketId);
 
                         oldTicket.Updated = DateTime.Now;
                         //ticketAttachment.Ticket.Updated = DateTime.Now;
-                        db.Entry(oldTicket).State = EntityState.Modified;
-
                         var newTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticketId);
 
+                        db.Entry(oldTicket).State = EntityState.Modified;
+                        db.TicketAttachments.Add(ticketAttachment);
+                        
                         auditHelper.RecordChanges(oldTicket, newTicket);
                         notificationHelper.AttachmentNotification(newTicket);   // create notification
                         //===================================================================================
 
-                        db.TicketAttachments.Add(ticketAttachment);
-                        
                         db.SaveChanges();
                     }
                 }

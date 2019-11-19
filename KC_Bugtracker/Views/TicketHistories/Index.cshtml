@@ -6,7 +6,7 @@
 
 <div class="card">
     <div class="card-body">
-        <h4>Notification Details</h4>
+        <h4>Ticket Histories</h4>
 
         <div class="table-responsive">
             <table id="history" class="table table-striped table-bordered">
@@ -19,7 +19,7 @@
                             Submitter
                         </th>
                         <th>
-                            @Html.DisplayNameFor(model => model.User.FullName)
+                            Developer
                         </th>
                         <th>
                             @Html.DisplayNameFor(model => model.Property)
@@ -47,7 +47,7 @@
                                 @Html.DisplayFor(modelItem => item.Ticket.Submitter.FullName)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.User.FullName)
+                                @Html.DisplayFor(modelItem => item.Ticket.Developer.FullName)
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.Property)

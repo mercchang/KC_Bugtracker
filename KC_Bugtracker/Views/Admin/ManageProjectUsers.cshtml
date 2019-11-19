@@ -12,17 +12,16 @@
                 {
                     @Html.AntiForgeryToken()
 
-                    <div class="col">
-                        @if (User.IsInRole("Admin"))
-                        {
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <h3>Project Managers</h3>
-                                    @Html.DropDownList("ProjectManagerId", null, "--Select--", new { @class = "rolelist" })
-                                </div>
+                <div class="col">
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h3>Project Managers</h3>
+                                @Html.DropDownList("ProjectManagerId", null, "--Select--", new { @class = "rolelist" })
                             </div>
-                            <hr />
-                        }
+                        </div>
+                        <hr />
                         <div class="row">
                             <div class="col-md-12">
                                 <h3>Developers</h3>
@@ -46,7 +45,41 @@
                         <div class="col pt-3">
                             <button type="submit" class="btn btn-primary">Assign</button>
                         </div>
-                    </div>
+                    }
+                    @if (User.IsInRole("DemoAdmin"))
+                    {
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h3>Project Managers</h3>
+                                @Html.DropDownList("DemoProjectManagerId", null, "--Select--", new { @class = "rolelist" })
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h3>Developers</h3>
+                                @Html.ListBox("DemoDevelopers", null, new { @class = "itemlist" })
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h3>Submitters</h3>
+                                @Html.ListBox("DemoSubmitters", null, new { @class = "itemlist" })
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h3>Projects</h3>
+                                @Html.ListBox("Projects", null, new { @class = "itemlist" })
+                            </div>
+                        </div>
+                        <div class="col pt-3">
+                            <button type="submit" class="btn btn-primary">Assign</button>
+                        </div>
+                    }
+                </div>
                 }
             </div>
         </div>
@@ -68,36 +101,58 @@
                             @foreach (var item in Model)
                             {
                                 <tr>
-                                    <td>@Html.DisplayFor(model => item.Name)</td>
-                                    <td>
-                                        <ul>
-                                            @foreach (var name in item.ProjectNames)
-                                            {
-                                                if (name != "N/A")
+                                    @if (User.IsInRole("DemoAdmin"))
+                                    {
+                                        if (item.Name.Contains("Demo"))
+                                        {
+                                            <td>@Html.DisplayFor(model => item.Name)</td>
+                                            <td>
+                                                <ul>
+                                                    @foreach (var name in item.ProjectNames)
+                                                    {
+                                                        if (name != "N/A")
+                                                        {
+                                                            <li>@name</li>
+                                                        }
+                                                        else
+                                                        {
+                                                            @name
+                                                        }
+                                                    }
+                                                </ul>
+                                            </td>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <td>@Html.DisplayFor(model => item.Name)</td>
+                                        <td>
+                                            <ul>
+                                                @foreach (var name in item.ProjectNames)
                                                 {
-                                                    <li>@name</li>
+                                                    if (name != "N/A")
+                                                    {
+                                                        <li>@name</li>
+                                                    }
+                                                    else
+                                                    {
+                                                        @name
+                                                    }
                                                 }
-                                                else
-                                                {
-                                                    @name
-                                                }
-                                            }
-                                        </ul>
-                                    </td>
+                                            </ul>
+                                        </td>
+                                    }
                                 </tr>
                             }
                         </tbody>
                     </table>
                 </div>
-
             </div>
         </div>
     </div>
 </div>
 
-
 @section scripts{
-
     <script src="~/assets/extra-libs/DataTables/datatables.min.js"></script>
 
     <script>
@@ -105,5 +160,3 @@
     </script>
 
 }
-
-
