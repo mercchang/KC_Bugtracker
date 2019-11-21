@@ -86,8 +86,7 @@ namespace KC_Bugtracker.Controllers
 
                         db.Entry(oldTicket).State = EntityState.Modified;
                         db.TicketAttachments.Add(ticketAttachment);
-                        
-                        auditHelper.RecordChanges(oldTicket, newTicket);
+                        auditHelper.RecordAttachments(oldTicket, newTicket, fileName);
                         notificationHelper.AttachmentNotification(newTicket);   // create notification
                         //===================================================================================
 

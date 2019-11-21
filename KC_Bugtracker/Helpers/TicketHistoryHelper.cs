@@ -52,13 +52,18 @@ namespace KC_Bugtracker.Helpers
                 };
                 db.TicketHistories.Add(newHistoryRecord);
             }
-            if(oldTicket.TicketAttachments.Count() != newTicket.TicketAttachments.Count())
+            db.SaveChanges();
+        }
+
+        public void RecordAttachments(Ticket oldTicket, Ticket newTicket, string fileName)
+        {
+            if (oldTicket.TicketAttachments.Count() != newTicket.TicketAttachments.Count())
             {
                 var newHistoryRecord = new TicketHistory
                 {
                     Property = "TicketAttachments",
-                    OldValue = oldTicket.TicketAttachments.Count().ToString(),
-                    NewValue = newTicket.TicketAttachments.Count().ToString(),
+                    OldValue = "---",
+                    NewValue = fileName,
                     Changed = (DateTime)newTicket.Updated,
                     TicketId = newTicket.Id,
                     UserId = HttpContext.Current.User.Identity.GetUserId()

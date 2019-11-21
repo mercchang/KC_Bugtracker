@@ -394,17 +394,6 @@
     <Content Include="assets\libs\bootstrap\dist\css\bootstrap.min.css" />
     <Content Include="assets\libs\bootstrap\dist\js\bootstrap.bundle.min.js" />
     <Content Include="assets\libs\bootstrap\dist\js\bootstrap.min.js" />
-    <Content Include="assets\libs\chart\chart.js" />
-    <Content Include="assets\libs\chart\excanvas.min.js" />
-    <Content Include="assets\libs\chart\jquery.flot.min.js" />
-    <Content Include="assets\libs\chart\jquery.flot.pie.min.js" />
-    <Content Include="assets\libs\chart\jquery.flot.resize.min.js" />
-    <Content Include="assets\libs\chart\jquery.peity.min.js" />
-    <Content Include="assets\libs\chart\jquery.ui.custom.js" />
-    <Content Include="assets\libs\chart\matrix.charts.js" />
-    <Content Include="assets\libs\chart\matrix.dashboard.js" />
-    <Content Include="assets\libs\chart\matrix.interface.js" />
-    <Content Include="assets\libs\chart\turning-series.js" />
     <Content Include="assets\libs\datatables.net-bs4\css\dataTables.bootstrap4.css" />
     <Content Include="assets\libs\datatables.net-bs4\js\dataTables.bootstrap4.js" />
     <Content Include="assets\libs\datatables\license.txt" />

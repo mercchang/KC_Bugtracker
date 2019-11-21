@@ -96,12 +96,15 @@
                 </tbody>
             </table>
         </div>
-        @if (User.IsInRole("Submitter"))
-        {
-            <div class="row pt-3" style="text-align:center">
-                @Html.ActionLink("Create New Ticket", "Create", null, new { @class= "btn btn-default"})
-            </div>
-        }
+        <div class="row pl-3">
+            @if (User.IsInRole("Submitter") || User.IsInRole("DemoSubmitter"))
+            {
+                <div class="row pt-3" style="text-align:center">
+                    @Html.ActionLink("Create New Ticket", "Create", null, new { @class = "btn btn-default" })
+                </div>
+            }
+        </div>
+
     </div>
 </div>
 

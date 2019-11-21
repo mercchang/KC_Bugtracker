@@ -53,7 +53,7 @@ namespace KC_Bugtracker.Controllers
 
         // GET: Tickets/Create
         // Only the submitter can create tickets
-        [Authorize(Roles = "Submitter")]
+        [Authorize(Roles = "Submitter, DemoSubmitter")]
         public ActionResult Create()
         {
             ViewBag.DeveloperId = new SelectList(db.Users, "Id", "FirstName");

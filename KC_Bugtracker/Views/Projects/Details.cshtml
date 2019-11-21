@@ -3,59 +3,67 @@
 @{
     ViewBag.Title = "Details";
 }
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-body" style="height:300px">
+                    <h3>@Html.DisplayFor(model => model.Name)</h3>
+                    <hr />
+                    <dl class="dl-horizontal pl-3">
+                        <dt>
+                            Project ID:
+                        </dt>
+                        <dd class="pl-3">
+                            @Html.DisplayFor(model => model.Id)
+                        </dd>
 
-<div class="card">
-    <div class="card-body">
-        <h3>@Html.DisplayFor(model => model.Name) - Project Details</h3>
-        <hr />
-        <dl class="dl-horizontal pl-3">
-            <dt>
-                Project ID
-            </dt>
-            <dd class="pl-3">
-                @Html.DisplayFor(model => model.Id)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.Description)
-            </dt>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Created)
+                        </dt>
 
-            <dd class="pl-3">
-                @Html.DisplayFor(model => model.Description)
-            </dd>
+                        <dd class="pl-3">
+                            @Html.DisplayFor(model => model.Created)
+                        </dd>
 
-            <dt>
-                @Html.DisplayNameFor(model => model.Created)
-            </dt>
+                        <dt>
+                            @Html.DisplayNameFor(model => model.Updated)
+                        </dt>
 
-            <dd class="pl-3">
-                @Html.DisplayFor(model => model.Created)
-            </dd>
+                        <dd class="pl-3">
+                            @if (Model.Updated != null)
+                            {
+                                @Html.DisplayFor(model => model.Updated)
+                            }
+                            else
+                            {
+                                <p>--/--/----</p>
+                            }
 
-            <dt>
-                @Html.DisplayNameFor(model => model.Updated)
-            </dt>
+                        </dd>
 
-            <dd class="pl-3">
-                @if (Model.Updated != null)
-                {
-                    @Html.DisplayFor(model => model.Updated)
-                }
-                else
-                {
-                    <p>--/--/----</p>
-                }
-
-            </dd>
-
-        </dl>
-        <div class="row">
-            <div class="col text-center">
-                @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-success px-4" })
-                @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-primary px-4" })
+                    </dl>
+                    <div class="row">
+                        <div class="col text-center">
+                            @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-success px-4" })
+                            @Html.ActionLink("Back to Project List", "Index", null, new { @class = "btn btn-primary " })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card" style="height:300px">
+                <div class="card-body">
+                    <h3>Project Details</h3>
+                    <hr/>
+                    <div class="pre-scrollable" style="height:200px">
+                        @Html.DisplayFor(model => model.Description)
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</div>
+
 
 <div class="row">
     <div class="col">
@@ -134,14 +142,13 @@
                             </td>
                             <td>
                                 <ul style="list-style-type:none;">
-                                    @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+                                    @if (User.IsInRole("Admin") || User.IsInRole("DemoAdmin") || User.IsInRole("DemoProjectManager") || User.IsInRole("ProjectManager"))
                                     {
-                                        <li><a href="@Url.Action("AssignTicket", "Tickets", new { id = item.Id })" class="btn btn-success">Assign</a></li>
+                                        <li class="py-1"><a href="@Url.Action("AssignTicket", "Tickets", new { id = item.Id })" class="btn btn-success">Assign</a></li>
                                     }
-                                    <li><a href="@Url.Action("Edit", "Tickets", new { id = item.Id })" class="btn btn-primary">Edit</a></li>
-                                    <li><a href="@Url.Action("Details", "Tickets", new { id = item.Id })" class="btn btn-warning">Details</a></li>
-                                    <li><a href="@Url.Action("Delete", "Tickets", new { id = item.Id })" class="btn btn-danger">Delete</a></li>
-                                    
+                                    <li class="py-1"><a href="@Url.Action("Edit", "Tickets", new { id = item.Id })" class="btn btn-primary">Edit</a></li>
+                                    <li class="py-1"><a href="@Url.Action("Details", "Tickets", new { id = item.Id })" class="btn btn-warning">Details</a></li>
+                                    <li class="py-1"><a href="@Url.Action("Delete", "Tickets", new { id = item.Id })" class="btn btn-danger">Delete</a></li>
                                 </ul>
                             </td>
                         </tr>

@@ -6,6 +6,8 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using KC_Bugtracker.Helpers;
+using System.Web;
 
 namespace KC_Bugtracker.Models
 {
@@ -25,7 +27,6 @@ namespace KC_Bugtracker.Models
         public string DisplayName { get; set; }
 
         public string AvatarPath { get; set; }
-
 
         [NotMapped]
         public string FullName
@@ -91,6 +92,21 @@ namespace KC_Bugtracker.Models
 
         public System.Data.Entity.DbSet<KC_Bugtracker.Models.TicketNotification> TicketNotifications { get; set; }
 
+        public override int SaveChanges()
+        {
+            UserRolesHelper rolesHelper = new UserRolesHelper();
+            var userId = HttpContext.Current.User.Identity.GetUserId();
 
+            if (!rolesHelper.IsDemoUser(userId))
+            {
+                return base.SaveChanges();
+            }
+            else
+            {
+                return 0;
+            }
+        }
     }
+
+
 }

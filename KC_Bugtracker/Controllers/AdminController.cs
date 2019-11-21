@@ -24,22 +24,20 @@ namespace KC_Bugtracker.Controllers
 
             var users = new List<ManageRolesViewModel>();
 
-            if (User.IsInRole("DemoAdmin"))
-            {
-                foreach (var user in db.Users.ToList())
-                {
-                    if (user.UserName.Contains("Demo") == true)
-                    {
-                        users.Add(new ManageRolesViewModel
-                        {
-                            UserName = $"{user.LastName}, {user.FirstName}",
-                            RoleName = userRolesHelper.ListUserRoles(user.Id).FirstOrDefault()
-                        });
-                    }
-                }
-            }
-            else if (!User.IsInRole("DemoAdmin"))
-            {
+            //if (User.IsInRole("DemoAdmin"))
+            //{
+            //    foreach (var user in db.Users.ToList())
+            //    {
+            //        if (user.UserName.Contains("Demo") == true)
+            //        {
+            //            users.Add(new ManageRolesViewModel
+            //            {
+            //                UserName = $"{user.LastName}, {user.FirstName}",
+            //                RoleName = userRolesHelper.ListUserRoles(user.Id).FirstOrDefault()
+            //            });
+            //        }
+            //    }
+            //}
                 foreach (var user in db.Users.ToList())
                 {
                     users.Add(new ManageRolesViewModel
@@ -48,7 +46,6 @@ namespace KC_Bugtracker.Controllers
                         RoleName = userRolesHelper.ListUserRoles(user.Id).FirstOrDefault()
                     });
                 }
-            }
             return View(users);
         }
 
@@ -87,14 +84,14 @@ namespace KC_Bugtracker.Controllers
             ViewBag.DemoDevelopers = new MultiSelectList(userRolesHelper.UsersInRole("DemoDeveloper"), "Id", "Email");
             ViewBag.DemoSubmitters = new MultiSelectList(userRolesHelper.UsersInRole("DemoSubmitter"), "Id", "Email");
 
-            if (User.IsInRole("Admin"))
+            if (User.IsInRole("Admin") || User.IsInRole("DemoAdmin"))
             {
                 ViewBag.ProjectManagerId = new SelectList(userRolesHelper.UsersInRole("ProjectManager"), "Id", "Email");
             }
-            if (User.IsInRole("DemoAdmin"))
-            {
-                ViewBag.DemoProjectManagerId = new SelectList(userRolesHelper.UsersInRole("DemoProjectManager"), "Id", "Email");
-            }
+            //if (User.IsInRole("DemoAdmin"))
+            //{
+            //    ViewBag.DemoProjectManagerId = new SelectList(userRolesHelper.UsersInRole("DemoProjectManager"), "Id", "Email");
+            //}
 
             // Create View Model for viewing users & their projects
             var myData = new List<UserProjectsListViewModel>();

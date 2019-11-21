@@ -18,7 +18,7 @@ namespace KC_Bugtracker.Controllers
         private UserRolesHelper roleHelper = new Helpers.UserRolesHelper();
         private ProjectsHelper projectHelper = new ProjectsHelper();
 
-        [Authorize(Roles = "Admin, ProjectManager")]
+        [Authorize(Roles = "Admin, ProjectManager, DemoAdmin, DemoProjectManager")]
         public ActionResult ManageUsers(int id)
         {
             ViewBag.ProjectId = id;
@@ -69,7 +69,7 @@ namespace KC_Bugtracker.Controllers
         public ActionResult Index()
         {
             // displays user's projects. Admin sees all projects
-            if (!User.IsInRole("Admin"))
+            if (!(User.IsInRole("Admin") || User.IsInRole("DemoAdmin")))
             {
                 var userProjects = projectHelper.ListUserProjects(User.Identity.GetUserId());
                 return View(userProjects.ToList());
@@ -93,7 +93,7 @@ namespace KC_Bugtracker.Controllers
             return View(project);
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, DemoAdmin")]
         // GET: Projects/Create
         public ActionResult Create()
         {

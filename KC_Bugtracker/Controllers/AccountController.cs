@@ -21,6 +21,7 @@ namespace KC_Bugtracker.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
         private EmailHelper emailHelper = new EmailHelper();
+        private UserRolesHelper roleHelper = new UserRolesHelper();
 
         public AccountController()
         {
@@ -198,12 +199,12 @@ namespace KC_Bugtracker.Controllers
                     }
                 }
 
-
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+                    //new users are set to submitter by default
+                    roleHelper.AddUserToRole(user.Id, "Submitter");
                     return RedirectToAction("Dashboard", "Home");
                 }
                 AddErrors(result);

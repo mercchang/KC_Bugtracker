@@ -41,3 +41,33 @@
     transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
 }
 
+/*Tables*/
+thead{
+    background-color:#e5e5e5;
+}
+
+/*Login*/
+.login {
+    background-color: rgba(0,0,0,.5);
+    min-height: calc(100vh);
+    display: -webkit-flex;
+    display: flex;
+    -webkit-flex-direction: row;
+    flex-direction: row;
+    padding-left: 0;
+    padding-right: 0;
+    padding-top: 60px;
+    width: 100%;
+}
+
+.content-divs div {
+    width: 100%;
+    height: auto;
+    color: black;
+}
+
+.demodiv {
+    display: none;
+    height: auto;
+    color: black;
+}

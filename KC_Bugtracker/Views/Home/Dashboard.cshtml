@@ -1,23 +1,53 @@
-﻿
+﻿@using KC_Bugtracker.Models
 @{
     ViewBag.Title = "Dashboard";
 }
 
+@{
+    var db = new ApplicationDbContext();
+
+}
+
 <div class="row">
-    <div class="col-lg-6">
+    <div class="col-lg-8">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Tickets</h5>
-                <div id="ticketchart1" class="ticketchart1" style="height: 400px;"></div>
+                <div class="row">
+                    <div class="col-md-10">
+                        <h5 class="card-title">Ticket Priorities</h5>
+                        <div id="ticketchart1" class="ticketchart1" style="height: 300px;"></div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="bg-dark p-10 text-white text-center">
+                            <i class="fa fa-user m-b-5 font-16"></i>
+                            <h5 class="m-b-0 m-t-5">@db.Users.Count()</h5>
+                            <small class="font-light">Total Users</small>
+                        </div>
+                        <br />
+                        <div class="bg-dark p-10 text-white text-center">
+                            <i class="fa fa-folder m-b-5 font-16"></i>
+                            <h5 class="m-b-0 m-t-5">@db.Projects.Count()</h5>
+                            <small class="font-light">Total Projects</small>
+                        </div>
+                        <br />
+                        <div class="bg-dark p-10 text-white text-center">
+                            <i class="fa fa-ticket-alt m-b-5 font-16"></i>
+                            <h5 class="m-b-0 m-t-5">@db.Tickets.Count()</h5>
+                            <small class="font-light">Total Tickets</small>
+                        </div>
+                    </div>
+                </div>
+
             </div>
+
         </div>
     </div>
 
-    <div class="col-lg-6">
+    <div class="col-lg-4">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Tickets</h5>
-                <div id="ticketchart2" class="ticketchart2" style="height: 400px;"></div>
+                <h5 class="card-title">Ticket Statuses</h5>
+                <div id="ticketchart2" class="ticketchart2" style="height: 300px;"></div>
             </div>
         </div>
     </div>
@@ -36,8 +66,8 @@
                     xkey: 'label',
                     ykeys: ['value'],
                     labels: ['Ticket Count'],
-                    resize: true
-                });
+                    resize: true,
+                })
             });
             var url = '@Url.Action("ProduceChart1Data", "Graphing")';
         });
@@ -56,19 +86,19 @@
         });
         var url = '@Url.Action("ProduceChart2Data", "Graphing")';
         });
-     </script>
+    </script>
 
-    <script src="~/assets/libs/chart/matrix.interface.js"></script>
-    <script src="~/assets/libs/chart/excanvas.min.js"></script>
+    @*<script src="~/assets/libs/chart/matrix.interface.js"></script>
+        <script src="~/assets/libs/chart/excanvas.min.js"></script>*@
     <script src="~/assets/libs/flot/jquery.flot.js"></script>
     <script src="~/assets/libs/flot/jquery.flot.pie.js"></script>
     <script src="~/assets/libs/flot/jquery.flot.time.js"></script>
     <script src="~/assets/libs/flot/jquery.flot.stack.js"></script>
     <script src="~/assets/libs/flot/jquery.flot.crosshair.js"></script>
-    <script src="~/assets/libs/chart/jquery.peity.min.js"></script>
-    <script src="~/assets/libs/chart/matrix.charts.js"></script>
-    <script src="~/assets/libs/chart/jquery.flot.pie.min.js"></script>
+    @*<script src="~/assets/libs/chart/jquery.peity.min.js"></script>
+        <script src="~/assets/libs/chart/matrix.charts.js"></script>
+        <script src="~/assets/libs/chart/jquery.flot.pie.min.js"></script>*@
     <script src="~/assets/libs/flot.tooltip/js/jquery.flot.tooltip.min.js"></script>
-    <script src="~/assets/libs/chart/turning-series.js"></script>
+    @*<script src="~/assets/libs/chart/turning-series.js"></script>*@
 
 }
