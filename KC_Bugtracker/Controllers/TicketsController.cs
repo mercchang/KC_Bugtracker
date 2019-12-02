@@ -20,6 +20,7 @@ namespace KC_Bugtracker.Controllers
         private UserRolesHelper rolesHelper = new UserRolesHelper();
         private TicketHistoryHelper auditHelper = new TicketHistoryHelper();
         private NotificationHelper notificationHelper = new NotificationHelper();
+        private ProjectsHelper projectsHelper = new ProjectsHelper();
 
         // GET: Tickets
         [Authorize]
@@ -58,6 +59,7 @@ namespace KC_Bugtracker.Controllers
         {
             ViewBag.DeveloperId = new SelectList(db.Users, "Id", "FirstName");
             ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name");
+            ViewBag.MyProjects = new SelectList(projectsHelper.ListUserProjects(User.Identity.GetUserId()), "Id", "Name");
             ViewBag.SubmitterId = new SelectList(db.Users, "Id", "FirstName");
             ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "PriorityName");
             ViewBag.TicketStatusId = new SelectList(db.TicketStatuses, "Id", "StatusName");
@@ -73,13 +75,14 @@ namespace KC_Bugtracker.Controllers
         
         public ActionResult Create([Bind(Include = "Id,ProjectId,TicketTypeId,TicketPriorityId,TicketStatusId,SubmitterId,DeveloperId,Title,Description,Created")] Ticket ticket)
         {
-            
             if (ModelState.IsValid)
             {
                 ticket.SubmitterId = User.Identity.GetUserId();
                 ticket.Created = DateTime.Now;
                 db.Tickets.Add(ticket);
-                db.SaveChanges();
+                var userr = User.Identity.GetUserId();
+                if (!rolesHelper.IsDemoUser(userr))
+                    db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
@@ -126,7 +129,9 @@ namespace KC_Bugtracker.Controllers
 
                 ticket.Updated = DateTime.Now;
                 db.Entry(ticket).State = EntityState.Modified;
-                db.SaveChanges();
+                var userr = User.Identity.GetUserId();
+                if (!rolesHelper.IsDemoUser(userr))
+                    db.SaveChanges();
 
                 var newTicket = db.Tickets.AsNoTracking().FirstOrDefault(t => t.Id == ticket.Id);
 
@@ -135,12 +140,6 @@ namespace KC_Bugtracker.Controllers
                 return RedirectToAction("Index");
             }
 
-            ViewBag.DeveloperId = new SelectList(db.Users, "Id", "FullName", ticket.DeveloperId);
-            ViewBag.ProjectId = new SelectList(db.Projects, "Id", "Name", ticket.ProjectId);
-            ViewBag.SubmitterId = new SelectList(db.Users, "Id", "FirstName", ticket.SubmitterId);
-            ViewBag.TicketPriorityId = new SelectList(db.TicketPriorities, "Id", "PriorityName", ticket.TicketPriorityId);
-            ViewBag.TicketStatusId = new SelectList(db.TicketStatuses, "Id", "StatusName", ticket.TicketStatusId);
-            ViewBag.TicketTypeId = new SelectList(db.TicketTypes, "Id", "TypeName", ticket.TicketTypeId);
             return View(ticket);
         }
 
@@ -166,7 +165,9 @@ namespace KC_Bugtracker.Controllers
         {
             Ticket ticket = db.Tickets.Find(id);
             db.Tickets.Remove(ticket);
-            db.SaveChanges();
+            var userr = User.Identity.GetUserId();
+            if (!rolesHelper.IsDemoUser(userr))
+                db.SaveChanges();
             return RedirectToAction("Index");
         }
 
@@ -198,7 +199,9 @@ namespace KC_Bugtracker.Controllers
             var ticket = db.Tickets.Find(model.Id);
             ticket.DeveloperId = model.DeveloperId;
 
-            db.SaveChanges();
+            var userr = User.Identity.GetUserId();
+            if (!rolesHelper.IsDemoUser(userr))
+                db.SaveChanges();
 
             var callbackUrl = Url.Action("Details", "Tickets", new { id = ticket.Id }, protocol: Request.Url.Scheme);
 

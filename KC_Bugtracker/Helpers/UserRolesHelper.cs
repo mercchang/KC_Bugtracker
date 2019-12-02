@@ -68,5 +68,38 @@ namespace KC_Bugtracker.Helpers
             return userManager.GetRoles(userId).FirstOrDefault().Contains("Demo");
         }
 
+        // Gets the role name and removes "Demo" from the demo role name, and also adds a space between project manager
+        public string GetRoleName(string userId)
+        {
+            var userRole = userManager.GetRoles(userId).FirstOrDefault().ToString();
+            var role = "";
+
+            if (userRole != null)
+            {
+                switch (userRole)
+                {
+                    case "Admin":
+                    case "DemoAdmin":
+                        role = "Administrator";
+                        break;
+                    case "ProjectManager":
+                    case "DemoProjectManager":
+                        role = "Project Manager";
+                        break;
+                    case "Developer":
+                    case "DemoDeveloper":
+                        role = "Developer";
+                        break;
+                    case "Submitter":
+                    case "DemoSubmitter":
+                        role = "Submitter";
+                        break;
+                    default:
+                        role = userRole;
+                        break;
+                }
+            }
+            return role;
+        }
     }
 }

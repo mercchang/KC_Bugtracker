@@ -252,10 +252,14 @@
     <Content Include="assets\extra-libs\multicheck\jquery.multicheck.js" />
     <Content Include="assets\extra-libs\multicheck\multicheck.css" />
     <Content Include="assets\extra-libs\sparkline\sparkline.js" />
+    <Content Include="Avatars\c.png" />
     <Content Include="Avatars\c_637093663012295138.png" />
+    <Content Include="Avatars\default_user.jpg" />
     <Content Include="Avatars\default_user.png" />
+    <Content Include="Avatars\f.png" />
     <Content Include="Avatars\f_637087661587871255.png" />
     <Content Include="Avatars\f_637088210245780097.png" />
+    <Content Include="Avatars\w.png" />
     <Content Include="Avatars\w_637083332973566183.png" />
     <Content Include="Avatars\w_637088210904710615.png" />
     <Content Include="Content\custom.css" />
@@ -281,6 +285,8 @@
     <Content Include="Images\logo-text.png" />
     <Content Include="Images\logo.png" />
     <Content Include="Images\pdf.png" />
+    <Content Include="Images\spiderlogo.png" />
+    <Content Include="Images\spiderlogow.png" />
     <Content Include="Images\txt.png" />
     <Content Include="Images\users\1-old.jpg" />
     <Content Include="Images\users\1.jpg" />
@@ -1266,6 +1272,7 @@
     <Content Include="Views\Tickets\AssignTicket.cshtml" />
     <Content Include="Views\Account\DemoLoginAsync.cshtml" />
     <None Include="Properties\PublishProfiles\KCBugtracker - Web Deploy.pubxml" />
+    <Content Include="Views\Shared\_LoginLayout.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

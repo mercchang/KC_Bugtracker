@@ -1,10 +1,49 @@
 ﻿@{
     ViewBag.Title = "Confirm Email";
+    Layout = null;
 }
 
-<h2>@ViewBag.Title.</h2>
-<div>
-    <p>
-        Thank you for confirming your email. Please @Html.ActionLink("Click here to Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })
-    </p>
-</div>
+<!DOCTYPE html>
+<html dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="~/Images/favicon.png">
+    <title>Bug Tracker - Login</title>
+    <!-- Custom CSS -->
+    <link href="~/Content/style.min.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div class="main-wrapper">
+        <div class="auth-wrapper d-flex no-block justify-content-center align-items-center">
+            <div class="auth-box border-top border-secondary">
+                <div class="text-center">
+                    <span class="text-white">Enter your e-mail address below and we will send you instructions on how to recover your password.</span>
+                </div>
+                <div class="row m-t-20">
+                    <h2>@ViewBag.Title.</h2>
+                    <p class="text-white">
+                        Thank you for confirming your email. Please @Html.ActionLink("Click here to Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/Scripts/jquery/jquery.min.js"></script>
+    <!-- Bootstrap tether Core JavaScript -->
+    <script src="~/Scripts/popper/umd/popper.min.js"></script>
+    <script src="~/Scripts/bootstrap/bootstrap.min.js"></script>
+
+</body>
+
+</html>
+
+

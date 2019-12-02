@@ -6,9 +6,12 @@
 
 <div class="row">
     <div class="col-md-5">
-        <div class="card">
-            <div class="card-body">
+        <div class="card shadow">
+            <div class="card-header">
                 <h3>Assign Projects</h3>
+            </div>
+            <div class="card-body">
+                <h6>Assign a User to a Project. Users can be assigned multiple Projects</h6>
                 <hr />
                 @using (Html.BeginForm())
                 {
@@ -21,33 +24,36 @@
                                 <div class="col-md-12">
                                     <h4>Project Managers</h4>
                                     @Html.DropDownList("ProjectManagerId", null, "--Select--", new { @class = "rolelist" })
+                                    @Html.DropDownList("DemoProjectManagerId", null, "--Select--", new { @class = "rolelist" })
                                 </div>
                             </div>
                             <hr />
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <h4>Developers</h4>
-                                    @Html.ListBox("Developers", null, new { @class = "itemlist" })
-                                </div>
-                            </div>
-                            <hr />
-                            @*<div class="row">
-                                <div class="col-md-12">
-                                    <h4>Submitters</h4>
-                                    @Html.ListBox("Submitters", null, new { @class = "itemlist" })
-                                </div>
-                            </div>
-                            <hr />*@
-                            <div class="row">
-                                <div class="col-md-12">
-                                    <h4>Projects</h4>
-                                    @Html.ListBox("Projects", null, new { @class = "itemlist" })
-                                </div>
-                            </div>
-                            <div class="col pt-3">
-                                <button type="submit" class="btn btn-primary">Assign</button>
-                            </div>
                         }
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h4>Developers</h4>
+                                @Html.ListBox("Developers", null, new { @class = "itemlist" })
+                                @Html.ListBox("DemoDevelopers", null, new { @class = "itemlist" })
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h4>Submitters</h4>
+                                @Html.ListBox("Submitters", null, new { @class = "itemlist" })
+                                @Html.ListBox("DemoSubmitters", null, new { @class = "itemlist" })
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row">
+                            <div class="col-md-12">
+                                <h4>Projects</h4>
+                                @Html.ListBox("Projects", null, new { @class = "itemlist" })
+                            </div>
+                        </div>
+                        <div class="col pt-3 text-center">
+                            <button type="submit" class="btn btn-primary">Assign</button>
+                        </div>
                     </div>
                 }
             </div>
@@ -55,9 +61,11 @@
     </div>
 
     <div class="col-md-7">
-        <div class="card">
-            <div class="card-body">
+        <div class="card shadow">
+            <div class="card-header">
                 <h3>Users</h3>
+            </div>
+            <div class="card-body">
                 <div class="table-responsive">
                     <table id="projects" class="table table-striped table-bordered">
                         <thead>

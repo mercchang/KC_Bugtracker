@@ -81,20 +81,6 @@
                     <!-- ============================================================== -->
                     <ul class="navbar-nav float-right">
                         <!-- ============================================================== -->
-                        <!-- Comment -->
-                        <!-- ============================================================== -->
-                        @*<li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle waves-effect waves-dark" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="font-24 mdi mdi-comment-processing"></i>
-                                </a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Another action</a>
-                                    <div class="dropdown-divider"></div>
-                                    <a class="dropdown-item" href="#">Something else here</a>
-                                </div>
-                            </li>*@
-                        <!-- ============================================================== -->
                         <!-- Notifications -->
                         <!-- ============================================================== -->
                         <li class="nav-item dropdown">
@@ -134,8 +120,8 @@
                                                             <span class="chat-time float-right">@unreadNotification.Created.ToString("MMM dd, yyyy")</span>
                                                         </div>
                                                     </div>
-
                                                     <button type="submit">Dismiss</button>
+                                                    <div class="dropdown-divider"></div>
                                                 }
                                             </li>
                                         }
@@ -155,14 +141,12 @@
                             {
                                 <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark pro-pic" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="@user.AvatarPath" alt="user" class="rounded-circle" width="31"></a>
                             }
-                            <div class="dropdown-menu dropdown-menu-right user-dd animated bounceIn">
+                            <div class="dropdown-menu dropdown-menu-right user-dd animated bounceInDown">
                                 <a class="dropdown-item" href="~/Account/Profile"><i class="ti-user m-r-5 m-l-5"></i> My Profile</a>
-                                @*<a class="dropdown-item" href="javascript:void(0)"><i class="ti-wallet m-r-5 m-l-5"></i> My Balance</a>
-                                    <a class="dropdown-item" href="javascript:void(0)"><i class="ti-email m-r-5 m-l-5"></i> Inbox</a>*@
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="javascript:void(0)"><i class="ti-settings m-r-5 m-l-5"></i> Account Setting</a>
+                                <a class="dropdown-item" href="~/Tickets/Index"><i class="ti-ticket m-r-5 m-l-5"></i> My Tickets</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="@Url.Action("LogOut", "Account")"><i class="fa fa-power-off m-r-5 m-l-5"></i>Log Out</a>
+                                <a class="dropdown-item" href="@Url.Action("LogOut", "Account")"><i class="fa fa-power-off m-r-5 m-l-5"></i> Log Out</a>
                             </div>
                         </li>
                     </ul>
@@ -193,7 +177,7 @@
                                     </div>
                                     <div class="col-sm-6 text-center">
                                         <div class="row"><span class="hide-menu">@user.FirstName @user.LastName</span></div>
-                                        <div class="row"><span class="hide-menu">@userRole</span></div>
+                                        <div class="row"><span class="hide-menu">@roleHelper.GetRoleName(user.Id)</span></div>
                                     </div>
                                 </div>
                             </a>
@@ -208,17 +192,31 @@
                                 <a class="sidebar-link has-arrow waves-effect waves-dark sidebar-link" href="javascript:void(0)" aria-expanded="false"><i class="fas fa-chess"></i><span class="hide-menu">Administrator </span></a>
                                 <ul aria-expanded="false" class="collapse first-level">
                                     <li class="sidebar-item"><a href="~/Admin/ManageRoles" class="sidebar-link"><i class="fas fa-address-book"></i><span class="hide-menu"> Manage User Roles </span></a></li>
-                                    <li class="sidebar-item"><a href="~/Admin/ManageProjectUsers" class="sidebar-link"><i class="fas fa-folder"></i><span class="hide-menu"> Project Assignments </span></a></li>
                                 </ul>
                             </li>
                         }
-                        <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="~/Projects/Index" aria-expanded="false"><i class="fas fa-folder-open"></i><span class="hide-menu">Projects</span></a></li>
+                        <li class="sidebar-item">
+                            <a class="sidebar-link has-arrow waves-effect waves-dark sidebar-link" href="javascript:void(0)" aria-expanded="false"><i class="fas fa-folder"></i><span class="hide-menu">Projects </span></a>
+                            <ul aria-expanded="false" class="collapse first-level">
+                                <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="~/Projects/Index" aria-expanded="false"><i class="fas fa-folder-open"></i><span class="hide-menu">Projects List</span></a></li>
+                                @if (User.IsInRole("Admin") || User.IsInRole("DemoAdmin") || User.IsInRole("ProjectManager") || User.IsInRole("DemoProjectManager"))
+                                {
+                                <li class="sidebar-item"><a href="~/Admin/ManageProjectUsers" class="sidebar-link"><i class="fas fa-address-book"></i><span class="hide-menu"> Project Assignments</span></a></li>
+                                }
+                            </ul>
+                        </li>
 
                         <li class="sidebar-item">
                             <a class="sidebar-link has-arrow waves-effect waves-dark" href="javascript:void(0)" aria-expanded="false"><i class="fas fa-ticket-alt"></i><span class="hide-menu">Tickets</span></a>
                             <ul aria-expanded="false" class="collapse first-level">
                                 <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="~/Tickets/Index" aria-expanded="false"><i class="far fa-list-alt"></i><span class="hide-menu">Ticket List</span></a></li>
-                                <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="~/TicketNotifications/Index" aria-expanded="false"><i class="fas fa-bell"></i><span class="hide-menu">Ticket Notifications</span></a></li>
+                                <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="~/TicketNotifications/Index" aria-expanded="false"><i class="fas fa-bell"></i><span class="hide-menu">Ticket Notifications</span></a>
+
+                                @if (User.IsInRole("Submitter") || User.IsInRole("DemoSubmitter"))
+                                {
+                                    <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="~/Tickets/Create" aria-expanded="false"><i class="fas fa-book"></i><span class="hide-menu">Create New Ticket</span></a></li>
+
+                                }
                                 @if (User.IsInRole("Admin") || User.IsInRole("DemoAdmin"))
                                 {
                                     <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="~/TicketHistories/Index" aria-expanded="false"><i class="fas fa-book"></i><span class="hide-menu">Ticket History</span></a></li>
@@ -273,19 +271,13 @@
     <!-- Charts js Files -->
     <script src="~/Scripts/js/morris.min.js"></script>
 
-    @*<script src="~/assets/libs/chart/matrix.interface.js"></script>
-    <script src="~/assets/libs/chart/excanvas.min.js"></script>*@
     <script src="~/assets/libs/flot/jquery.flot.js"></script>
     <script src="~/assets/libs/flot/jquery.flot.pie.js"></script>
     <script src="~/assets/libs/flot/jquery.flot.time.js"></script>
     <script src="~/assets/libs/flot/jquery.flot.stack.js"></script>
     <script src="~/assets/libs/flot/jquery.flot.crosshair.js"></script>
-    @*<script src="~/assets/libs/chart/jquery.peity.min.js"></script>*@
-    @*<script src="~/assets/libs/chart/matrix.charts.js"></script>*@
-    @*<script src="~/assets/libs/chart/jquery.flot.pie.min.js"></script>*@
+
     <script src="~/assets/libs/flot.tooltip/js/jquery.flot.tooltip.min.js"></script>
-    @*<script src="~/assets/libs/chart/turning-series.js"></script>
-    <script src="~/Scripts/js/pages/chart/chart-page-init.js"></script>*@
 
     @RenderSection("scripts", required: false)
 

@@ -3,10 +3,11 @@
     ViewBag.Title = "Manage Users";
 }
 
-<div class="card">
-    <div class="card-body">
+<div class="card shadow">
+    <div class="card-header">
         <h4>Manage Users</h4>
-        <hr />
+    </div>
+    <div class="card-body">
         @using (Html.BeginForm())
         {
             @Html.AntiForgeryToken()
@@ -22,9 +23,10 @@
                     @Html.ListBox("Submitters", null, new { @class = "form-control" })
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <button type="submit" class="btn btn-primary">Submit</button>
+            <div class="row pt-3">
+                <div class="col text-center">
+                    <button type="submit" class="btn btn-success">Submit</button>
+                    @Html.ActionLink("Back to Project List", "Index", null, new { @class = "btn btn-primary " })
                 </div>
             </div>
 

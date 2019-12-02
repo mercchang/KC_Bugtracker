@@ -1,52 +1,158 @@
 ﻿@using KC_Bugtracker.Models
+@using Microsoft.AspNet.Identity
+@using KC_Bugtracker.Helpers
 @{
     ViewBag.Title = "Dashboard";
 }
 
 @{
     var db = new ApplicationDbContext();
+    var roleHelper = new UserRolesHelper();
+    var user = db.Users.Find(HttpContext.Current.User.Identity.GetUserId());
+    var cutOffDate = DateTime.Now.AddDays(-7);
+    var newTickets = db.Tickets.Where(t => t.Created > cutOffDate).ToList();
+    var newProjects = user.Projects.Where(t => t.Created > cutOffDate).ToList();
 
 }
 
 <div class="row">
-    <div class="col-lg-8">
-        <div class="card">
+    <div class="col">
+        <div class="card shadow">
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-10">
-                        <h5 class="card-title">Ticket Priorities</h5>
-                        <div id="ticketchart1" class="ticketchart1" style="height: 300px;"></div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="bg-dark p-10 text-white text-center">
+                    <div class="col">
+                        <div class="box bg-dark card-hover p-10 text-white text-center">
                             <i class="fa fa-user m-b-5 font-16"></i>
                             <h5 class="m-b-0 m-t-5">@db.Users.Count()</h5>
                             <small class="font-light">Total Users</small>
                         </div>
-                        <br />
-                        <div class="bg-dark p-10 text-white text-center">
+                    </div>
+                    <div class="col">
+                        <div class="box bg-info card-hover p-10 text-white text-center">
                             <i class="fa fa-folder m-b-5 font-16"></i>
-                            <h5 class="m-b-0 m-t-5">@db.Projects.Count()</h5>
-                            <small class="font-light">Total Projects</small>
+                            @if (roleHelper.GetRoleName(user.Id) == "Administrator")
+                            {
+                                <h5 class="m-b-0 m-t-5">@db.Projects.Count()</h5>
+                                <small class="font-light">Projects</small>
+                            }
+                            else 
+                            {
+                                <h5 class="m-b-0 m-t-5">@user.Projects.Count()</h5>
+                                <small class="font-light">My Projects</small>
+                            }
                         </div>
-                        <br />
-                        <div class="bg-dark p-10 text-white text-center">
+                    </div>
+                    <div class="col">
+                        <div class="box bg-success card-hover p-10 text-white text-center">
+                            <i class="fa fa-folder m-b-5 font-16"></i>
+                            <h5 class="m-b-0 m-t-5">@newProjects.Count()</h5>
+                            <small class="font-light">New Projects (7 days)</small>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="box bg-info card-hover p-10 text-white text-center">
                             <i class="fa fa-ticket-alt m-b-5 font-16"></i>
-                            <h5 class="m-b-0 m-t-5">@db.Tickets.Count()</h5>
+                            <h5 class="m-b-0 m-t-5">
+                                @switch (roleHelper.GetRoleName(user.Id))
+                                {
+                                    case "Developer":
+                                        @db.Tickets.Where(t => t.DeveloperId == user.Id).Count();
+                                        break;
+                                    case "Submitter":
+                                        @db.Tickets.Where(t => t.SubmitterId == user.Id).Count();
+                                        break;
+                                    default:
+                                        @db.Tickets.Count();
+                                        break;
+                                }
+                            </h5>
                             <small class="font-light">Total Tickets</small>
                         </div>
                     </div>
+                    <div class="col">
+                        <div class="box bg-success card-hover p-10 text-white text-center">
+                            <i class="fa fa-ticket-alt m-b-5 font-16"></i>
+                            <h5 class="m-b-0 m-t-5">
+                                @switch (roleHelper.GetRoleName(user.Id))
+                                {
+                                    case "Developer":
+                                        @db.Tickets.Where(t => t.DeveloperId == user.Id).Where(t => t.Created > cutOffDate).Count();
+                                        break;
+                                    case "Submitter":
+                                        @db.Tickets.Where(t => t.SubmitterId == user.Id).Where(t => t.Created > cutOffDate).Count();
+                                        break;
+                                    default:
+                                        @newTickets.Count()
+                                        break;
+                                }
+                            </h5>
+                            <small class="font-light">New Tickets (7 days)</small>
+                        </div>
+                    </div>
                 </div>
-
             </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card shadow">
+            <div class="card-header">
+                <h4 class="card-title">Ticket Priorities</h4>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <div id="ticketchart1" class="ticketchart1" style="height: 300px;"></div>
+                    </div>
+                    @*<div class="col">
+                        <div class="row">
+                            <div class="col">
+                                <div class="bg-transparent p-10 text-white text-center">
+                                    <i class="fa fa-ticket-alt m-b-5 font-16" style="color:red"></i>
+                                    <h5 class="m-b-0 m-t-5" style="color:black">@db.Tickets.Where(t => t.TicketPriority.PriorityName == "High").Count()</h5>
+                                    <small class="font-light" style="color:black">High Priority</small>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="bg-transparent p-10 text-white text-center">
+                                    <i class="fa fa-ticket-alt m-b-5 font-16" style="color:yellow"></i>
+                                    <h5 class="m-b-0 m-t-5" style="color:black">@db.Tickets.Where(t => t.TicketPriority.PriorityName == "Medium").Count()</h5>
+                                    <small class="font-light" style="color:black">Medium Priority</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
+                    <div class="col">
+                        <div class="row">
+                            <div class="col">
+                                <div class="bg-transparent p-10 text-white text-center">
+                                    <i class="fa fa-ticket-alt m-b-5 font-16" style="color:lightgreen"></i>
+                                    <h5 class="m-b-0 m-t-5" style="color:black">@db.Tickets.Where(t => t.TicketPriority.PriorityName == "Low").Count()</h5>
+                                    <small class="font-light" style="color:black">Low Priority</small>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="bg-transparent p-10 text-white text-center">
+                                    <i class="fa fa-ticket-alt m-b-5 font-16" style="color:black"></i>
+                                    <h5 class="m-b-0 m-t-5" style="color:black">@db.Tickets.Where(t => t.TicketPriority.PriorityName == "Low").Count()</h5>
+                                    <small class="font-light" style="color:black">No Priority</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>*@
+                </div>
+            </div>
         </div>
     </div>
 
     <div class="col-lg-4">
-        <div class="card">
+        <div class="card shadow">
+            <div class="card-header">
+                <h4 class="card-title">Ticket Statuses</h4>
+            </div>
             <div class="card-body">
-                <h5 class="card-title">Ticket Statuses</h5>
                 <div id="ticketchart2" class="ticketchart2" style="height: 300px;"></div>
             </div>
         </div>
@@ -67,6 +173,12 @@
                     ykeys: ['value'],
                     labels: ['Ticket Count'],
                     resize: true,
+                    barColors: function (row) {
+                        if(row.label == "High") return "#AD1D28";
+                        else if(row.label == "Medium") return "#ff9900";
+                        else if(row.label == "Low") return "#e6e600";
+                        else if(row.label == "None") return "#00cc00";
+                    }
                 })
             });
             var url = '@Url.Action("ProduceChart1Data", "Graphing")';
@@ -81,24 +193,11 @@
                 xkey: 'label',
                 ykeys: ['value'],
                 labels: ['Ticket Count'],
-                resize: true
+                resize: true,
+                colors: ['#E53935', '#0066ff', '#ff9900', '#00cc00', '#000']
             });
         });
         var url = '@Url.Action("ProduceChart2Data", "Graphing")';
         });
     </script>
-
-    @*<script src="~/assets/libs/chart/matrix.interface.js"></script>
-        <script src="~/assets/libs/chart/excanvas.min.js"></script>*@
-    <script src="~/assets/libs/flot/jquery.flot.js"></script>
-    <script src="~/assets/libs/flot/jquery.flot.pie.js"></script>
-    <script src="~/assets/libs/flot/jquery.flot.time.js"></script>
-    <script src="~/assets/libs/flot/jquery.flot.stack.js"></script>
-    <script src="~/assets/libs/flot/jquery.flot.crosshair.js"></script>
-    @*<script src="~/assets/libs/chart/jquery.peity.min.js"></script>
-        <script src="~/assets/libs/chart/matrix.charts.js"></script>
-        <script src="~/assets/libs/chart/jquery.flot.pie.min.js"></script>*@
-    <script src="~/assets/libs/flot.tooltip/js/jquery.flot.tooltip.min.js"></script>
-    @*<script src="~/assets/libs/chart/turning-series.js"></script>*@
-
 }

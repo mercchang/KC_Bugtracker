@@ -25,12 +25,3 @@
     }
 }*/
 
-button.demologin {
-    opacity: 0.5;
-    /*filter: grayscale(100%);*/
-}
-
-    button.demologin:hover {
-        cursor: pointer;
-        opacity: 1;
-    }

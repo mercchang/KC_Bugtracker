@@ -6,15 +6,19 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using KC_Bugtracker.Helpers;
 using KC_Bugtracker.Models;
+using Microsoft.AspNet.Identity;
 
 namespace KC_Bugtracker.Controllers
 {
     public class TicketHistoriesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-
+        private UserRolesHelper rolesHelper = new UserRolesHelper();
+             
         // GET: TicketHistories
+        [Authorize(Roles = "Admin, ProjectManager, DemoAdmin, DemoProjectManager")]
         public ActionResult Index()
         {
             var ticketHistories = db.TicketHistories.Include(t => t.Ticket).Include(t => t.User);
@@ -35,7 +39,7 @@ namespace KC_Bugtracker.Controllers
             }
             return View(ticketHistory);
         }
-
+        [Authorize(Roles = "Admin, ProjectManager, DemoAdmin, DemoProjectManager")]
         // GET: TicketHistories/Create
         public ActionResult Create()
         {
@@ -55,7 +59,9 @@ namespace KC_Bugtracker.Controllers
             {
 
                 db.TicketHistories.Add(ticketHistory);
-                db.SaveChanges();
+                var userr = User.Identity.GetUserId();
+                if (!rolesHelper.IsDemoUser(userr))
+                    db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
@@ -65,6 +71,7 @@ namespace KC_Bugtracker.Controllers
             return View(ticketHistory);
         }
 
+        [Authorize(Roles = "Admin, ProjectManager, DemoAdmin, DemoProjectManager")]
         // GET: TicketHistories/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -92,7 +99,9 @@ namespace KC_Bugtracker.Controllers
             if (ModelState.IsValid)
             {
                 db.Entry(ticketHistory).State = EntityState.Modified;
-                db.SaveChanges();
+                var userr = User.Identity.GetUserId();
+                if (!rolesHelper.IsDemoUser(userr))
+                    db.SaveChanges();
                 return RedirectToAction("Index");
             }
             ViewBag.TicketId = new SelectList(db.Tickets, "Id", "SubmitterId", ticketHistory.TicketId);
@@ -100,6 +109,7 @@ namespace KC_Bugtracker.Controllers
             return View(ticketHistory);
         }
 
+        [Authorize(Roles = "Admin, ProjectManager, DemoAdmin, DemoProjectManager")]
         // GET: TicketHistories/Delete/5
         public ActionResult Delete(int? id)
         {
@@ -120,9 +130,12 @@ namespace KC_Bugtracker.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            
             TicketHistory ticketHistory = db.TicketHistories.Find(id);
             db.TicketHistories.Remove(ticketHistory);
-            db.SaveChanges();
+            var userr = User.Identity.GetUserId();
+            if (!rolesHelper.IsDemoUser(userr))
+                db.SaveChanges();
             return RedirectToAction("Index");
         }
 

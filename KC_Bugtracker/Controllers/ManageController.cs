@@ -18,6 +18,7 @@ namespace KC_Bugtracker.Controllers
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
         private ApplicationDbContext db = new ApplicationDbContext();
+        private UserRolesHelper roleHelper = new UserRolesHelper();
         public ManageController()
         {
         }
@@ -336,14 +337,17 @@ namespace KC_Bugtracker.Controllers
         }
 
         //--------------------- Edit User Profile ---------------------
-        [Authorize]
+        [Authorize(Roles = "Admin, ProjectManager, Developer, Submitter")]
         public ActionResult EditProfile()
         {
             var sourceUser = db.Users.Find(User.Identity.GetUserId());
             if (sourceUser.AvatarPath == null)
             {
                 sourceUser.AvatarPath = "/Avatars/default_user.png";
-                db.SaveChanges();
+
+                var userr = User.Identity.GetUserId();
+                if (!roleHelper.IsDemoUser(userr))
+                    db.SaveChanges();
             }
             var userVm = new UserProfileViewModel();
             userVm.Id = sourceUser.Id;
@@ -390,8 +394,9 @@ namespace KC_Bugtracker.Controllers
                     user.AvatarPath = "/Avatars/" + fileName;
                 }
             }
-
-            db.SaveChanges();
+            var userr = User.Identity.GetUserId();
+            if (!roleHelper.IsDemoUser(userr))
+                db.SaveChanges();
 
             return RedirectToAction("EditProfile");
         }

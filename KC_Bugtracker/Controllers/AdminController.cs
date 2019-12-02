@@ -20,7 +20,8 @@ namespace KC_Bugtracker.Controllers
         public ActionResult ManageRoles()
         {
             ViewBag.UserIds = new MultiSelectList(db.Users, "Id", "FullName");
-            ViewBag.Role = new SelectList(db.Roles, "Name", "Name");
+            //Get Roles but exclude demo roles
+            ViewBag.Role = new SelectList(db.Roles.Where(u => !u.Name.Contains("Demo")), "Name", "Name");   
 
             var users = new List<ManageRolesViewModel>();
 
@@ -78,20 +79,17 @@ namespace KC_Bugtracker.Controllers
         public ActionResult ManageProjectUsers()
         {
             ViewBag.Projects = new MultiSelectList(db.Projects, "Id", "Name");
-            ViewBag.Developers = new MultiSelectList(userRolesHelper.UsersInRole("Developer"), "Id", "Email");
-            ViewBag.Submitters = new MultiSelectList(userRolesHelper.UsersInRole("Submitter"), "Id", "Email");
+            ViewBag.Developers = new MultiSelectList(userRolesHelper.UsersInRole("Developer"), "Id", "FullName");
+            ViewBag.Submitters = new MultiSelectList(userRolesHelper.UsersInRole("Submitter"), "Id", "FullName");
 
-            ViewBag.DemoDevelopers = new MultiSelectList(userRolesHelper.UsersInRole("DemoDeveloper"), "Id", "Email");
-            ViewBag.DemoSubmitters = new MultiSelectList(userRolesHelper.UsersInRole("DemoSubmitter"), "Id", "Email");
+            ViewBag.DemoDevelopers = new MultiSelectList(userRolesHelper.UsersInRole("DemoDeveloper"), "Id", "FullName");
+            ViewBag.DemoSubmitters = new MultiSelectList(userRolesHelper.UsersInRole("DemoSubmitter"), "Id", "FullName");
 
             if (User.IsInRole("Admin") || User.IsInRole("DemoAdmin"))
             {
-                ViewBag.ProjectManagerId = new SelectList(userRolesHelper.UsersInRole("ProjectManager"), "Id", "Email");
+                ViewBag.ProjectManagerId = new SelectList(userRolesHelper.UsersInRole("ProjectManager"), "Id", "FullName");
+                ViewBag.DemoProjectManagerId = new SelectList(userRolesHelper.UsersInRole("DemoProjectManager"), "Id", "FullName");
             }
-            //if (User.IsInRole("DemoAdmin"))
-            //{
-            //    ViewBag.DemoProjectManagerId = new SelectList(userRolesHelper.UsersInRole("DemoProjectManager"), "Id", "Email");
-            //}
 
             // Create View Model for viewing users & their projects
             var myData = new List<UserProjectsListViewModel>();
@@ -116,7 +114,7 @@ namespace KC_Bugtracker.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult ManageProjectUsers(List<int> projects, string projectManagerId, List<string> developers, List<string> submitters)
+        public ActionResult ManageProjectUsers(List<int> projects, string projectManagerId, List<string> developers, List<string> submitters, string demoProjectManagerId, List<string> demoDevelopers, List<string> demoSubmitters)
         {
             // remove users from selected projects
             if (projects != null)
@@ -129,7 +127,7 @@ namespace KC_Bugtracker.Controllers
                         projectsHelper.RemoveUserFromProject(user.Id, projectId);
                     }
 
-                    // add users back to projects if possible
+                    // add a PM back to projects if possible
                     if (!string.IsNullOrEmpty(projectManagerId))
                     {
                         projectsHelper.AddUserToProject(projectManagerId, projectId);
@@ -149,6 +147,25 @@ namespace KC_Bugtracker.Controllers
                         }
                     }
 
+                    // demo users
+                    if (!string.IsNullOrEmpty(demoProjectManagerId))
+                    {
+                        projectsHelper.AddUserToProject(demoProjectManagerId, projectId);
+                    }
+                    if (demoDevelopers != null)
+                    {
+                        foreach (var demoDeveloperId in demoDevelopers)
+                        {
+                            projectsHelper.AddUserToProject(demoDeveloperId, projectId);
+                        }
+                    }
+                    if (demoSubmitters != null)
+                    {
+                        foreach (var demoSubmitterId in demoSubmitters)
+                        {
+                            projectsHelper.AddUserToProject(demoSubmitterId, projectId);
+                        }
+                    }
                 }
             }
 

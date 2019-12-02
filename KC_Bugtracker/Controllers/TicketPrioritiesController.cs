@@ -7,12 +7,15 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using KC_Bugtracker.Models;
+using KC_Bugtracker.Helpers;
+using Microsoft.AspNet.Identity;
 
 namespace KC_Bugtracker.Controllers
 {
     public class TicketPrioritiesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private UserRolesHelper rolesHelper = new UserRolesHelper();
 
         // GET: TicketPriorities
         public ActionResult Index()
@@ -51,7 +54,9 @@ namespace KC_Bugtracker.Controllers
             if (ModelState.IsValid)
             {
                 db.TicketPriorities.Add(ticketPriority);
-                db.SaveChanges();
+                var userr = User.Identity.GetUserId();
+                if (!rolesHelper.IsDemoUser(userr))
+                    db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
@@ -83,7 +88,9 @@ namespace KC_Bugtracker.Controllers
             if (ModelState.IsValid)
             {
                 db.Entry(ticketPriority).State = EntityState.Modified;
-                db.SaveChanges();
+                var userr = User.Identity.GetUserId();
+                if (!rolesHelper.IsDemoUser(userr))
+                    db.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(ticketPriority);
@@ -111,7 +118,9 @@ namespace KC_Bugtracker.Controllers
         {
             TicketPriority ticketPriority = db.TicketPriorities.Find(id);
             db.TicketPriorities.Remove(ticketPriority);
-            db.SaveChanges();
+            var userr = User.Identity.GetUserId();
+            if (!rolesHelper.IsDemoUser(userr))
+                db.SaveChanges();
             return RedirectToAction("Index");
         }
 

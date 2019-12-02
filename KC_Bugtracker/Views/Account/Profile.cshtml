@@ -1,5 +1,6 @@
 ﻿@using KC_Bugtracker.Models
 @using Microsoft.AspNet.Identity
+@using KC_Bugtracker.Helpers
 
 @{
     ViewBag.Title = "Profile";
@@ -9,25 +10,36 @@
 @{
     var db = new ApplicationDbContext();
     var user = db.Users.Find(User.Identity.GetUserId());
+    var roleHelper = new UserRolesHelper();
+
 }
 
-<div class="card">
+<div class="card shadow">
     <div class="card-body">
         <div class="row-md-12">
             <h2><span>@user.FirstName</span> <span>@user.LastName</span></h2>
         </div>
         <hr />
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-6 text-left">
                 @if (user != null && user.AvatarPath == null)
                 {
                     <img src="~/Avatars/default_user.png" alt="..." class="rounded-circle pr-1" width="100" />
                 }
                 else if (user != null)
                 {
-                    <img src="@user.AvatarPath" alt="..." class="rounded-circle pr-1" width="50" />
+                    <img src="@user.AvatarPath" alt="..." class="rounded-circle pr-1" width="100" />
                 }
-                <a href="~/Manage/EditProfile">Edit Profile</a>
+                @if (!roleHelper.IsDemoUser(user.Id))
+                {
+                    // Not demo user
+                    <a href="~/Manage/EditProfile">Edit Profile</a>
+                }
+                else
+                {
+                    // Demo user
+                    <p class="pl-2" style="color:gray;">Edit Profile</p>
+                }
             </div>
             <div class="col-md-6">
                 <ul style="list-style-type:none;">
@@ -37,6 +49,5 @@
                 </ul>
             </div>
         </div>
-
     </div>
 </div>

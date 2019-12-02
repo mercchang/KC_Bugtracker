@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Mvc;
 using KC_Bugtracker.Helpers;
 using KC_Bugtracker.Models;
+using Microsoft.AspNet.Identity;
 
 namespace KC_Bugtracker.Controllers
 {
@@ -15,12 +16,15 @@ namespace KC_Bugtracker.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
         private NotificationHelper notificationHelper = new NotificationHelper();
+        private UserRolesHelper rolesHelper = new UserRolesHelper();
 
         public ActionResult Dismiss(int id)
         {
             var notification = db.TicketNotifications.Find(id);
             notification.IsRead = true;
-            db.SaveChanges();
+            var userr = User.Identity.GetUserId();
+            if (!rolesHelper.IsDemoUser(userr))
+                db.SaveChanges();
             return RedirectToAction("Dashboard", "Home");
         }
 
@@ -64,7 +68,9 @@ namespace KC_Bugtracker.Controllers
             {
                 ticketNotification.Created = DateTime.Now;
                 db.TicketNotifications.Add(ticketNotification);
-                db.SaveChanges();
+                var userr = User.Identity.GetUserId();
+                if (!rolesHelper.IsDemoUser(userr))
+                    db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
@@ -98,7 +104,9 @@ namespace KC_Bugtracker.Controllers
             if (ModelState.IsValid)
             {
                 db.Entry(ticketNotification).State = EntityState.Modified;
-                db.SaveChanges();
+                var userr = User.Identity.GetUserId();
+                if (!rolesHelper.IsDemoUser(userr))
+                    db.SaveChanges();
                 return RedirectToAction("Index");
             }
             ViewBag.RecipientId = new SelectList(db.Users, "Id", "FirstName", ticketNotification.RecipientId);
@@ -127,7 +135,9 @@ namespace KC_Bugtracker.Controllers
         {
             TicketNotification ticketNotification = db.TicketNotifications.Find(id);
             db.TicketNotifications.Remove(ticketNotification);
-            db.SaveChanges();
+            var userr = User.Identity.GetUserId();
+            if (!rolesHelper.IsDemoUser(userr))
+                db.SaveChanges();
             return RedirectToAction("Index");
         }
 

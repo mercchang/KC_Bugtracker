@@ -75,38 +75,29 @@ namespace KC_Bugtracker.Models
         }
 
         public System.Data.Entity.DbSet<KC_Bugtracker.Models.Project> Projects { get; set; }
-
         public System.Data.Entity.DbSet<KC_Bugtracker.Models.Ticket> Tickets { get; set; }
-
         public System.Data.Entity.DbSet<KC_Bugtracker.Models.TicketPriority> TicketPriorities { get; set; }
-
         public System.Data.Entity.DbSet<KC_Bugtracker.Models.TicketStatus> TicketStatuses { get; set; }
-
         public System.Data.Entity.DbSet<KC_Bugtracker.Models.TicketType> TicketTypes { get; set; }
-
         public System.Data.Entity.DbSet<KC_Bugtracker.Models.TicketAttachment> TicketAttachments { get; set; }
-
         public System.Data.Entity.DbSet<KC_Bugtracker.Models.TicketComment> TicketComments { get; set; }
-
         public System.Data.Entity.DbSet<KC_Bugtracker.Models.TicketHistory> TicketHistories { get; set; }
-
         public System.Data.Entity.DbSet<KC_Bugtracker.Models.TicketNotification> TicketNotifications { get; set; }
 
-        public override int SaveChanges()
-        {
-            UserRolesHelper rolesHelper = new UserRolesHelper();
-            var userId = HttpContext.Current.User.Identity.GetUserId();
+        //public override int SaveChanges()
+        //{
+        //    UserRolesHelper rolesHelper = new UserRolesHelper();
+        //    var userId = HttpContext.Current.User.Identity.GetUserId();
 
-            if (!rolesHelper.IsDemoUser(userId))
-            {
-                return base.SaveChanges();
-            }
-            else
-            {
-                return 0;
-            }
-        }
+        //    if (!rolesHelper.IsDemoUser(userId))
+        //    {
+        //        return base.SaveChanges();
+        //    }
+        //    else
+        //    {
+        //        return 0;
+        //    }
+        //}
     }
-
 
 }

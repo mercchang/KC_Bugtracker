@@ -19,6 +19,7 @@ namespace KC_Bugtracker.Controllers
         private UploadValidator uploadValidator = new UploadValidator();
         private NotificationHelper notificationHelper = new NotificationHelper();
         private TicketHistoryHelper auditHelper = new TicketHistoryHelper();
+        private UserRolesHelper rolesHelper = new UserRolesHelper();
 
         // GET: TicketAttachments
         public ActionResult Index()
@@ -87,10 +88,13 @@ namespace KC_Bugtracker.Controllers
                         db.Entry(oldTicket).State = EntityState.Modified;
                         db.TicketAttachments.Add(ticketAttachment);
                         auditHelper.RecordAttachments(oldTicket, newTicket, fileName);
-                        notificationHelper.AttachmentNotification(newTicket);   // create notification
+                        // create notification
+                        notificationHelper.AttachmentNotification(newTicket);   
                         //===================================================================================
 
-                        db.SaveChanges();
+                        var userr = User.Identity.GetUserId();
+                        if (!rolesHelper.IsDemoUser(userr))
+                            db.SaveChanges();
                     }
                 }
                 //Response.Redirect(Request.RawUrl);
@@ -126,7 +130,9 @@ namespace KC_Bugtracker.Controllers
             if (ModelState.IsValid)
             {
                 db.Entry(ticketAttachment).State = EntityState.Modified;
-                db.SaveChanges();
+                var userr = User.Identity.GetUserId();
+                if (!rolesHelper.IsDemoUser(userr))
+                    db.SaveChanges();
                 return RedirectToAction("Index");
             }
             ViewBag.TicketId = new SelectList(db.Tickets, "Id", "SubmitterId", ticketAttachment.TicketId);
@@ -156,7 +162,9 @@ namespace KC_Bugtracker.Controllers
         {
             TicketAttachment ticketAttachment = db.TicketAttachments.Find(id);
             db.TicketAttachments.Remove(ticketAttachment);
-            db.SaveChanges();
+            var userr = User.Identity.GetUserId();
+            if (!rolesHelper.IsDemoUser(userr))
+                db.SaveChanges();
             return RedirectToAction("Index");
         }
 

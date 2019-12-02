@@ -66,6 +66,7 @@ namespace KC_Bugtracker.Controllers
         }
 
         // GET: Projects
+        [Authorize(Roles = "Admin, DemoAdmin, ProjectManager, DemoProjectManager")]
         public ActionResult Index()
         {
             // displays user's projects. Admin sees all projects
@@ -112,7 +113,9 @@ namespace KC_Bugtracker.Controllers
             {
                 project.Created = DateTime.Now;
                 db.Projects.Add(project);
-                db.SaveChanges();
+                var userr = User.Identity.GetUserId();
+                if (!roleHelper.IsDemoUser(userr))
+                    db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
@@ -139,14 +142,15 @@ namespace KC_Bugtracker.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Created,Updated,Description")] Project project)
+        public ActionResult Edit([Bind(Include = "Id,Name,Description,Created")] Project project)
         {
-            
             if (ModelState.IsValid)
             {
                 project.Updated = DateTime.Now;
                 db.Entry(project).State = EntityState.Modified;
-                db.SaveChanges();
+                var userr = User.Identity.GetUserId();
+                if (!roleHelper.IsDemoUser(userr))
+                    db.SaveChanges();
                 return RedirectToAction("Index", "Projects");
             }
             return View(project);
@@ -174,7 +178,9 @@ namespace KC_Bugtracker.Controllers
         {
             Project project = db.Projects.Find(id);
             db.Projects.Remove(project);
-            db.SaveChanges();
+            var userr = User.Identity.GetUserId();
+            if (!roleHelper.IsDemoUser(userr))
+                db.SaveChanges();
             return RedirectToAction("Index");
         }
 

@@ -17,6 +17,7 @@ namespace KC_Bugtracker.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
         private NotificationHelper notificationHelper = new NotificationHelper();
         private TicketHistoryHelper auditHelper = new TicketHistoryHelper();
+        private UserRolesHelper rolesHelper = new UserRolesHelper();
 
         // GET: TicketComments
         public ActionResult Index()
@@ -63,7 +64,9 @@ namespace KC_Bugtracker.Controllers
                     ticketComment.UserId = User.Identity.GetUserId();
                     db.TicketComments.Add(ticketComment);
 
-                    db.SaveChanges();
+                    var userr = User.Identity.GetUserId();
+                    if (!rolesHelper.IsDemoUser(userr))
+                        db.SaveChanges();
                     return RedirectToAction("Details", "Tickets", new { id = ticketComment.TicketId });
                 }
             }
@@ -104,7 +107,9 @@ namespace KC_Bugtracker.Controllers
             if (ModelState.IsValid)
             {
                 db.Entry(ticketComment).State = EntityState.Modified;
-                db.SaveChanges();
+                var userr = User.Identity.GetUserId();
+                if (!rolesHelper.IsDemoUser(userr))
+                    db.SaveChanges();
                 return RedirectToAction("Index");
             }
             ViewBag.TicketId = new SelectList(db.Tickets, "Id", "SubmitterId", ticketComment.TicketId);
@@ -134,7 +139,9 @@ namespace KC_Bugtracker.Controllers
         {
             TicketComment ticketComment = db.TicketComments.Find(id);
             db.TicketComments.Remove(ticketComment);
-            db.SaveChanges();
+            var userr = User.Identity.GetUserId();
+            if (!rolesHelper.IsDemoUser(userr))
+                db.SaveChanges();
             return RedirectToAction("Index");
         }
 

@@ -7,12 +7,15 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using KC_Bugtracker.Models;
+using KC_Bugtracker.Helpers;
+using Microsoft.AspNet.Identity;
 
 namespace KC_Bugtracker.Controllers
 {
     public class TicketTypesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();
+        private UserRolesHelper rolesHelper = new UserRolesHelper();
 
         // GET: TicketTypes
         public ActionResult Index()
@@ -51,7 +54,10 @@ namespace KC_Bugtracker.Controllers
             if (ModelState.IsValid)
             {
                 db.TicketTypes.Add(ticketType);
-                db.SaveChanges();
+
+                var userr = User.Identity.GetUserId();
+                if (!rolesHelper.IsDemoUser(userr))
+                    db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
@@ -83,7 +89,10 @@ namespace KC_Bugtracker.Controllers
             if (ModelState.IsValid)
             {
                 db.Entry(ticketType).State = EntityState.Modified;
-                db.SaveChanges();
+
+                var userr = User.Identity.GetUserId();
+                if (!rolesHelper.IsDemoUser(userr))
+                    db.SaveChanges();
                 return RedirectToAction("Index");
             }
             return View(ticketType);
@@ -111,7 +120,10 @@ namespace KC_Bugtracker.Controllers
         {
             TicketType ticketType = db.TicketTypes.Find(id);
             db.TicketTypes.Remove(ticketType);
-            db.SaveChanges();
+
+            var userr = User.Identity.GetUserId();
+            if (!rolesHelper.IsDemoUser(userr))
+                db.SaveChanges();
             return RedirectToAction("Index");
         }
 

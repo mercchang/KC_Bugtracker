@@ -115,3 +115,79 @@ $(function() {
         }
     });
 });
+
+//====================================================
+//      Login Page
+//====================================================
+
+$('[data-toggle="tooltip"]').tooltip();
+$(".preloader").fadeOut();
+
+$('#demobutton').click(function () {
+    var id = $(this).data('toggle');
+    showDemo(id);
+});
+
+$('#loginbutton').click(function () {
+    var id = $(this).data('toggle');
+    showLogin(id);
+});
+
+function showDemo(id) {
+    // hide all other
+    var divs = $('.content-divs');
+    console.log(divs);
+    divs.children().each(function (index) {
+        $(this).hide();
+    });
+    divs.children('#demodiv').fadeIn();
+    divs.children('#logindiv').fadeOut();
+}
+
+function showLogin(id) {
+    // hide all other
+    var divs = $('.content-divs');
+    console.log(divs);
+    divs.children().each(function (index) {
+        $(this).hide();
+    });
+    divs.children('#logindiv').fadeIn();
+    divs.children('#demodiv').fadeOut();
+}
+
+//====================================================
+//      Admin Notifications Page
+//====================================================
+
+$('#myNot').click(function () {
+    var id = $(this).data('toggle');
+    showMyNot(id);
+});
+
+$('#allNot').click(function () {
+    var id = $(this).data('toggle');
+    showAllNot(id);
+});
+
+function showMyNot(id) {
+    // hide all other
+    var divs = $('.notification-content');
+    console.log(divs);
+    divs.children().each(function (index) {
+        $(this).hide();
+    });
+    divs.children('#myNotDiv').fadeIn();
+    divs.children('#allNotDiv').fadeOut();
+}
+
+function showAllNot(id) {
+    // hide all other
+    var divs = $('.notification-content');
+    console.log(divs);
+    divs.children().each(function (index) {
+        $(this).hide();
+    });
+    divs.children('#allNotDiv').fadeIn();
+    divs.children('#myNotDiv').fadeOut();
+}
+

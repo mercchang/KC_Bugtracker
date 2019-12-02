@@ -23,21 +23,14 @@
 
 <body>
     <div class="main-wrapper">
-        <!-- ============================================================== -->
-        <!-- Preloader
-        <!-- ============================================================== -->
+        <!-- Preloader -->
         <div class="preloader">
             <div class="lds-ripple">
                 <div class="lds-pos"></div>
                 <div class="lds-pos"></div>
             </div>
         </div>
-        <!-- ============================================================== -->
-        <!-- Preloader
-        <!-- ============================================================== -->
-        <!-- ============================================================== -->
-        <!-- Login box.scss -->
-        <!-- ============================================================== -->
+
         <div class="auth-wrapper d-flex no-block justify-content-center align-items-center">
             <div class="auth-box border-top border-secondary" style="max-width: 800px;">
                 <div>
@@ -89,12 +82,15 @@
                                     </div>
                                     @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control form-control-lg", placeholder = "Confirm Password" })
                                 </div>
-                                <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
-                                        <span class="input-group-text bg-info text-white" id="basic-addon2"><i class="ti-pencil"></i></span>
-                                    </div>
-                                    @Html.TextBox("Avatar", null, new { type="file"})
-                                </div>
+
+                            </div>
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-6 text-right">
+                                <h4>Choose an Avatar:</h4>
+                            </div>
+                            <div class="col-6">
+                                @Html.TextBox("Avatar", null, new { type = "file", placeholder = "Choose Avatar" })
                             </div>
                         </div>
                         <div class="row border-top border-secondary">
@@ -104,7 +100,7 @@
                                         <button class="btn btn-block btn-lg btn-info" type="submit">Sign Up</button>
                                     </div>
                                 </div>
-                                
+
                             </div>
                             <div class="col-12" style="text-align:center">
                                 <a class="btn btn-success px-5" href="~/Home/Index">Login</a>

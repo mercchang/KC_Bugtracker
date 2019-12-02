@@ -13,106 +13,110 @@
 }
 
 @*Ticket Details*@
-    <div class="row">
-        <div class="col">
-            <div class="card">
-                <div class="card-body">
-                    <h4>Ticket</h4>
-                    <div class="table-responsive">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Assigned Developer</th>
-                                    <th>Project</th>
-                                    <th>Submitter</th>
-                                    <th>Priority</th>
-                                    <th>Status</th>
-                                    <th>Type</th>
-                                    <th>@Html.DisplayNameFor(model => model.Title)</th>
-                                    <th>@Html.DisplayNameFor(model => model.Description)</th>
-                                    <th>@Html.DisplayNameFor(model => model.Created)</th>
-                                    <th>@Html.DisplayNameFor(model => model.Updated)</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        @if (Model.DeveloperId != null)
-                                        {
-                                            <span>@Html.DisplayFor(model => model.Developer.LastName), @Html.DisplayFor(model => model.Developer.FirstName)</span>
-                                        }
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(model => model.Project.Name)
-                                    </td>
-                                    <td>
-                                        @if (Model.SubmitterId != null)
-                                        {
-                                            <span>@Html.DisplayFor(model => model.Submitter.LastName), @Html.DisplayFor(model => model.Submitter.FirstName)</span>
-                                        }
-                                    </td>
-                                    <td>
-                                        @if (Model.TicketPriority.PriorityName.Contains("High"))
-                                        {
-                                            <span class="badge badge-danger">@Html.DisplayFor(model => model.TicketPriority.PriorityName)</span>
-                                        }
-                                        @if (Model.TicketPriority.PriorityName.Contains("Medium"))
-                                        {
-                                            <span class="badge badge-warning">@Html.DisplayFor(model => model.TicketPriority.PriorityName)</span>
-                                        }
-                                        @if (Model.TicketPriority.PriorityName.Contains("Low"))
-                                        {
-                                            <span class="badge badge-info">@Html.DisplayFor(model => model.TicketPriority.PriorityName)</span>
-                                        }
-                                        @if (Model.TicketPriority.PriorityName.Contains("None"))
-                                        {
-                                            <span class="badge badge-light">@Html.DisplayFor(model => model.TicketPriority.PriorityName)</span>
-                                        }
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(model => model.TicketStatus.StatusName)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(model => model.TicketType.TypeName)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(model => model.Title)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(model => model.Description)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(model => model.Created)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(model => model.Updated)
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <hr/>
-                    <div class="row">
-                        <div class="col text-right">
-                            @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-success px-4" })
-                        </div>
-                        <div class="col text-left">
-                        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-primary" })
-                        </div>
-                    </div>
-                    
+<div class="row">
+    <div class="col">
+        <div class="card shadow">
+            <div class="card-header">
+                <h4>Ticket</h4>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Assigned Developer</th>
+                                <th>Project</th>
+                                <th>Submitter</th>
+                                <th>Priority</th>
+                                <th>Status</th>
+                                <th>Type</th>
+                                <th>@Html.DisplayNameFor(model => model.Title)</th>
+                                <th>@Html.DisplayNameFor(model => model.Description)</th>
+                                <th>@Html.DisplayNameFor(model => model.Created)</th>
+                                <th>@Html.DisplayNameFor(model => model.Updated)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    @if (Model.DeveloperId != null)
+                                    {
+                                        <span>@Html.DisplayFor(model => model.Developer.LastName), @Html.DisplayFor(model => model.Developer.FirstName)</span>
+                                    }
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => model.Project.Name)
+                                </td>
+                                <td>
+                                    @if (Model.SubmitterId != null)
+                                    {
+                                        <span>@Html.DisplayFor(model => model.Submitter.LastName), @Html.DisplayFor(model => model.Submitter.FirstName)</span>
+                                    }
+                                </td>
+                                <td>
+                                    @if (Model.TicketPriority.PriorityName.Contains("High"))
+                                    {
+                                        <span class="badge badge-danger">@Html.DisplayFor(model => model.TicketPriority.PriorityName)</span>
+                                    }
+                                    @if (Model.TicketPriority.PriorityName.Contains("Medium"))
+                                    {
+                                        <span class="badge badge-warning">@Html.DisplayFor(model => model.TicketPriority.PriorityName)</span>
+                                    }
+                                    @if (Model.TicketPriority.PriorityName.Contains("Low"))
+                                    {
+                                        <span class="badge badge-info">@Html.DisplayFor(model => model.TicketPriority.PriorityName)</span>
+                                    }
+                                    @if (Model.TicketPriority.PriorityName.Contains("None"))
+                                    {
+                                        <span class="badge badge-light">@Html.DisplayFor(model => model.TicketPriority.PriorityName)</span>
+                                    }
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => model.TicketStatus.StatusName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => model.TicketType.TypeName)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => model.Title)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => model.Description)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => model.Created)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(model => model.Updated)
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
+                <hr />
+                <div class="row">
+                    <div class="col text-right">
+                        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-success px-4" })
+                    </div>
+                    <div class="col text-left">
+                        @Html.ActionLink("Back to List", "Index", null, new { @class = "btn btn-primary" })
+                    </div>
+                </div>
+
             </div>
         </div>
     </div>
+</div>
 
 <div class="row">
     @*Ticket Attachments*@
     <div class="col-md-8">
-        <div class="card">
+        <div class="card shadow">
+            <div class="card-header">
+                <h4>Attachments (@Model.TicketAttachments.Count)</h4>
+            </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <h4>Attachments (@Model.TicketAttachments.Count)</h4>
                     @if (Model.TicketAttachments.Count != 0)
                     {
                         <table id="attach" class="table">
@@ -175,6 +179,7 @@
                     @Html.AntiForgeryToken()
                     @Html.Hidden("TicketId", Model.Id)
                     @Html.Hidden("Ticket", Model)
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
                     <div class="form-group">
                         @Html.TextBox("file", null, new { type = "file" })
@@ -189,7 +194,7 @@
 
                     <div class="form-group">
                         <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" value="Create" class="btn btn-default" />
+                            <input type="submit" value="Create" class="btn btn-success" />
                         </div>
                     </div>
                 }
@@ -199,10 +204,11 @@
     </div>
     @*Ticket Comments*@
     <div class="col-md-4">
-        <div class="card">
-            <div class="card-body">
+        <div class="card shadow">
+            <div class="card-header">
                 <h4>Comments (@Model.TicketComments.Count)</h4>
-                <hr />
+            </div>
+            <div class="card-body">
                 @if (Model.TicketComments.Count != 0)
                 {
                     <div class="chat-box scrollable" style="height:475px;">
@@ -269,11 +275,12 @@
                         <div class="col-md-12">
                             @Html.AntiForgeryToken()
                             @Html.Hidden("TicketId", Model.Id)
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-                            @Html.TextArea("Comment", new { @class = "form-control", rows = 5, placeholder = "Add Comment...", })
+                            @Html.TextArea("Comment", new { @class = "form-control", rows = 5, placeholder = "Add Comment..." })
                         </div>
                         <div class="col pt-3">
-                            <button type="submit" class="btn btn-info margin-5">Add Comment</button>
+                            <button type="submit" class="btn btn-success margin-5">Add Comment</button>
                         </div>
                     }
 
@@ -285,10 +292,11 @@
 
 @*Ticket History*@
 <div class="row-lg-12">
-    <div class="card">
-        <div class="card-body">
+    <div class="card shadow">
+        <div class="card-header">
             <h4>History (@Model.TicketHistories.Count)</h4>
-            <hr />
+        </div>
+        <div class="card-body">
             <div class="table-responsive">
                 <table id="history" class="table table-striped table-bordered">
                     <thead>
@@ -349,10 +357,16 @@
     <script src="~/assets/extra-libs/DataTables/datatables.min.js"></script>
 
     <script>
-        $('#attach').DataTable();
+        $('#attach').DataTable(
+        {
+            "lengthMenu": [ 5, 10, 20, 30, 50 ]
+        });
     </script>
     <script>
-        $('#history').DataTable();
+        $('#history').DataTable(
+        {
+            "lengthMenu": [5, 10, 20, 30, 50]
+        });
     </script>
 
 }
