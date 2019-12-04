@@ -25,6 +25,7 @@ namespace KC_Bugtracker.Controllers
             return View(ticketHistories.ToList());
         }
 
+        [Authorize(Roles = "Admin")]
         // GET: TicketHistories/Details/5
         public ActionResult Details(int? id)
         {
@@ -39,7 +40,7 @@ namespace KC_Bugtracker.Controllers
             }
             return View(ticketHistory);
         }
-        [Authorize(Roles = "Admin, ProjectManager, DemoAdmin, DemoProjectManager")]
+        [Authorize(Roles = "Admin")]
         // GET: TicketHistories/Create
         public ActionResult Create()
         {
@@ -71,7 +72,7 @@ namespace KC_Bugtracker.Controllers
             return View(ticketHistory);
         }
 
-        [Authorize(Roles = "Admin, ProjectManager, DemoAdmin, DemoProjectManager")]
+        [Authorize(Roles = "Admin")]
         // GET: TicketHistories/Edit/5
         public ActionResult Edit(int? id)
         {
@@ -109,7 +110,7 @@ namespace KC_Bugtracker.Controllers
             return View(ticketHistory);
         }
 
-        [Authorize(Roles = "Admin, ProjectManager, DemoAdmin, DemoProjectManager")]
+        [Authorize(Roles = "Admin")]
         // GET: TicketHistories/Delete/5
         public ActionResult Delete(int? id)
         {

@@ -180,13 +180,14 @@ namespace KC_Bugtracker.Controllers
             base.Dispose(disposing);
         }
 
+        [Authorize(Roles = "Admin, DemoAdmin, ProjectManager, DemoProjectManager")]
         public ActionResult AssignTicket(int? id)
         {
             UserRolesHelper rolesHelper = new UserRolesHelper();
             var ticket = db.Tickets.Find(id);
 
             var users = rolesHelper.UsersInRole("Developer").ToList();
-            ViewBag.DeveloperId = new SelectList(users, "Id", "DisplayName", ticket.DeveloperId);
+            ViewBag.DeveloperId = new SelectList(users, "Id", "FullName", ticket.DeveloperId);
 
             return View(ticket);
 

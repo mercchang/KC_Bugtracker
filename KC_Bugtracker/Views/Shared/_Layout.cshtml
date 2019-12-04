@@ -16,7 +16,6 @@
     <link rel="icon" type="image/png" sizes="16x16" href="~/Images/favicon.png">
     <title>Bug Tracker</title>
     <!-- Custom CSS -->
-    @*<link href="~/assets/libs/flot/css/float-chart.css" rel="stylesheet">*@
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
     <!-- Custom CSS -->
     <link href="~/Content/style.min.css" rel="stylesheet" />
@@ -26,7 +25,7 @@
     <link href="~/Content/morris.css" rel="stylesheet" />
 </head>
 
-<body style="background-color: #dedede">
+<body style="background-image: linear-gradient(180deg,#ebf0fa 30%,#d6e0f5 100%);">
     @{
         var db = new ApplicationDbContext();
         var user = db.Users.Find(User.Identity.GetUserId());
@@ -156,7 +155,7 @@
         <!-- ============================================================== -->
         <!-- Left Sidebar
         <!-- ============================================================== -->
-        <aside class="left-sidebar" data-sidebarbg="skin5">
+        <aside class="left-sidebar" style="background-image: linear-gradient(180deg,#1f262d 10%,#4b66b6 100%);">
             <!-- Sidebar scroll-->
             <div class="scroll-sidebar">
                 <!-- Sidebar navigation-->
