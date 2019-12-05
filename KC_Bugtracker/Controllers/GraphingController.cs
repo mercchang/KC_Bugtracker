@@ -27,8 +27,6 @@ namespace KC_Bugtracker.Controllers
 
                 data.value = userTickets.Where(t => t.TicketPriority.PriorityName == priority.PriorityName).Count();
                 myData.Add(data);
-                
-                //var b = userTickets.Where(t => t.TicketPriority.PriorityName == priority.PriorityName).Count();
             }
             return Json(myData);
         }
@@ -44,6 +42,22 @@ namespace KC_Bugtracker.Controllers
                 data = new MorrisBarData();
                 data.label = priority.StatusName;
                 data.value = userTickets.Where(t => t.TicketStatus.StatusName == priority.StatusName).Count();
+                myData.Add(data);
+            }
+            return Json(myData);
+        }
+
+        public JsonResult ProduceChart3Data()
+        {
+            var myData = new List<MorrisBarData>();
+            MorrisBarData data = null;
+            var userTickets = ticketHelper.ListMyTickets();
+
+            foreach (var type in db.TicketTypes.ToList())
+            {
+                data = new MorrisBarData();
+                data.label = type.TypeName;
+                data.value = userTickets.Where(t => t.TicketType.TypeName == type.TypeName).Count();
                 myData.Add(data);
             }
             return Json(myData);

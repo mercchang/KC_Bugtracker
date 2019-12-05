@@ -43,7 +43,7 @@ namespace KC_Bugtracker.Helpers
                 var senderEmail = $"Bugtracker Admin<{ConfiguredEmail}>";
                 var mailMsg = new MailMessage(senderEmail, model.Email)
                 {
-                    Subject = "Confirm your accout",
+                    Subject = "Confirm your account",
                     Body = $"Please confirm your account by clicking <a href=\"{callbackUrl}\">here</a>",
                     IsBodyHtml = true
                 };

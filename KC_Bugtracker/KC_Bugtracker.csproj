@@ -1270,7 +1270,6 @@
     <Content Include="Views\Account\Profile.cshtml" />
     <Content Include="private.config" />
     <Content Include="Views\Tickets\AssignTicket.cshtml" />
-    <Content Include="Views\Account\DemoLoginAsync.cshtml" />
     <None Include="Properties\PublishProfiles\KCBugtracker - Web Deploy.pubxml" />
     <Content Include="Views\Shared\_LoginLayout.cshtml" />
   </ItemGroup>

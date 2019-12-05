@@ -8,11 +8,12 @@
 @{
     var db = new ApplicationDbContext();
     var roleHelper = new UserRolesHelper();
+    var ticketHelper = new TicketHelper();
     var user = db.Users.Find(HttpContext.Current.User.Identity.GetUserId());
     var cutOffDate = DateTime.Now.AddDays(-7);
-    var newTickets = db.Tickets.Where(t => t.Created > cutOffDate).ToList();
+    var newTickets = ticketHelper.ListMyTickets().Where(t => t.Created > cutOffDate).ToList();
     var newProjects = user.Projects.Where(t => t.Created > cutOffDate).ToList();
-
+    //var hpTickets = newTickets.Where(t => t.TicketPriority.PriorityName == "High");
 }
 
 <div class="row">
@@ -35,7 +36,7 @@
                                 <h5 class="m-b-0 m-t-5">@db.Projects.Count()</h5>
                                 <small class="font-light">Projects</small>
                             }
-                            else 
+                            else
                             {
                                 <h5 class="m-b-0 m-t-5">@user.Projects.Count()</h5>
                                 <small class="font-light">My Projects</small>
@@ -52,50 +53,31 @@
                     <div class="col">
                         <div class="box bg-info card-hover p-10 text-white text-center">
                             <i class="fa fa-ticket-alt m-b-5 font-16"></i>
-                            <h5 class="m-b-0 m-t-5">
-                                @switch (roleHelper.GetRoleName(user.Id))
-                                {
-                                    case "Developer":
-                                        @db.Tickets.Where(t => t.DeveloperId == user.Id).Count();
-                                        break;
-                                    case "Submitter":
-                                        @db.Tickets.Where(t => t.SubmitterId == user.Id).Count();
-                                        break;
-                                    default:
-                                        @db.Tickets.Count();
-                                        break;
-                                }
-                            </h5>
+                            <h5 class="m-b-0 m-t-5">@ticketHelper.ListMyTickets().Count()</h5>
                             <small class="font-light">Total Tickets</small>
                         </div>
                     </div>
                     <div class="col">
                         <div class="box bg-success card-hover p-10 text-white text-center">
                             <i class="fa fa-ticket-alt m-b-5 font-16"></i>
-                            <h5 class="m-b-0 m-t-5">
-                                @switch (roleHelper.GetRoleName(user.Id))
-                                {
-                                    case "Developer":
-                                        @db.Tickets.Where(t => t.DeveloperId == user.Id).Where(t => t.Created > cutOffDate).Count();
-                                        break;
-                                    case "Submitter":
-                                        @db.Tickets.Where(t => t.SubmitterId == user.Id).Where(t => t.Created > cutOffDate).Count();
-                                        break;
-                                    default:
-                                        @newTickets.Count()
-                                        break;
-                                }
-                            </h5>
+                            <h5 class="m-b-0 m-t-5">@newTickets.Count()</h5>
                             <small class="font-light">New Tickets (7 days)</small>
                         </div>
                     </div>
+                    @*<div class="col">
+                        <div class="box bg-danger card-hover p-10 text-white text-center">
+                            <i class="fa fa-ticket-alt m-b-5 font-16"></i>
+                            <h5 class="m-b-0 m-t-5">@hpTickets.Count()</h5>
+                            <small class="font-light">New High Priority Tickets (7 days)</small>
+                        </div>
+                    </div>*@
                 </div>
             </div>
         </div>
     </div>
 </div>
 <div class="row">
-    <div class="col-lg-8">
+    <div class="col-lg-4">
         <div class="card shadow">
             <div class="card-header">
                 <h4 class="card-title">Ticket Priorities</h4>
@@ -105,43 +87,6 @@
                     <div class="col-12">
                         <div id="ticketchart1" class="ticketchart1" style="height: 300px;"></div>
                     </div>
-                    @*<div class="col">
-                        <div class="row">
-                            <div class="col">
-                                <div class="bg-transparent p-10 text-white text-center">
-                                    <i class="fa fa-ticket-alt m-b-5 font-16" style="color:red"></i>
-                                    <h5 class="m-b-0 m-t-5" style="color:black">@db.Tickets.Where(t => t.TicketPriority.PriorityName == "High").Count()</h5>
-                                    <small class="font-light" style="color:black">High Priority</small>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="bg-transparent p-10 text-white text-center">
-                                    <i class="fa fa-ticket-alt m-b-5 font-16" style="color:yellow"></i>
-                                    <h5 class="m-b-0 m-t-5" style="color:black">@db.Tickets.Where(t => t.TicketPriority.PriorityName == "Medium").Count()</h5>
-                                    <small class="font-light" style="color:black">Medium Priority</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="col">
-                        <div class="row">
-                            <div class="col">
-                                <div class="bg-transparent p-10 text-white text-center">
-                                    <i class="fa fa-ticket-alt m-b-5 font-16" style="color:lightgreen"></i>
-                                    <h5 class="m-b-0 m-t-5" style="color:black">@db.Tickets.Where(t => t.TicketPriority.PriorityName == "Low").Count()</h5>
-                                    <small class="font-light" style="color:black">Low Priority</small>
-                                </div>
-                            </div>
-                            <div class="col">
-                                <div class="bg-transparent p-10 text-white text-center">
-                                    <i class="fa fa-ticket-alt m-b-5 font-16" style="color:black"></i>
-                                    <h5 class="m-b-0 m-t-5" style="color:black">@db.Tickets.Where(t => t.TicketPriority.PriorityName == "Low").Count()</h5>
-                                    <small class="font-light" style="color:black">No Priority</small>
-                                </div>
-                            </div>
-                        </div>
-                    </div>*@
                 </div>
             </div>
         </div>
@@ -154,6 +99,17 @@
             </div>
             <div class="card-body">
                 <div id="ticketchart2" class="ticketchart2" style="height: 300px;"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card shadow">
+            <div class="card-header">
+                <h4 class="card-title">Ticket Types</h4>
+            </div>
+            <div class="card-body">
+                <div id="ticketchart3" class="ticketchart3" style="height: 300px;"></div>
             </div>
         </div>
     </div>
@@ -198,6 +154,22 @@
             });
         });
         var url = '@Url.Action("ProduceChart2Data", "Graphing")';
+        });
+
+        $(function () {
+        var url = '@Url.Action("ProduceChart3Data", "Graphing")';
+        $.post(url).then(function (response) {
+            new Morris.Donut({
+                element: 'ticketchart3',
+                data: response,
+                xkey: 'label',
+                ykeys: ['value'],
+                labels: ['Ticket Count'],
+                resize: true,
+                colors: ['#E53935', '#0066ff', '#ff9900', '#00cc00', '#000']
+            });
+        });
+        var url = '@Url.Action("ProduceChart3Data", "Graphing")';
         });
     </script>
 }
