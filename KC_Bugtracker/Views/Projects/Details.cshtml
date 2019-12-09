@@ -1,4 +1,4 @@
-﻿@model KC_Bugtracker.Models.Project
+﻿@model KC_Bugtracker.Models.ProjectViewModel
 
 @{
     ViewBag.Title = "Details";
@@ -7,7 +7,7 @@
     <div class="col-md-6">
         <div class="card shadow">
             <div class="card-header">
-                <h3>@Html.DisplayFor(model => model.Name)</h3>
+                <h3>@Html.DisplayFor(model => model.Project.Name)</h3>
             </div>
             <div class="card-body" style="height:240px">
                 <dl class="dl-horizontal pl-3">
@@ -15,25 +15,25 @@
                         Project ID:
                     </dt>
                     <dd class="pl-3">
-                        @Html.DisplayFor(model => model.Id)
+                        @Html.DisplayFor(model => model.Project.Id)
                     </dd>
 
                     <dt>
-                        @Html.DisplayNameFor(model => model.Created)
+                        @Html.DisplayNameFor(model => model.Project.Created)
                     </dt>
 
                     <dd class="pl-3">
-                        @Html.DisplayFor(model => model.Created)
+                        @Html.DisplayFor(model => model.Project.Created)
                     </dd>
 
                     <dt>
-                        @Html.DisplayNameFor(model => model.Updated)
+                        @Html.DisplayNameFor(model => model.Project.Updated)
                     </dt>
 
                     <dd class="pl-3">
-                        @if (Model.Updated != null)
+                        @if (Model.Project.Updated != null)
                         {
-                            @Html.DisplayFor(model => model.Updated)
+                            @Html.DisplayFor(model => model.Project.Updated)
                         }
                         else
                         {
@@ -41,13 +41,21 @@
                         }
                     </dd>
 
+                    <dd class="pl-3">
+                        Project Manager:
+                    </dd>
+
+                    <dt>
+                        @Html.DisplayFor(model => model.ProjectManager.FullName)
+                    </dt>
+
                 </dl>
 
             </div>
             <div class="card-footer">
                 <div class="row">
                     <div class="col text-center">
-                        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }, new { @class = "btn btn-success px-4" })
+                        @Html.ActionLink("Edit", "Edit", new { id = Model.Project.Id }, new { @class = "btn btn-success px-4" })
                         @Html.ActionLink("Back to Project List", "Index", null, new { @class = "btn btn-primary " })
                     </div>
                 </div>
@@ -61,7 +69,7 @@
             </div>
             <div class="card-body">
                 <div class="pre-scrollable" style="height:270px">
-                    @Html.DisplayFor(model => model.Description)
+                    @Html.DisplayFor(model => model.Project.Description)
                 </div>
             </div>
         </div>
@@ -93,7 +101,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var item in Model.Tickets)
+                        @foreach (var item in Model.Project.Tickets)
                         {
                             <tr>
                                 <td>@Html.DisplayFor(model => item.Id)</td>

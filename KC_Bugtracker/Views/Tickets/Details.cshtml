@@ -111,97 +111,168 @@
 <div class="row">
     @*Ticket Attachments*@
     <div class="col-md-8">
-        <div class="card shadow">
-            <div class="card-header">
-                <h4>Attachments (@Model.TicketAttachments.Count)</h4>
-            </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                    @if (Model.TicketAttachments.Count != 0)
-                    {
-                        <table id="attach" class="table">
-                            <thead>
-                                <tr>
-                                    <th>
-                                        Submitter
-                                    </th>
-                                    <th>
+        <div class="row">
+            <div class="col">
+                <div class="card shadow">
+                    <div class="card-header">
+                        <h4>Attachments (@Model.TicketAttachments.Count)</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            @if (Model.TicketAttachments.Count != 0)
+                            {
+                                <table id="attach" class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                Submitter
+                                            </th>
+                                            <th>
 
-                                    </th>
-                                    <th>
-                                        Attachment
-                                    </th>
-                                    <th>
-                                        Description
-                                    </th>
-                                    <th>
-                                        Uploaded
-                                    </th>
-                                </tr>
-                            </thead>
+                                            </th>
+                                            <th>
+                                                Attachment
+                                            </th>
+                                            <th>
+                                                Description
+                                            </th>
+                                            <th>
+                                                Uploaded
+                                            </th>
+                                        </tr>
+                                    </thead>
 
-                            <tbody>
-                                @foreach (var attachment in Model.TicketAttachments.OrderBy(c => c.Created))
-                                {
-                                    <tr>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => attachment.User.FullName)
-                                        </td>
-                                        <td>
-                                            <a href="@attachment.FilePath">
-                                                <img src="@AttachmentHelper.GetIcon(attachment.FilePath)" style="width: 30px;" />
-                                            </a>
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => attachment.FilePath)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => attachment.Description)
-                                        </td>
-                                        <td>
-                                            @Html.DisplayFor(modelItem => attachment.Created)
-                                        </td>
-                                    </tr>
-                                }
-                            </tbody>
+                                    <tbody>
+                                        @foreach (var attachment in Model.TicketAttachments.OrderBy(c => c.Created))
+                                        {
+                                            <tr>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => attachment.User.FullName)
+                                                </td>
+                                                <td>
+                                                    <a href="@attachment.FilePath">
+                                                        <img src="@AttachmentHelper.GetIcon(attachment.FilePath)" style="width: 30px;" />
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => attachment.FilePath)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => attachment.Description)
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => attachment.Created)
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
 
-                        </table>
-                    }
-                    else
-                    {
-                        <p>No Attachments.</p>
-                    }
+                                </table>
+                            }
+                            else
+                            {
+                                <p>No Attachments.</p>
+                            }
+                        </div>
+
+                        <hr />
+                        @using (Html.BeginForm("Create", "TicketAttachments", FormMethod.Post, new { enctype = "Multipart/form-data" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.Hidden("TicketId", Model.Id)
+                            @Html.Hidden("Ticket", Model)
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                            <div class="form-group">
+                                @Html.TextBox("file", null, new { type = "file" })
+                            </div>
+
+                            <div class="form-group">
+                                <div>
+                                    @Html.TextArea("Description", "", new { @class = "form-control", rows = 5, placeholder = "Enter Description..." })
+                                    @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <input type="submit" value="Create" class="btn btn-success" />
+                                </div>
+                            </div>
+                        }
+
+                    </div>
                 </div>
-
-                <hr />
-                @using (Html.BeginForm("Create", "TicketAttachments", FormMethod.Post, new { enctype = "Multipart/form-data" }))
-                {
-                    @Html.AntiForgeryToken()
-                    @Html.Hidden("TicketId", Model.Id)
-                    @Html.Hidden("Ticket", Model)
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-
-                    <div class="form-group">
-                        @Html.TextBox("file", null, new { type = "file" })
-                    </div>
-
-                    <div class="form-group">
-                        <div>
-                            @Html.TextArea("Description", "", new { @class = "form-control", rows = 5, placeholder = "Enter Description..." })
-                            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" value="Create" class="btn btn-success" />
-                        </div>
-                    </div>
-                }
-
             </div>
         </div>
+
+        <div class="row">
+            <div class="col">
+                <div class="row-lg-12">
+                    <div class="card shadow">
+                        <div class="card-header">
+                            <h4>History (@Model.TicketHistories.Count)</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table id="history" class="table table-striped table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                Changed By
+                                            </th>
+                                            <th>
+                                                Property
+                                            </th>
+                                            <th>
+                                                Old Value
+                                            </th>
+                                            <th>
+                                                New Value
+                                            </th>
+                                            <th>
+                                                Changed
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var hist in db.TicketHistories)
+                                        {
+                                            if (hist.TicketId == Model.Id)
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        @Html.DisplayFor(modelHist => hist.User.FullName)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelHist => hist.Property)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelHist => hist.OldValue)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelHist => hist.NewValue)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelHist => hist.Changed)
+                                                    </td>
+                                                </tr>
+                                            }
+
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        
     </div>
+
     @*Ticket Comments*@
     <div class="col-md-4">
         <div class="card shadow">
@@ -291,65 +362,7 @@
 </div>
 
 @*Ticket History*@
-<div class="row-lg-12">
-    <div class="card shadow">
-        <div class="card-header">
-            <h4>History (@Model.TicketHistories.Count)</h4>
-        </div>
-        <div class="card-body">
-            <div class="table-responsive">
-                <table id="history" class="table table-striped table-bordered">
-                    <thead>
-                        <tr>
-                            <th>
-                                Changed By
-                            </th>
-                            <th>
-                                Property
-                            </th>
-                            <th>
-                                Old Value
-                            </th>
-                            <th>
-                                New Value
-                            </th>
-                            <th>
-                                Changed
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var hist in db.TicketHistories)
-                        {
-                            if (hist.TicketId == Model.Id)
-                            {
-                                <tr>
-                                    <td>
-                                        @Html.DisplayFor(modelHist => hist.User.FullName)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelHist => hist.Property)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelHist => hist.OldValue)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelHist => hist.NewValue)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelHist => hist.Changed)
-                                    </td>
-                                </tr>
-                            }
 
-                        }
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
-</div>
 
 
 @section scripts{

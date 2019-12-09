@@ -84,6 +84,8 @@ namespace KC_Bugtracker.Models
         public System.Data.Entity.DbSet<KC_Bugtracker.Models.TicketHistory> TicketHistories { get; set; }
         public System.Data.Entity.DbSet<KC_Bugtracker.Models.TicketNotification> TicketNotifications { get; set; }
 
+        //public System.Data.Entity.DbSet<KC_Bugtracker.Models.ApplicationUser> ApplicationUsers { get; set; }
+
         //public override int SaveChanges()
         //{
         //    UserRolesHelper rolesHelper = new UserRolesHelper();

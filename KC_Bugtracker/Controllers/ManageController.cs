@@ -398,7 +398,7 @@ namespace KC_Bugtracker.Controllers
             if (!roleHelper.IsDemoUser(userr))
                 db.SaveChanges();
 
-            return RedirectToAction("EditProfile");
+            return RedirectToAction("Profile", "Account");
         }
 
         #region Helpers

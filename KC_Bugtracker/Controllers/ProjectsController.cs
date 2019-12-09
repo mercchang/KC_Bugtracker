@@ -66,7 +66,7 @@ namespace KC_Bugtracker.Controllers
         }
 
         // GET: Projects
-        [Authorize(Roles = "Admin, DemoAdmin, ProjectManager, DemoProjectManager")]
+        [Authorize]
         public ActionResult Index()
         {
             // displays user's projects. Admin sees all projects
@@ -82,16 +82,17 @@ namespace KC_Bugtracker.Controllers
         // GET: Projects/Details/5
         public ActionResult Details(int? id)
         {
+            ProjectViewModel model = new ProjectViewModel();
+
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Project project = db.Projects.Find(id);
-            if (project == null)
-            {
-                return HttpNotFound();
-            }
-            return View(project);
+            model.Project = db.Projects.Find(id);
+            model.ProjectManager = db.Users.FirstOrDefault(m => m.Id == model.Project.ProjectManagerId);
+
+            return View(model);
         }
 
         [Authorize(Roles = "Admin, DemoAdmin")]

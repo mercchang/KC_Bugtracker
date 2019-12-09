@@ -15,6 +15,9 @@ namespace KC_Bugtracker.Models
 
         public virtual ICollection<ApplicationUser> Users { get; set; }
         public virtual ICollection<Ticket>Tickets { get; set; }
+
+        public string ProjectManagerId { get; set; }
+
         public Project()
         {
             Tickets = new HashSet<Ticket>();

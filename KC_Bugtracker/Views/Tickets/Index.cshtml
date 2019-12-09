@@ -85,9 +85,9 @@
                             </td>
                             <td>
                                 <ul style="list-style-type:none;">
-                                    @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager"))
+                                    @if (User.IsInRole("Admin") || User.IsInRole("ProjectManager") || User.IsInRole("DemoAdmin") || User.IsInRole("DemoProjectManager"))
                                     {
-                                        <li>@Html.ActionLink("Assign", "AssignTicket", new { id = item.Id })</li>
+                                        <li>@Html.ActionLink("Assign", "AssignTicket", new { id = item.Id }, new { @class = "btn btn-success" })</li>
                                     }
                                     <li>@Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-warning" })</li>
                                     <li>@Html.ActionLink("Details", "Details", new { id = item.Id }, new { @class = "btn btn-info" })</li>

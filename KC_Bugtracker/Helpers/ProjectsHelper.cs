@@ -51,7 +51,22 @@ namespace KC_Bugtracker.Helpers
                 var newUser = db.Users.Find(userId);
 
                 proj.Users.Add(newUser);
-                db.SaveChanges();
+
+                if (!roleHelper.IsDemoUser(userId))
+                    db.SaveChanges();
+            }
+        }
+
+        public void AddPMToProject(string userId, int projectId)
+        {
+            Project proj = db.Projects.Find(projectId);
+            
+            if (db.Users.Any(u => u.Id == userId))
+            {
+                proj.ProjectManagerId = userId;
+
+                if (!roleHelper.IsDemoUser(userId))
+                    db.SaveChanges();
             }
         }
 
@@ -64,7 +79,9 @@ namespace KC_Bugtracker.Helpers
 
                 proj.Users.Remove(delUser);
                 db.Entry(proj).State = EntityState.Modified;
-                db.SaveChanges();
+
+                if (!roleHelper.IsDemoUser(userId))
+                    db.SaveChanges();
             }
         }
 

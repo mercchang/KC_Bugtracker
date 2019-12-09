@@ -25,28 +25,14 @@ namespace KC_Bugtracker.Controllers
 
             var users = new List<ManageRolesViewModel>();
 
-            //if (User.IsInRole("DemoAdmin"))
-            //{
-            //    foreach (var user in db.Users.ToList())
-            //    {
-            //        if (user.UserName.Contains("Demo") == true)
-            //        {
-            //            users.Add(new ManageRolesViewModel
-            //            {
-            //                UserName = $"{user.LastName}, {user.FirstName}",
-            //                RoleName = userRolesHelper.ListUserRoles(user.Id).FirstOrDefault()
-            //            });
-            //        }
-            //    }
-            //}
-                foreach (var user in db.Users.ToList())
+            foreach (var user in db.Users.ToList())
+            {
+                users.Add(new ManageRolesViewModel
                 {
-                    users.Add(new ManageRolesViewModel
-                    {
-                        UserName = $"{user.LastName}, {user.FirstName}",
-                        RoleName = userRolesHelper.ListUserRoles(user.Id).FirstOrDefault()
-                    });
-                }
+                    UserName = $"{user.LastName}, {user.FirstName}",
+                    RoleName = userRolesHelper.ListUserRoles(user.Id).FirstOrDefault()
+                });
+            }
             return View(users);
         }
 
@@ -55,23 +41,27 @@ namespace KC_Bugtracker.Controllers
         //[Authorize(Roles = "Admin")]
         public ActionResult ManageRoles(List<string> userIds, string role)
         {
-            // Unenroll selected users from any roles
-            foreach(var userId in userIds)
+            if (!userRolesHelper.IsDemoUser(User.Identity.GetUserId()))
             {
-                var userRole = userRolesHelper.ListUserRoles(userId).FirstOrDefault();
-                if(userRole != null)
+                // Unenroll selected users from any roles
+                foreach(var userId in userIds)
                 {
-                    userRolesHelper.RemoveUserFromRole(userId, userRole);
+                    var userRole = userRolesHelper.ListUserRoles(userId).FirstOrDefault();
+                    if(userRole != null)
+                    {
+                        userRolesHelper.RemoveUserFromRole(userId, userRole);
+                    }
+                }
+                // Add user back to role
+                if(! string.IsNullOrEmpty(role))
+                {
+                    foreach (var userId in userIds)
+                    {
+                        userRolesHelper.AddUserToRole(userId, role);
+                    }
                 }
             }
-            // Add user back to role
-            if(! string.IsNullOrEmpty(role))
-            {
-                foreach (var userId in userIds)
-                {
-                    userRolesHelper.AddUserToRole(userId, role);
-                }
-            }
+
             return RedirectToAction("ManageRoles", "Admin");
         }
 
@@ -99,7 +89,8 @@ namespace KC_Bugtracker.Controllers
                 userVm = new UserProjectsListViewModel
                 {
                     Name = $"{user.LastName}, {user.FirstName}",
-                    ProjectNames = projectsHelper.ListUserProjects(user.Id).Select(p => p.Name).ToList()
+                    ProjectNames = projectsHelper.ListUserProjects(user.Id).Select(p => p.Name).ToList(),
+                    Role = userRolesHelper.GetRoleName(user.Id)
                 };
 
                 // if no projects, add N/A
@@ -117,7 +108,7 @@ namespace KC_Bugtracker.Controllers
         public ActionResult ManageProjectUsers(List<int> projects, string projectManagerId, List<string> developers, List<string> submitters, string demoProjectManagerId, List<string> demoDevelopers, List<string> demoSubmitters)
         {
             // remove users from selected projects
-            if (projects != null)
+            if (projects != null && !userRolesHelper.IsDemoUser(User.Identity.GetUserId()))
             {
                 foreach (var projectId in projects)
                 {
@@ -130,7 +121,7 @@ namespace KC_Bugtracker.Controllers
                     // add a PM back to projects if possible
                     if (!string.IsNullOrEmpty(projectManagerId))
                     {
-                        projectsHelper.AddUserToProject(projectManagerId, projectId);
+                        projectsHelper.AddPMToProject(projectManagerId, projectId);
                     }
                     if (developers != null)
                     {
@@ -172,6 +163,20 @@ namespace KC_Bugtracker.Controllers
             return RedirectToAction("ManageProjectUsers");
         }
 
+        public ActionResult Users()
+        {
+            ViewBag.Projects = new MultiSelectList(db.Projects, "Id", "Name");
+            ViewBag.Developers = new MultiSelectList(userRolesHelper.UsersInRole("Developer"), "Id", "FullName");
+            ViewBag.Submitters = new MultiSelectList(userRolesHelper.UsersInRole("Submitter"), "Id", "FullName");
+
+            ViewBag.DemoDevelopers = new MultiSelectList(userRolesHelper.UsersInRole("DemoDeveloper"), "Id", "FullName");
+            ViewBag.DemoSubmitters = new MultiSelectList(userRolesHelper.UsersInRole("DemoSubmitter"), "Id", "FullName");
+
+            ViewBag.ProjectManagerId = new SelectList(userRolesHelper.UsersInRole("ProjectManager"), "Id", "FullName");
+            ViewBag.DemoProjectManagerId = new SelectList(userRolesHelper.UsersInRole("DemoProjectManager"), "Id", "FullName");
+
+            return View();
+        }
 
     }
 }

@@ -158,6 +158,7 @@ namespace KC_Bugtracker.Models
     {
         public string Name { get; set; }
         public List<string> ProjectNames { get; set; }
+        public string Role { get; set; }
         public UserProjectsListViewModel()
         {
             ProjectNames = new List<string>();

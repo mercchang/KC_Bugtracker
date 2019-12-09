@@ -15,11 +15,12 @@
 }
 
 <div class="card shadow">
-    <div class="card-body">
+    <div class="card-header">
         <div class="row-md-12">
             <h2><span>@user.FirstName</span> <span>@user.LastName</span></h2>
         </div>
-        <hr />
+    </div>
+    <div class="card-body">
         <div class="row">
             <div class="col-md-6 text-left">
                 @if (user != null && user.AvatarPath == null)
@@ -43,9 +44,10 @@
             </div>
             <div class="col-md-6">
                 <ul style="list-style-type:none;">
+                    <li>Name: @user.FirstName @user.LastName</li>
                     <li>Username: @user.DisplayName</li>
                     <li>Email: @user.Email</li>
-                    <li></li>
+                    <li>Role: @roleHelper.GetRoleName(user.Id)</li>
                 </ul>
             </div>
         </div>
