@@ -10,6 +10,7 @@
 @{
     var db = new ApplicationDbContext();
     var user = db.Users.Find(User.Identity.GetUserId());
+    var roleHelper = new UserRolesHelper();
 }
 
 @*Ticket Details*@
@@ -118,62 +119,76 @@
                         <h4>Attachments (@Model.TicketAttachments.Count)</h4>
                     </div>
                     <div class="card-body">
-                        <div class="table-responsive">
-                            @if (Model.TicketAttachments.Count != 0)
-                            {
-                                <table id="attach" class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>
-                                                Submitter
-                                            </th>
-                                            <th>
-
-                                            </th>
-                                            <th>
-                                                Attachment
-                                            </th>
-                                            <th>
-                                                Description
-                                            </th>
-                                            <th>
-                                                Uploaded
-                                            </th>
-                                        </tr>
-                                    </thead>
-
-                                    <tbody>
-                                        @foreach (var attachment in Model.TicketAttachments.OrderBy(c => c.Created))
-                                        {
+                        @using (Html.BeginForm("Delete", "TicketAttachments", FormMethod.Post, new { enctype = "Multipart/form-data" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <div class="table-responsive">
+                                @if (Model.TicketAttachments.Count != 0)
+                                {
+                                    <table id="attach" class="table">
+                                        <thead>
                                             <tr>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => attachment.User.FullName)
-                                                </td>
-                                                <td>
-                                                    <a href="@attachment.FilePath">
-                                                        <img src="@AttachmentHelper.GetIcon(attachment.FilePath)" style="width: 30px;" />
-                                                    </a>
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => attachment.FilePath)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => attachment.Description)
-                                                </td>
-                                                <td>
-                                                    @Html.DisplayFor(modelItem => attachment.Created)
-                                                </td>
-                                            </tr>
-                                        }
-                                    </tbody>
+                                                <th>
+                                                    Submitter
+                                                </th>
+                                                <th>
 
-                                </table>
-                            }
-                            else
-                            {
-                                <p>No Attachments.</p>
-                            }
-                        </div>
+                                                </th>
+                                                <th>
+                                                    Attachment
+                                                </th>
+                                                <th>
+                                                    Description
+                                                </th>
+                                                <th>
+                                                    Uploaded
+                                                </th>
+                                                @*@if (roleHelper.GetRoleName(user.Id) == "Administrator")
+                                                {
+                                                    <th></th>
+                                                }*@
+
+                                            </tr>
+                                        </thead>
+
+                                        <tbody>
+                                            @foreach (var attachment in Model.TicketAttachments.OrderBy(c => c.Created))
+                                            {
+                                                <tr>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => attachment.User.FullName)
+                                                    </td>
+                                                    <td>
+                                                        <a href="@attachment.FilePath">
+                                                            <img src="@AttachmentHelper.GetIcon(attachment.FilePath)" style="width: 30px;" />
+                                                        </a>
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => attachment.FilePath)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => attachment.Description)
+                                                    </td>
+                                                    <td>
+                                                        @Html.DisplayFor(modelItem => attachment.Created)
+                                                    </td>
+                                                    @*@if (roleHelper.GetRoleName(user.Id) == "Administrator")
+                                                    {
+                                                        <td><input type="submit" value="Delete" class="btn btn-danger" /></td>
+                                                    }*@
+                                                </tr>
+                                            }
+                                        </tbody>
+
+                                    </table>
+                                }
+                                else
+                                {
+                                    <p>No Attachments.</p>
+                                }
+                            </div>
+                        }
+                        
 
                         <hr />
                         @using (Html.BeginForm("Create", "TicketAttachments", FormMethod.Post, new { enctype = "Multipart/form-data" }))
@@ -206,6 +221,7 @@
             </div>
         </div>
 
+        @*Ticket Histories*@
         <div class="row">
             <div class="col">
                 <div class="row-lg-12">
