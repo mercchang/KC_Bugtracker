@@ -337,7 +337,7 @@ namespace KC_Bugtracker.Controllers
         }
 
         //--------------------- Edit User Profile ---------------------
-        [Authorize(Roles = "Admin, ProjectManager, Developer, Submitter")]
+        [Authorize]
         public ActionResult EditProfile()
         {
             var sourceUser = db.Users.Find(User.Identity.GetUserId());

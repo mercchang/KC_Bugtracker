@@ -19,11 +19,11 @@ namespace KC_Bugtracker.Models
         public string FirstName { get; set; }
 
         [Display(Name = "Last Name")]
-        [StringLength(50, MinimumLength = 1, ErrorMessage = "First name must have a minimum length of 1 and maximum length of 50.")]
+        [StringLength(50, MinimumLength = 1, ErrorMessage = "Last name must have a minimum length of 1 and maximum length of 50.")]
         public string LastName { get; set; }
 
         [Display(Name = "Display Name")]
-        [StringLength(50, MinimumLength = 1, ErrorMessage = "First name must have a minimum length of 1 and maximum length of 50.")]
+        [StringLength(50, MinimumLength = 1, ErrorMessage = "Display name must have a minimum length of 1 and maximum length of 50.")]
         public string DisplayName { get; set; }
 
         public string AvatarPath { get; set; }
