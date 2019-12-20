@@ -37,6 +37,13 @@
     <!--Custom JavaScript -->
     <script src="~/Scripts/js/custom.min.js"></script>
     <script src="~/Scripts/js/custom.js"></script>
+
+    <script>
+        if (performance.navigation.type == 2) {
+            location.reload(true);
+        }
+    </script>
+
     @RenderSection("scripts", required: false)
 
 </body>

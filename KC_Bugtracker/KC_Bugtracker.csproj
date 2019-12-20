@@ -282,13 +282,18 @@
     <Content Include="Images\doc.png" />
     <Content Include="Images\docx.png" />
     <Content Include="Images\favicon.png" />
+    <Content Include="Images\fire.gif" />
+    <Content Include="Images\liukang.gif" />
     <Content Include="Images\logo-icon.png" />
     <Content Include="Images\logo-text.png" />
     <Content Include="Images\logo.png" />
     <Content Include="Images\pdf.png" />
+    <Content Include="Images\raiden.gif" />
+    <Content Include="Images\shaokahn.gif" />
     <Content Include="Images\spiderlogo.png" />
     <Content Include="Images\spiderlogosmall.png" />
     <Content Include="Images\spiderlogow.png" />
+    <Content Include="Images\sub_zero.gif" />
     <Content Include="Images\txt.png" />
     <Content Include="Images\users\1-old.jpg" />
     <Content Include="Images\users\1.jpg" />
@@ -1274,6 +1279,7 @@
     <Content Include="Views\Tickets\AssignTicket.cshtml" />
     <None Include="Properties\PublishProfiles\KCBugtracker - Web Deploy.pubxml" />
     <Content Include="Views\Shared\_LoginLayout.cshtml" />
+    <Content Include="Views\Account\MKLogin.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

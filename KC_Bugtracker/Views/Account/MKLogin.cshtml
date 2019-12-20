@@ -1,0 +1,121 @@
+﻿@model KC_Bugtracker.Models.LoginViewModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <!-- Favicon icon -->
+    <link rel="icon" type="image/png" sizes="16x16" href="~/Images/favicon.png">
+    <title>Bug Tracker - Login</title>
+    <!-- Custom CSS -->
+    <link href="~/Content/style.min.css" rel="stylesheet" />
+    <link href="~/Content/custom.css" rel="stylesheet" />
+    <link href="~/Content/demo.css" rel="stylesheet" />
+</head>
+
+<body style="background-color:#070707; overflow:hidden">
+    <div class="row">
+        <div class="col-4">
+            <div class="char1 pt-5 pl-3">
+                <img id="bigchar1" src="" style="width:300px" />
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="charselect">
+                <div class="row pt-lg-5">
+                    <div class="col-12 py-5 text-center" style="color:yellow">
+                        <h1 style="text-shadow: 2px 2px #f00; font: xx-large">CHOOSE YOUR DEMO USER</h1>
+                    </div>
+                    <div class="col text-center" style="border-color: black">
+                        @using (Html.BeginForm("DemoLoginAsync", "Account", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.Hidden("emailKey", "DemoAdminEmail")
+                            <button id="char1" type="submit" style="height:150px">
+                                <img src="~/Avatars/default_user.jpg" style="width:80px" />
+                                <p>ADMIN</p>
+                            </button>
+                        }
+                    </div>
+                    <div class="col text-center" style="border-color: black">
+                        @using (Html.BeginForm("DemoLoginAsync", "Account", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.Hidden("emailKey", "DemoPMEmail")
+                            <button id="char2" type="submit" style="height:150px">
+                                <img src="~/Avatars/default_user.jpg" style="width:80px" />
+                                <p>PROJECT MANAGER</p>
+
+                            </button>
+                        }
+                    </div>
+                    <div class="col text-center" style="border-color: black">
+                        @using (Html.BeginForm("DemoLoginAsync", "Account", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.Hidden("emailKey", "DemoDeveloperEmail")
+                            <button id="char3" type="submit" style="height:150px">
+                                <img src="~/Avatars/default_user.jpg" style="width:80px" />
+                                <p>DEVELOPER</p>
+                            </button>
+                        }
+                    </div>
+                    <div class="col text-center" style="border-color: black">
+                        @using (Html.BeginForm("DemoLoginAsync", "Account", FormMethod.Post))
+                        {
+                            @Html.AntiForgeryToken()
+                            @Html.Hidden("emailKey", "DemoSubmitterEmail")
+                            <button id="char4" type="submit" style="height:150px">
+                                <img src="~/Avatars/default_user.jpg" style="width:80px" />
+                                <p>SUBMITTER</p>
+                            </button>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer" style="background-image: url('../../Images/fire.gif'); position:fixed; bottom:0; width:200%; height:250px; opacity: 0.5">
+
+    </div>
+    <script src="~/Scripts/jquery/jquery.min.js"></script>
+    <script>
+        $("#char1").mouseover(function () {
+            $('#bigchar1').attr("src", "/Images/sub_zero.gif");
+            $('#bigchar1').width("250");
+            $('#bigchar1').offset({ top: 30, left: 0 });
+        })
+
+        $("#char2").mouseover(function () {
+            $('#bigchar1').attr("src", "/Images/raiden.gif");
+            $('#bigchar1').width("250");
+            $('#bigchar1').offset({ top: 30, left: 0 });
+        })
+
+        $("#char3").mouseover(function () {
+            $('#bigchar1').attr("src", "/Images/liukang.gif");
+            $('#bigchar1').width("500");
+            $('#bigchar1').offset({ top: -100, left: -100 });
+        })
+
+        $("#char4").mouseover(function () {
+            $('#bigchar1').attr("src", "/Images/shaokahn.gif");
+            $('#bigchar1').width("500");
+            $('#bigchar1').offset({ top: -100, left: -100 });
+        })
+    </script>
+
+</body>
+
+</html>
